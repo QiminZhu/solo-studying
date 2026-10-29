@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import { lecture9Quizzes } from '../lib/quiz-v3/lecture9.ts';
+const { chromium } = await import(process.env.SOLO_PLAYWRIGHT_PATH || 'playwright');
+const browser = await chromium.launch({ headless: true, executablePath: process.env.SOLO_CHROME_PATH });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+const origin = process.env.SOLO_TEST_ORIGIN || 'http://127.0.0.1:5184/solo-studying';
+try {
+  const bundle = lecture9Quizzes[0];
+  const index = bundle.questions.findIndex((item) => item.type === 'single');
+  const q = bundle.questions[index];
+  assert.ok(q.type === 'single');
+  await page.goto(`${origin}/subjects/itcs217/lectures/lecture-9/`);
+  const card = page.getByRole('article').filter({ has: page.getByRole('heading', { name: bundle.quiz.title, exact: true }) });
+  await card.getByRole('button', { name: 'Start quiz', exact: true }).click();
+  await page.waitForURL((url) => url.pathname.replace(/\/$/, '').endsWith('/quizzes/run'));
+  for (let i = 0; i < index; i++) await page.getByRole('button', { name: 'Next question', exact: true }).click();
+  const wrong = q.answers.findIndex((_, index) => !q.correct.includes(index));
+  await page.getByRole('radio', { name: q.answers[wrong], exact: true }).check();
+  await page.getByRole('button', { name: 'Check answer', exact: true }).click();
+  const feedback = page.getByRole('region', { name: 'Answer feedback', exact: true });
+  assert.equal(await feedback.locator('li.v3-part.incorrect').count(), 1);
+  assert.equal(await feedback.locator('li.v3-part.correct').count(), 0);
+  assert.match(await feedback.locator('li.v3-part.incorrect').innerText(), /Your answer · Incorrect/);
+  assert.ok((await feedback.innerText()).includes('Correct answer · Not selected'));
+  const details = feedback.locator('details.v3-option-explanations');
+  assert.equal(await details.getAttribute('open'), null);
+  await details.locator('summary').focus();
+  await page.keyboard.press('Enter');
+  assert.notEqual(await details.getAttribute('open'), null);
+  assert.equal(await details.getByText(q.optionExplanations[q.correct[0]], { exact: true }).isVisible(), true);
+  await page.screenshot({ path: '/tmp/solo-feedback-wrong-mobile.png', fullPage: true });
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  await page.reload();
+  await page.getByRole('region', { name: 'Answer feedback', exact: true }).waitFor();
+  assert.equal(await feedback.locator('li.v3-part.incorrect').count(), 1);
+  assert.equal(await details.getAttribute('open'), null);
+  console.log('PASS: wrong selection, neutral unselected answers, keyboard disclosure, mobile layout, saved-attempt reload.');
+} finally { await browser.close(); }

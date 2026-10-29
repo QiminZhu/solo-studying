@@ -261,3 +261,15 @@
 .lecture-saved-quizzes > .carbon-helper {
   margin-bottom: 24px;
 }
+
+.v3-option-explanations summary {
+  cursor: pointer;
+  min-height: 48px;
+  padding: 12px 0;
+  color: #0f62fe;
+  font-weight: 600;
+}
+.v3-option-explanations summary:focus-visible {
+  outline: 2px solid #0f62fe;
+  outline-offset: 2px;
+}

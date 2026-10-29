@@ -36,6 +36,20 @@ try {
     await page.getByRole('button',{name:'Check answer',exact:true}).click();
     await page.getByRole('region',{name:'Answer feedback',exact:true}).waitFor();
     assert.match(await page.getByRole('region',{name:'Answer feedback',exact:true}).innerText(),/Correct · 1 \/ 1 point/);
+    if(['single','multiple','boolean'].includes(q.type)){
+     const feedback=page.getByRole('region',{name:'Answer feedback',exact:true});
+     assert.equal(await feedback.locator('li.v3-part.correct').count(),q.correct.length);
+     assert.equal(await feedback.locator('li.v3-part.incorrect').count(),0);
+     const details=feedback.locator('details.v3-option-explanations');
+     if(q.answers.length>q.correct.length){
+      assert.equal(await details.getAttribute('open'),null);
+      const other=q.answers.findIndex((_,i)=>!q.correct.includes(i));
+      assert.equal(await details.getByText(q.optionExplanations[other],{exact:true}).isVisible(),false);
+      await details.locator('summary').focus();await page.keyboard.press('Enter');
+      assert.equal(await details.getByText(q.optionExplanations[other],{exact:true}).isVisible(),true);
+     }
+    }
+
    } else {
     assert.equal(await page.getByRole('button',{name:'Check answer',exact:true}).count(),0);
     assert.ok(!(await page.locator('body').innerText()).includes(q.explanation));

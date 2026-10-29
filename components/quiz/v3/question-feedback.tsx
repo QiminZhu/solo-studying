@@ -10,6 +10,9 @@ export function QuestionFeedback({
   response?: Response;
 }) {
   const grade = gradeQuestion(question, response);
+  const isChoice = ["single", "multiple", "boolean"].includes(question.type);
+  const selectedParts = grade.parts.filter((part) => part.submitted === "Selected");
+  const otherParts = grade.parts.filter((part) => part.submitted !== "Selected");
   return (
     <section className="v3-feedback" aria-label="Answer feedback">
       <p className={grade.score ? "v3-correct" : "v3-incorrect"}>
@@ -25,6 +28,37 @@ export function QuestionFeedback({
       <p>
         <strong>Overall explanation:</strong> {question.explanation}
       </p>
+      {isChoice ? (
+        <>
+          <ul className="v3-part-list">
+            {selectedParts.map((part) => (
+              <li key={part.id} className={`v3-part ${part.status}`}>
+                <strong>{part.label} · Your answer · {part.expected === "Select" ? "Correct" : "Incorrect"}</strong>
+                <p>{part.explanation}</p>
+              </li>
+            ))}
+            {otherParts.map((part) => (
+              <li key={part.id} className="v3-part">
+                <strong>{part.label} · {part.expected === "Select" ? "Correct answer · Not selected" : "Not selected"}</strong>
+              </li>
+            ))}
+          </ul>
+          {otherParts.length > 0 && (
+            <details className="v3-option-explanations">
+              <summary>{grade.score ? "Why are the other options incorrect?" : "Review the other options"}</summary>
+              <ul className="v3-part-list">
+                {otherParts.map((part) => (
+                  <li key={part.id} className="v3-part">
+                    <strong>{part.label} · {part.expected === "Select" ? "Correct answer" : "Incorrect option"}</strong>
+                    <p>{part.explanation}</p>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
+        </>
+      ) : (
+        <>
       <p className="carbon-helper">
         Every response part is shown below. Parts are diagnostic; this question
         is worth one point.
@@ -46,6 +80,8 @@ export function QuestionFeedback({
           </li>
         ))}
       </ul>
+        </>
+      )}
       <div className="v3-sources">
         <strong>
           {question.tags?.includes("software-fixture")

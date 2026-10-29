@@ -281,7 +281,7 @@ function ActiveRunner({ session }: { session: QuizSession }) {
                 {question.answers.map((answer, index) => (
                   <label
                     key={answer}
-                    className={`runner-answer ${selected.includes(index) ? "selected" : ""} ${revealed && question.correct.includes(index) ? "correct" : ""} ${revealed && selected.includes(index) && !question.correct.includes(index) ? "incorrect" : ""}`}
+                    className={`runner-answer ${selected.includes(index) ? "selected" : ""} ${revealed && selected.includes(index) && question.correct.includes(index) ? "correct" : ""} ${revealed && selected.includes(index) && !question.correct.includes(index) ? "incorrect" : ""}`}
                   >
                     <input
                       type={question.type === "multiple" ? "checkbox" : "radio"}
@@ -296,14 +296,14 @@ function ActiveRunner({ session }: { session: QuizSession }) {
                     <span>{answer}</span>
                     {revealed && question.correct.includes(index) && (
                       <span className="answer-status">
-                        <Check size={16} /> Correct
+                        <Check size={16} /> {selected.includes(index) ? "Your answer · Correct" : "Correct answer · Not selected"}
                       </span>
                     )}
                     {revealed &&
                       selected.includes(index) &&
                       !question.correct.includes(index) && (
                         <span className="answer-status">
-                          <X size={16} /> Incorrect
+                          <X size={16} /> Your answer · Incorrect
                         </span>
                       )}
                   </label>
