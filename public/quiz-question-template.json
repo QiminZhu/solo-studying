@@ -1,0 +1,112 @@
+{
+  "questions": [
+    {
+      "id": "dll-l09-single-01",
+      "subject": "ITCS217_Computer Data Communication",
+      "topic": "Lecture 9 · Data Link Layer functions",
+      "type": "single",
+      "difficulty": "Easy",
+      "prompt": "Which function selects a path across multiple networks?",
+      "answers": [
+        "Framing",
+        "Routing",
+        "Flow control",
+        "Media access control"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Routing selects paths across networks and is not a main Data Link Layer function.",
+      "lecture": "Lecture 9",
+      "objectiveId": "dll-l09-functions",
+      "cognitiveLevel": "Remember",
+      "optionExplanations": [
+        "Framing organizes data into frames.",
+        "Routing selects paths across multiple networks.",
+        "Flow control regulates the sender relative to receiver capacity.",
+        "Media access control coordinates access to a shared medium."
+      ],
+      "sourceRefs": [
+        {
+          "file": "Lecture 9_ Part 1_ Attempt review _ ICT My Courses.pdf",
+          "page": 1
+        }
+      ],
+      "status": "pending_review",
+      "version": 1
+    },
+    {
+      "id": "dll-l09-multiple-01",
+      "subject": "ITCS217_Computer Data Communication",
+      "topic": "Lecture 9 · Data Link Layer functions",
+      "type": "multiple",
+      "difficulty": "Easy",
+      "prompt": "Which are main Data Link Layer functions? Select all that apply.",
+      "answers": [
+        "Framing",
+        "Routing",
+        "Flow control",
+        "Error control",
+        "Signal encoding",
+        "Media access control"
+      ],
+      "correct": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "explanation": "The material identifies framing, flow control, error control, and media access control as main functions.",
+      "lecture": "Lecture 9",
+      "objectiveId": "dll-l09-functions",
+      "cognitiveLevel": "Remember",
+      "optionExplanations": [
+        "Framing is a main function.",
+        "Routing across networks is not a main Data Link Layer function.",
+        "Flow control is a main function.",
+        "Error control is a main function.",
+        "Signal encoding is not a main Data Link Layer function.",
+        "Media access control is a main function."
+      ],
+      "sourceRefs": [
+        {
+          "file": "Lecture 9_ Part 1_ Attempt review _ ICT My Courses.pdf",
+          "page": 1
+        }
+      ],
+      "status": "pending_review",
+      "version": 1
+    },
+    {
+      "id": "dll-l09-boolean-01",
+      "subject": "ITCS217_Computer Data Communication",
+      "topic": "Lecture 9 · Data Link Layer functions",
+      "type": "boolean",
+      "difficulty": "Easy",
+      "prompt": "The Data Link Layer provides communication over a link between neighboring nodes.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "The material describes Data Link Layer communication as occurring between neighboring nodes over a link.",
+      "lecture": "Lecture 9",
+      "objectiveId": "dll-l09-functions",
+      "cognitiveLevel": "Understand",
+      "optionExplanations": [
+        "Correct. The material describes Data Link Layer communication as occurring between neighboring nodes over a link.",
+        "Incorrect. The material describes Data Link Layer communication as occurring between neighboring nodes over a link."
+      ],
+      "sourceRefs": [
+        {
+          "file": "Lecture 9_ Part 1_ Attempt review _ ICT My Courses.pdf",
+          "page": 1
+        }
+      ],
+      "status": "pending_review",
+      "version": 1
+    }
+  ]
+}

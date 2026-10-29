@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1792733345913,
+      "tag": "0000_square_sharon_ventura",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1792734946791,
+      "tag": "0001_long_peter_quill",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792735424568,
+      "tag": "0002_mighty_lizard",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1792736502579,
+      "tag": "0003_sudden_cobalt_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1792737267063,
+      "tag": "0004_curious_mimic",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1792738274920,
+      "tag": "0005_spooky_mindworm",
+      "breakpoints": true
+    }
+  ]
+}

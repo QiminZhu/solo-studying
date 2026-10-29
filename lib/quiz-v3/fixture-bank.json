@@ -1,0 +1,486 @@
+[
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture rules",
+    "objectiveId": "fixture-choice",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-single",
+    "type": "single",
+    "prompt": "Fixture: Which label is exactly A?",
+    "explanation": "Exact label equality selects A.",
+    "answers": [
+      "B",
+      "A",
+      "C"
+    ],
+    "correct": [
+      1
+    ],
+    "optionExplanations": [
+      "B differs from A.",
+      "A equals A.",
+      "C differs from A."
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture rules",
+    "objectiveId": "fixture-choice",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-multiple",
+    "type": "multiple",
+    "prompt": "Fixture: Select all labels that contain the letter A.",
+    "explanation": "Select every label containing A and exclude labels without A.",
+    "answers": [
+      "AB",
+      "AC",
+      "BB",
+      "AD"
+    ],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "optionExplanations": [
+      "AB contains A.",
+      "AC contains A.",
+      "BB has no A.",
+      "AD contains A."
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture rules",
+    "objectiveId": "fixture-choice",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-boolean",
+    "type": "boolean",
+    "prompt": "Fixture: The label BB contains the letter A.",
+    "explanation": "BB contains two Bs and no A.",
+    "answers": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      1
+    ],
+    "optionExplanations": [
+      "True contradicts the stated label.",
+      "False accurately describes BB."
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture relationships",
+    "objectiveId": "fixture-matching",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-matching",
+    "type": "matching",
+    "prompt": "Fixture: Match each left label to the identical right label. Each right option is used at most once; none are unused.",
+    "explanation": "Match identical labels, independently of their presentation order.",
+    "leftItems": [
+      "Red",
+      "Blue",
+      "Green"
+    ],
+    "rightItems": [
+      "Green",
+      "Red",
+      "Blue"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "Blue matches Blue.",
+      "Red matches Red.",
+      "Green matches Green."
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture sequence",
+    "objectiveId": "fixture-ordering",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-ordering",
+    "type": "ordering",
+    "prompt": "Fixture: Arrange the numbers from smallest to largest.",
+    "explanation": "Increasing order is 1, 2, 3.",
+    "items": [
+      "3",
+      "1",
+      "2"
+    ],
+    "correctOrder": [
+      1,
+      2,
+      0
+    ],
+    "stepExplanations": [
+      "1 is smallest.",
+      "2 lies between 1 and 3.",
+      "3 is largest."
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture normalization",
+    "objectiveId": "fixture-blanks",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-blanks",
+    "type": "fill_blank",
+    "prompt": "Fixture: Enter the displayed label blue sky in {{1}}. Enter 10 divided by 4 in {{2}} kg; rounding: 2 decimal places.",
+    "explanation": "The accepted label is blue sky (or azure); the numeric quotient is 2.50 kg.",
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "text",
+        "acceptedAnswers": [
+          "blue sky",
+          "azure"
+        ],
+        "caseSensitive": false,
+        "trim": true,
+        "collapseWhitespace": true,
+        "explanation": "Both declared text variants are accepted after trimming, whitespace collapse, and case folding."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 2.5,
+        "absoluteTolerance": 0.01,
+        "unit": "kg",
+        "rounding": "2 decimal places",
+        "explanation": "10 / 4 = 2.50 kg; the absolute tolerance is 0.01 kg, inclusive."
+      }
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture rules",
+    "objectiveId": "fixture-choice",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-memory-single",
+    "type": "single",
+    "prompt": "Fresh fixture: Which label is exactly Z?",
+    "explanation": "Exact label equality selects Z.",
+    "answers": [
+      "X",
+      "Y",
+      "Z"
+    ],
+    "correct": [
+      2
+    ],
+    "optionExplanations": [
+      "X differs from Z.",
+      "Y differs from Z.",
+      "Z equals Z."
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture rules",
+    "objectiveId": "fixture-choice",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-memory-multiple",
+    "type": "multiple",
+    "prompt": "Fresh fixture: Select all labels that contain Z.",
+    "explanation": "Choose every label containing Z.",
+    "answers": [
+      "ZX",
+      "YY",
+      "ZZ"
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "optionExplanations": [
+      "ZX contains Z.",
+      "YY has no Z.",
+      "ZZ contains Z."
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture rules",
+    "objectiveId": "fixture-choice",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-memory-boolean",
+    "type": "boolean",
+    "prompt": "Fresh fixture: The label ZZ contains Z.",
+    "explanation": "ZZ contains Z twice.",
+    "answers": [
+      "True",
+      "False"
+    ],
+    "correct": [
+      0
+    ],
+    "optionExplanations": [
+      "True agrees with ZZ.",
+      "False contradicts ZZ."
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture relationships",
+    "objectiveId": "fixture-matching",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-memory-matching",
+    "type": "matching",
+    "prompt": "Fresh fixture: Match a left label to its final letter. Right options may be reused; some may be unused.",
+    "explanation": "Both labels end in X.",
+    "leftItems": [
+      "AX",
+      "BX"
+    ],
+    "rightItems": [
+      "Y",
+      "X"
+    ],
+    "reuseRight": true,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "AX ends in X.",
+      "BX ends in X."
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture sequence",
+    "objectiveId": "fixture-ordering",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-memory-ordering",
+    "type": "ordering",
+    "prompt": "Fresh fixture: Arrange these numbers from smallest to largest.",
+    "explanation": "Increasing order is 4, 5, 6.",
+    "items": [
+      "5",
+      "6",
+      "4"
+    ],
+    "correctOrder": [
+      2,
+      0,
+      1
+    ],
+    "stepExplanations": [
+      "4 is smallest.",
+      "5 is in the middle.",
+      "6 is largest."
+    ]
+  },
+  {
+    "subject": "Software test fixtures",
+    "topic": "Fixture normalization",
+    "objectiveId": "fixture-blanks",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "sourceRefs": [
+      {
+        "file": "quiz-fixture-source.html",
+        "page": 1
+      }
+    ],
+    "status": "draft",
+    "version": 1,
+    "tags": [
+      "software-fixture",
+      "not-lecture-content"
+    ],
+    "id": "fixture-memory-blanks",
+    "type": "fill_blank",
+    "prompt": "Fresh fixture: Enter the label north in {{1}}. Enter 9 divided by 2 in {{2}} m; rounding: 1 decimal place.",
+    "explanation": "The label is north and the quotient is 4.5 m.",
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "text",
+        "acceptedAnswers": [
+          "north",
+          "N"
+        ],
+        "caseSensitive": false,
+        "trim": true,
+        "collapseWhitespace": false,
+        "explanation": "Only north or N (ignoring case and outer spaces) is accepted."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 4.5,
+        "absoluteTolerance": 0,
+        "unit": "m",
+        "rounding": "1 decimal place",
+        "explanation": "9 / 2 equals 4.5 m; this fixture uses zero tolerance."
+      }
+    ]
+  }
+]

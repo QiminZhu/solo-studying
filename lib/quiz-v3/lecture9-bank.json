@@ -1,0 +1,3257 @@
+[
+  {
+    "id": "itcs217-l09-o01-q001",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link communication",
+    "objectiveId": "itcs217-l09-o01",
+    "objectiveIds": [
+      "itcs217-l09-o01",
+      "itcs217-l09-o02",
+      "itcs217-l09-o06",
+      "itcs217-l09-o07"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each observation with its most precise interpretation. Match each left item once. Right options cannot be reused; all are used.",
+    "explanation": "A routed journey consists of local links, each with its own framing and physical transmission.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 4
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 5
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 6
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 17
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "leftItems": [
+      "A diagram draws one connection between two neighboring nodes.",
+      "A path uses Wi-Fi, then a wired link, then another link technology.",
+      "A trace groups a datagram inside a frame, which is transmitted as signals.",
+      "Hosts communicate logically across several routers, each of which handles local framing."
+    ],
+    "rightItems": [
+      "Upper-layer communication spans the path while frames serve individual hops.",
+      "A link is the connection between those neighboring nodes.",
+      "Network, data-link and physical representations are packet, frame and signals respectively.",
+      "An end-to-end path may combine different local-link technologies."
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "The nodes are endpoints of this link, not necessarily the endpoints of the entire journey.",
+      "Each local link may use a different medium and frame technology.",
+      "Encapsulation relates the packet to a frame; physical transmission represents the frame as signals.",
+      "The logical end-to-end relationship does not make one frame span every router."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o03-q002",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link communication",
+    "objectiveId": "itcs217-l09-o03",
+    "objectiveIds": [
+      "itcs217-l09-o03"
+    ],
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "A host has a valid IP configuration and wants to send to an off-network destination. Which device is its initial local next hop?",
+    "explanation": "The first local frame goes to the local gateway; the datagram can still name the remote IP destination.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 5
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 52
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "answers": [
+      "The remote destination host itself",
+      "The host’s configured default gateway on its local network",
+      "Any DNS server listed in its configuration",
+      "Every router on the complete path simultaneously"
+    ],
+    "correct": [
+      1
+    ],
+    "optionExplanations": [
+      "The remote host is not on this local link.",
+      "The local default gateway accepts traffic to be routed beyond the host’s network.",
+      "DNS resolves names; its presence does not make it the data-forwarding gateway.",
+      "Forwarding proceeds hop by hop, rather than to all routers at once."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o04-q003",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link communication",
+    "objectiveId": "itcs217-l09-o04",
+    "objectiveIds": [
+      "itcs217-l09-o04",
+      "itcs217-l09-o05"
+    ],
+    "type": "ordering",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Put these events in first-to-last order for sending one datagram across a sender–router–receiver path. The router uses a different link format on its outgoing interface.",
+    "explanation": "The sender encapsulates for its local link. The router removes that frame, retains the datagram for forwarding and creates a frame suited to its outgoing link.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 6
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 18
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "items": [
+      "The router removes the incoming link frame.",
+      "The sender adds a frame appropriate to the first link around the datagram.",
+      "The router creates a new frame appropriate to the next link.",
+      "The sender transmits that frame over the first link."
+    ],
+    "correctOrder": [
+      1,
+      3,
+      0,
+      2
+    ],
+    "stepExplanations": [
+      "Encapsulation creates the first-link frame before its transmission.",
+      "The first frame must reach the router before the router can process it.",
+      "Decapsulation removes the incoming frame’s local-link wrapping.",
+      "The next link requires a newly constructed frame."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o08-q004",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link services and access",
+    "objectiveId": "itcs217-l09-o08",
+    "objectiveIds": [
+      "itcs217-l09-o08",
+      "itcs217-l09-o09"
+    ],
+    "type": "multiple",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Select ALL correct statements. A transmitted 10-bit word is 1000000001 and the received word is 1001001001. Count bit positions from 1 at the left.",
+    "explanation": "Positions 4 and 7 changed. The burst spans positions 4 through 7 inclusive, giving length 4 even though positions 5 and 6 did not change.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 8
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "answers": [
+      "Exactly two bit positions were corrupted.",
+      "The burst-error length is four bit positions.",
+      "This is a single-bit error because the end bits match.",
+      "The burst-error length is two because only two bits changed."
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "optionExplanations": [
+      "The received word differs at positions 4 and 7.",
+      "The inclusive span is 7 − 4 + 1 = 4.",
+      "Matching endpoints do not make the two internal changes a single-bit error.",
+      "Burst length includes unchanged bits between the first and last corruption."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o10-q005",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link services and access",
+    "objectiveId": "itcs217-l09-o10",
+    "objectiveIds": [
+      "itcs217-l09-o10",
+      "itcs217-l09-o11",
+      "itcs217-l09-o12"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each situation to the mechanism or diagnosis that best fits. Match each left item once. Right options cannot be reused; all are used.",
+    "explanation": "Error control concerns data corruption; flow control concerns the receiver’s ability to accept arriving data.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 9
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 10
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 11
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "leftItems": [
+      "A receiver identifies corrupted data but cannot reconstruct its original bits.",
+      "A receiver reconstructs corrupted bits using the received coding information without asking for another transmission.",
+      "Correctly transmitted incoming frames are dropped when a receiver’s storage is full.",
+      "A sender coordinates its transmission rate with a receiver so that incoming data does not exceed receiving capacity."
+    ],
+    "rightItems": [
+      "Flow control through sender–receiver coordination",
+      "Error detection without correction",
+      "Receiver buffer overflow",
+      "Receiver-side forward error correction"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "Detecting corruption does not imply the receiver can repair it.",
+      "FEC performs correction at the receiver from received redundancy.",
+      "Insufficient buffer capacity can cause drops even without corrupted bits.",
+      "Coordination regulates incoming data to protect the receiver."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o13-q006",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link services and access",
+    "objectiveId": "itcs217-l09-o13",
+    "objectiveIds": [
+      "itcs217-l09-o13",
+      "itcs217-l09-o14",
+      "itcs217-l09-o15",
+      "itcs217-l09-o16"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each shared-link observation to its best explanation. Match each left item once. Right options cannot be reused; all are used.",
+    "explanation": "Shared-medium coordination solves contention between stations, whereas fixed partitioning and dedicated links provide different access arrangements.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 7
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 12
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 13
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 14
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "leftItems": [
+      "Several devices need opportunities to transmit fairly and efficiently on one medium.",
+      "A full-duplex switched star is contrasted with a bus and a wireless shared channel.",
+      "Two stations start overlapping transmissions on a medium that does not separate their transmissions.",
+      "Fixed frequency/time allocations stay reserved and do not flexibly follow traffic demand as devices join, leave or become idle."
+    ],
+    "rightItems": [
+      "Dedicated versus shared-link organization",
+      "Collision risk from competing simultaneous access",
+      "Need for medium-access coordination",
+      "Limited flexibility of fixed FDM/TDM for on-demand traffic"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "pairExplanations": [
+      "Fairness and efficiency across stations motivate access coordination.",
+      "The full-duplex switch provides dedicated links; the bus and wireless examples share a medium.",
+      "Overlapping competing transmissions can collide on a shared medium.",
+      "Fixed allocations are less flexible when devices join, leave or have no data; this motivates the lecture’s on-demand medium-access discussion."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o17-q007",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Sublayers and framing",
+    "objectiveId": "itcs217-l09-o17",
+    "objectiveIds": [
+      "itcs217-l09-o17",
+      "itcs217-l09-o18",
+      "itcs217-l09-o19",
+      "itcs217-l09-o20"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each requirement or claim to the most accurate interpretation. Match each left item once. Right options cannot be reused; all are used.",
+    "explanation": "LLC and MAC separate interface and local-link work; dedicated links still need framing, and optional services must not be assumed universally.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 15
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 19
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "leftItems": [
+      "An IEEE 802 link must provide an interface that multiplexes upper-layer protocols.",
+      "An IEEE 802 implementation must handle frame format, local addresses, FCS and access to the medium.",
+      "A dedicated full-duplex link has no competing transmitters on the same shared medium.",
+      "A designer assumes every data-link technology must acknowledge and retransmit every damaged frame and regulate the sender rate."
+    ],
+    "rightItems": [
+      "MAC responsibilities in the illustrated IEEE 802 division",
+      "LLC interface responsibility",
+      "Unjustified guarantee: link recovery and flow control are optional services",
+      "Contention coordination may be unnecessary, but framing is still required"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "pairExplanations": [
+      "LLC connects the network-layer interface to the link and multiplexes protocols.",
+      "The lecture assigns these IEEE 802 framing, addressing, FCS and medium-access functions to MAC.",
+      "Dedicated access removes shared-medium contention, not the need to create frames.",
+      "ACK/retransmission and flow control are explicitly marked optional rather than guaranteed for every link."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o21-q008",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Sublayers and framing",
+    "objectiveId": "itcs217-l09-o21",
+    "objectiveIds": [
+      "itcs217-l09-o21",
+      "itcs217-l09-o22",
+      "itcs217-l09-o23"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each frame or capture observation to its interpretation. Match each left item once. Right options cannot be reused; all are used.",
+    "explanation": "Framing encloses the payload with control information; capture presentation does not necessarily show every transmitted Ethernet field.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 16
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 18
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "leftItems": [
+      "Control information before the original data tells a peer how to interpret the frame.",
+      "The original network-layer data occupies the body between control information before and after it.",
+      "A receiver checks a frame-check value carried after the payload.",
+      "A normal Wireshark Ethernet capture omits preamble, SFD and FCS from its displayed packet bytes."
+    ],
+    "rightItems": [
+      "Payload encapsulated between header and trailer",
+      "Trailer FCS supports detecting corruption rather than guaranteeing repair",
+      "Header carries peer-protocol control information",
+      "Capture visibility can omit these Ethernet transmission fields"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "pairExplanations": [
+      "The header communicates control syntax and meaning to the corresponding peer layer.",
+      "The payload is the encapsulated original data; header and trailer are additional framing.",
+      "FCS is an error-detection check, not a reconstruction algorithm.",
+      "The lecture warns that these fields are normally not shown; omission does not prove the wire transmission lacked framing."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o24-q009",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link protocol families",
+    "objectiveId": "itcs217-l09-o24",
+    "objectiveIds": [
+      "itcs217-l09-o24"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Remember",
+    "prompt": "Match each link technology to its standard and key link function as listed in Lecture 9. Match each left item once. Right options cannot be reused; all are used.",
+    "explanation": "Different link technologies provide different access and framing arrangements; their service sets should be read in context.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 19
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "leftItems": [
+      "Conventional Ethernet LAN",
+      "Wi-Fi wireless LAN",
+      "Legacy Token Ring LAN",
+      "Low-power wireless personal-area network"
+    ],
+    "rightItems": [
+      "IEEE 802.15.4: low-power framing and medium access",
+      "IEEE 802.3: framing, addressing and FCS",
+      "IEEE 802.5: token access",
+      "IEEE 802.11: access, ACK and retransmission"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "The table identifies Ethernet as IEEE 802.3.",
+      "The wireless LAN row identifies Wi-Fi as IEEE 802.11 with access and recovery functions.",
+      "The legacy Token Ring row associates IEEE 802.5 with token access.",
+      "IEEE 802.15.4 is the low-power WPAN row."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o25-q010",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link protocol families",
+    "objectiveId": "itcs217-l09-o25",
+    "objectiveIds": [
+      "itcs217-l09-o25"
+    ],
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "An engineer says PPP must contain separate IEEE 802 LLC and MAC sublayers in order to create frames. Which assessment fits the lecture’s architecture table?",
+    "explanation": "The data-link function can be implemented by a single protocol rather than by separate IEEE 802 LLC and MAC sublayers.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 19
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "answers": [
+      "Correct: every link must contain those two distinct IEEE 802 sublayers.",
+      "Incorrect: PPP is listed as a single data-link protocol that performs framing directly.",
+      "Correct: PPP is a wireless IEEE 802 MAC implementation.",
+      "Incorrect: PPP is only a physical-layer signal scheme and cannot frame packets."
+    ],
+    "correct": [
+      1
+    ],
+    "optionExplanations": [
+      "The table explicitly distinguishes single-protocol links from the LLC/MAC architecture.",
+      "PPP performs link framing directly without requiring this IEEE 802 split.",
+      "PPP is a point-to-point protocol in this table, not Wi-Fi.",
+      "PPP is a data-link protocol and does provide framing."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o26-q011",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link protocol families",
+    "objectiveId": "itcs217-l09-o26",
+    "objectiveIds": [
+      "itcs217-l09-o26"
+    ],
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Remember",
+    "prompt": "Which set consists entirely of link functions or components listed for PPP?",
+    "explanation": "The lecture identifies PPP as a point-to-point single data-link protocol with framing, LCP/NCP and FCS.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 19
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "answers": [
+      "Token access, IEEE 802.5 and a token ring",
+      "Framing, LCP/NCP and FCS",
+      "PDCP, RLC and a cellular radio MAC",
+      "Low-power WPAN framing and IEEE 802.15.4"
+    ],
+    "correct": [
+      1
+    ],
+    "optionExplanations": [
+      "These belong to the Token Ring row, not PPP.",
+      "The PPP row lists framing, LCP/NCP and FCS.",
+      "These belong to the cellular stack row.",
+      "These describe the low-power WPAN row."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o27-q012",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link protocol families",
+    "objectiveId": "itcs217-l09-o27",
+    "objectiveIds": [
+      "itcs217-l09-o27",
+      "itcs217-l09-o28",
+      "itcs217-l09-o29",
+      "itcs217-l09-o30"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each requirement or description to the corresponding protocol, stack or transmission arrangement. Match each left item once. Right options cannot be reused; all are used.",
+    "explanation": "Protocol architecture, transmission organization and link control are distinct properties; a serial link is not the same thing as a cellular stack.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 19
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 20
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 24
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "leftItems": [
+      "A reliable HDLC-derived link is required for X.25.",
+      "A cellular radio system uses the named PDCP, RLC and MAC components.",
+      "A connection sends one bit at a time rather than multiple bits simultaneously on parallel paths.",
+      "An ISO layer-2 serial-link protocol embeds flow-control and error-control information in frames."
+    ],
+    "rightItems": [
+      "Serial rather than parallel transmission",
+      "HDLC",
+      "LAPB",
+      "The listed LTE/5G system-specific stack"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "LAPB is the HDLC-derived X.25 data-link protocol.",
+      "The table lists PDCP, RLC and MAC for LTE/5G cellular radio.",
+      "The serial comparison specifies transmission one bit at a time; parallel transmission sends multiple bits at a time.",
+      "HDLC is introduced as an ISO layer-2 serial-link protocol carrying flow/error-control information."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o31-q013",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC communication",
+    "objectiveId": "itcs217-l09-o31",
+    "objectiveIds": [
+      "itcs217-l09-o31"
+    ],
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "A secondary station has data ready, but it must wait for the primary station to permit transmission. Which HDLC mode matches this behavior?",
+    "explanation": "In NRM the secondary transmits under primary permission; this is the unbalanced permission-controlled arrangement.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 20
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 21
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "answers": [
+      "Asynchronous Balanced Mode (ABM)",
+      "Normal Response Mode (NRM)",
+      "Asynchronous Response Mode (ARM)",
+      "All three modes impose this same permission requirement"
+    ],
+    "correct": [
+      1
+    ],
+    "optionExplanations": [
+      "ABM uses peer combined stations that can initiate transmission.",
+      "NRM requires the primary to grant the secondary permission.",
+      "ARM permits secondary initiation, unlike the stated restriction.",
+      "The permission rule distinguishes NRM from ARM and ABM."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o32-q014",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC communication",
+    "objectiveId": "itcs217-l09-o32",
+    "objectiveIds": [
+      "itcs217-l09-o32"
+    ],
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "A link retains a primary station responsible for managing the link, but a secondary may initiate a message without waiting for a poll. Which HDLC mode is illustrated?",
+    "explanation": "ARM relaxes the secondary’s initiation restriction while retaining an unbalanced primary/secondary organization.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 20
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 21
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "answers": [
+      "Normal Response Mode (NRM)",
+      "Asynchronous Balanced Mode (ABM)",
+      "Asynchronous Response Mode (ARM)",
+      "No HDLC mode allows secondary initiation"
+    ],
+    "correct": [
+      2
+    ],
+    "optionExplanations": [
+      "NRM requires secondary permission from the primary.",
+      "ABM uses peer combined stations rather than retaining the stated primary/secondary arrangement.",
+      "ARM allows secondary initiation while the primary still manages the link.",
+      "ARM explicitly supports the described behavior."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o33-q015",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC communication",
+    "objectiveId": "itcs217-l09-o33",
+    "objectiveIds": [
+      "itcs217-l09-o33"
+    ],
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Two HDLC stations are peers; either may initiate commands and responses rather than one always waiting for primary permission. Which mode best fits?",
+    "explanation": "ABM is the balanced peer mode. The lecture’s broad primary/secondary statement must not be applied to erase this distinction.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 20
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 21
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-1"
+    ],
+    "answers": [
+      "Normal Response Mode (NRM)",
+      "Asynchronous Response Mode (ARM)",
+      "Asynchronous Balanced Mode (ABM)",
+      "A mode with one permanent primary granting every transmission"
+    ],
+    "correct": [
+      2
+    ],
+    "optionExplanations": [
+      "NRM is unbalanced and requires primary permission for secondary transmission.",
+      "ARM permits initiation by a secondary but retains the primary/secondary arrangement.",
+      "ABM gives combined peer stations the ability to initiate communication.",
+      "A permanent permission-granting primary contradicts the stated peer arrangement."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o34-q016",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC frame structure",
+    "objectiveId": "itcs217-l09-o34",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "An HDLC frame is read from its first transmitted field to its last. Which complete field sequence is correct?",
+    "explanation": "The frame begins with a flag, followed by address, control, data, FCS, and a closing flag.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 22
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 23
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "answers": [
+      "Flag → control → address → data → FCS → flag",
+      "Flag → address → control → data → FCS → flag",
+      "Flag → address → data → control → FCS → flag",
+      "Flag → address → control → FCS → data → flag"
+    ],
+    "correct": [
+      1
+    ],
+    "optionExplanations": [
+      "Address precedes control.",
+      "This preserves every field position shown in the HDLC structure.",
+      "Control precedes the information field.",
+      "The FCS follows the data it checks."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o35-q017",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC frame structure",
+    "objectiveId": "itcs217-l09-o35",
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each HDLC need to the field that serves it. Address interpretation is for a primary station sending a command to a secondary station. Use each right option once; none is unused.",
+    "explanation": "Flags delimit the frame; the address identifies the secondary in this command context; control identifies frame type and sequence/control information; FCS detects errors.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 22
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 23
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "objectiveIds": [
+      "itcs217-l09-o35",
+      "itcs217-l09-o36",
+      "itcs217-l09-o37"
+    ],
+    "leftItems": [
+      "Locate the boundaries of the transmitted frame",
+      "Identify which secondary station is addressed",
+      "Identify frame type and sequence/control information",
+      "Carry the error-detection check"
+    ],
+    "rightItems": [
+      "Control",
+      "FCS",
+      "Flag",
+      "Address"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "Opening and closing flags mark frame boundaries.",
+      "The address identifies the secondary for this stated primary-command context.",
+      "The control field carries type and sequence/control details.",
+      "The FCS is the frame check sequence used for detection."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o38-q018",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC frame structure",
+    "objectiveId": "itcs217-l09-o38",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Use the bit-length variant shown on PDF page 22, including its expandable Address field. Which row gives the correct lengths for Flag; Address; Control; Data; FCS? Here n is the number of data bytes.",
+    "explanation": "The illustrated variant uses an 8-bit flag, an address of 8 or more bits, an 8- or 16-bit control field, 8n data bits, and a 16- or 32-bit FCS.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 22
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "answers": [
+      "8; 8 or more; 8 or 16; 8n; 16 or 32 bits",
+      "8; exactly 8; exactly 8; 8n; 16 or 32 bits",
+      "16; 8 or more; 8 or 16; n; 16 or 32 bits",
+      "8; 8 or more; 16 or 32; 8n; 8 or 16 bits"
+    ],
+    "correct": [
+      0
+    ],
+    "optionExplanations": [
+      "Each length matches the page-22 labels.",
+      "This removes the shown address expansion and 16-bit control possibility.",
+      "The flag is 8 bits and n bytes contain 8n bits.",
+      "This swaps control-field and FCS length possibilities."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o39-q019",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC frame structure",
+    "objectiveId": "itcs217-l09-o39",
+    "type": "fill_blank",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A frame uses two 8-bit flags, an 8-bit address, an 8-bit control field, a 16-bit FCS and 100 data bytes. Ignoring any added bits from transmission encoding, its total length is {{1}} bytes. No rounding is required.",
+    "explanation": "Overhead is (8+8+8+16+8)/8 = 6 bytes; adding 100 data bytes gives 106 bytes.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 22
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 106,
+        "absoluteTolerance": 0,
+        "unit": "bytes",
+        "rounding": "none",
+        "explanation": "Two flags contribute 2 bytes, address 1, control 1 and FCS 2: 6 overhead bytes plus 100 data bytes."
+      }
+    ]
+  },
+  {
+    "id": "itcs217-l09-o40-q020",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC frame structure",
+    "objectiveId": "itcs217-l09-o40",
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "For the basic control format on PDF page 23, match each initial bit signature to the correct frame type and principal role. Right options cannot be reused. Exactly three right options are unused. Use the first-bit order shown in that diagram.",
+    "explanation": "The first control bit 0 identifies an I-frame. A leading 10 identifies S, and leading 11 identifies U, using the displayed first-bit order.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 23
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "objectiveIds": [
+      "itcs217-l09-o40",
+      "itcs217-l09-o41"
+    ],
+    "leftItems": [
+      "Control begins with 11",
+      "Control begins with 0",
+      "Control begins with 10"
+    ],
+    "rightItems": [
+      "S-frame: supervision for flow/error control",
+      "U-frame: system/link management",
+      "I-frame: information transfer",
+      "I-frame: flow/error supervision",
+      "S-frame: system/link management",
+      "U-frame: information transfer"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "The 11 prefix is U format, used for system and link management.",
+      "The initial 0 is I format, which carries information.",
+      "The 10 prefix is S format, for supervisory flow/error control."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o42-q021",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC frame structure",
+    "objectiveId": "itcs217-l09-o42",
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match the basic HDLC control-field notation to its meaning. Use each right option once; none is unused.",
+    "explanation": "The notation distinguishes send/receive sequence numbers from the function bits of S and U control formats.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 23
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "leftItems": [
+      "N(R)",
+      "M bits in a U-frame",
+      "N(S)",
+      "S bits in an S-frame"
+    ],
+    "rightItems": [
+      "Send sequence number",
+      "Supervisory function selection",
+      "Receive sequence number",
+      "Unnumbered function selection"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "N(R) is the receive sequence number.",
+      "M bits select an unnumbered-frame function.",
+      "N(S) is the send sequence number.",
+      "S bits select the supervisory function."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o43-q022",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC frame structure",
+    "objectiveId": "itcs217-l09-o43",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Using the S-bit labels displayed on PDF page 23, which complete interpretation is correct? Interpret P/F according to whether the frame is a command or a response.",
+    "explanation": "The displayed S-bit labels are RR=00, REJ=01, RNR=10, SREJ=11. P/F is Poll in a command and Final in a response.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 23
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "objectiveIds": [
+      "itcs217-l09-o43",
+      "itcs217-l09-o44"
+    ],
+    "answers": [
+      "RR=00, REJ=10, RNR=01, SREJ=11; command Poll, response Final",
+      "RR=00, REJ=01, RNR=10, SREJ=11; command Final, response Poll",
+      "RR=00, REJ=01, RNR=10, SREJ=11; command Poll, response Final",
+      "RR=11, REJ=01, RNR=10, SREJ=00; command Poll, response Final"
+    ],
+    "correct": [
+      2
+    ],
+    "optionExplanations": [
+      "REJ and RNR are swapped relative to the displayed convention.",
+      "The S codes match, but Poll and Final contexts are reversed.",
+      "Both the four S codes and the command/response P/F interpretation match.",
+      "RR and SREJ are swapped."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o45-q023",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Related frame formats",
+    "objectiveId": "itcs217-l09-o45",
+    "type": "multiple",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Compare the illustrated data-link formats on PDF page 24. Select all correct statements.",
+    "explanation": "Related frame formats share framing ideas but differ in protocol-identification fields, address formats and whether they are variable frames or fixed cells.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 24
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "objectiveIds": [
+      "itcs217-l09-o45",
+      "itcs217-l09-o46",
+      "itcs217-l09-o47",
+      "itcs217-l09-o48",
+      "itcs217-l09-o49"
+    ],
+    "answers": [
+      "HDLC-style frames in the comparison use flags, an FCS and variable-length framing.",
+      "PPP has a Protocol field, whereas Cisco HDLC has a Type field.",
+      "The illustrated PPP format has Address 0xFF and Control 0x03.",
+      "The illustrated Frame Relay Q.922 address carries a DLCI and congestion/discard indications.",
+      "ATM uses fixed-size cells rather than the flag-delimited variable framing shown for HDLC-style formats.",
+      "ATM is another variable-length HDLC frame with opening and closing flags."
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "optionExplanations": [
+      "These are the common HDLC-style traits identified in the comparison.",
+      "The formats label these different fields for identifying the upper-layer protocol/type.",
+      "Both hexadecimal values appear in the PPP frame row.",
+      "The comparison identifies the Q.922 address and its DLCI/congestion/discard information.",
+      "The ATM row shows a fixed header and fixed payload rather than HDLC-style variable framing.",
+      "This contradicts the fixed-cell ATM structure."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o50-q024",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Related frame formats",
+    "objectiveId": "itcs217-l09-o50",
+    "type": "fill_blank",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "prompt": "An ATM cell in the illustrated format contains a 5-byte header and a 48-byte payload. Its complete size is {{1}} bytes. No rounding is required.",
+    "explanation": "The fixed cell size is 5+48=53 bytes.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 24
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 53,
+        "absoluteTolerance": 0,
+        "unit": "bytes",
+        "rounding": "none",
+        "explanation": "The header and payload both contribute to the transmitted cell."
+      }
+    ]
+  },
+  {
+    "id": "itcs217-l09-o51-q025",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Addressing and casting",
+    "objectiveId": "itcs217-l09-o51",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Alice sends to Bob through two routers in the illustrated routed path, with no address translation. Which account correctly assigns the address roles and describes forwarding?",
+    "explanation": "The MAC address identifies a local-link interface, the IP address identifies the network-layer endpoint, and a port identifies a service/program endpoint. Routers replace local frames while the illustrated source and destination IP identities remain Alice and Bob.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 26
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 27
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 30
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "objectiveIds": [
+      "itcs217-l09-o51",
+      "itcs217-l09-o52"
+    ],
+    "answers": [
+      "Ports identify local NICs; MAC addresses identify remote applications; IP endpoints remain Alice/Bob.",
+      "MAC identifies the local interface, IP identifies the network-layer endpoint and port identifies the service; local MAC pairs change at routers while the source/destination IP identities remain Alice/Bob.",
+      "MAC identifies the local interface, IP identifies the network-layer endpoint and port identifies the service; Alice’s and Bob’s MAC addresses must be copied unchanged into every routed frame.",
+      "MAC identifies the local interface and port identifies the service; every router replaces the destination IP with its own IP to keep forwarding."
+    ],
+    "correct": [
+      1
+    ],
+    "optionExplanations": [
+      "This reverses the purposes of ports and MAC addresses.",
+      "The roles and the illustrated hop-by-hop framing behavior are both consistent.",
+      "Link addresses belong to the current link, so a router creates a new local frame.",
+      "In the stated no-NAT example the destination IP remains Bob, even when the next frame is addressed to a router."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o53-q026",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Addressing and casting",
+    "objectiveId": "itcs217-l09-o53",
+    "type": "multiple",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Select all correct statements about receiver patterns, casting names and the layers at which destination categories are implemented.",
+    "explanation": "Ethernet destination categories are unicast, multicast and broadcast. Anycast selects one of multiple receivers through IP addressing/routing rather than a fourth Ethernet destination-MAC category.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 28
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 29
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "objectiveIds": [
+      "itcs217-l09-o53",
+      "itcs217-l09-o54"
+    ],
+    "answers": [
+      "Unicast sends from one sender to every receiver in its broadcast domain.",
+      "Anycast sends from one sender to one receiver out of multiple candidates.",
+      "Multicast sends from one sender to a selected group of receivers.",
+      "Broadcast sends from one sender to all nodes within the broadcast domain.",
+      "Ethernet provides unicast, multicast and broadcast destination-MAC categories.",
+      "Anycast normally uses IP addressing and routing rather than a fourth Ethernet destination-MAC category."
+    ],
+    "correct": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "optionExplanations": [
+      "This describes broadcast; unicast targets one specified receiver.",
+      "Anycast is one-to-one-of-many.",
+      "Multicast is one-to-selected-many.",
+      "Broadcast is one-to-all within the broadcast domain.",
+      "These are the three Ethernet destination-MAC categories listed in the lecture.",
+      "The lecture locates ordinary anycast implementation at the network layer using IP addressing and routing, while Ethernet has the three stated destination-MAC categories."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o55-q027",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Addressing and casting",
+    "objectiveId": "itcs217-l09-o55",
+    "type": "multiple",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "For ordinary ARP resolution and the specific initial DHCP capture on PDF pages 39–42, select all correct statements. Do not generalize this capture to every possible DHCP exchange.",
+    "explanation": "Ethernet broadcast uses all-FF; the illustrated mDNS multicast mapping is shown on page 29. ARP resolution normally broadcasts its request and unicasts the solicited reply. The supplied initial DHCP capture broadcasts Discover/Request and unicasts Offer/ACK.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 29
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 39
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 40
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 41
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 42
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 50
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "objectiveIds": [
+      "itcs217-l09-o55",
+      "itcs217-l09-o56",
+      "itcs217-l09-o57"
+    ],
+    "answers": [
+      "FF:FF:FF:FF:FF:FF is an Ethernet broadcast destination.",
+      "The illustrated IPv4 multicast address 224.0.0.251 maps to MAC 01:00:5E:00:00:FB.",
+      "An ordinary ARP request for a local IPv4 neighbor is sent in an Ethernet broadcast frame.",
+      "The ordinary solicited ARP reply in the same-network example is unicast to the requester.",
+      "The Offer and ACK in this DHCP capture are unicast from the server to the client.",
+      "The Discover and Request in this initial DHCP capture use the client’s unicast IP destination."
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "optionExplanations": [
+      "All six FF bytes identify the Ethernet broadcast destination.",
+      "This exact mapping is given in the lecture example.",
+      "The requester asks the local domain which station has the target IP.",
+      "The station with the requested IP returns its MAC to the requester.",
+      "These frames have the client destination MAC and destination IPv4 192.168.0.10 in this capture.",
+      "The shown initial Discover/Request use IPv4 255.255.255.255 and an Ethernet broadcast destination."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o58-q028",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Inspecting local configuration",
+    "objectiveId": "itcs217-l09-o58",
+    "type": "multiple",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Use the operating-system versions and settings paths illustrated in the lecture, rather than assuming current menu layouts. Select all correct instructions for finding the stated address.",
+    "explanation": "MAC lookup and IP lookup use different illustrated screens. Settings paths are scoped to the versions shown in the lecture.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 31
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 32
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "objectiveIds": [
+      "itcs217-l09-o58",
+      "itcs217-l09-o61"
+    ],
+    "answers": [
+      "For iOS MAC lookup: Settings → General → About → Wi-Fi Address.",
+      "For Android MAC lookup: Settings → About phone/device → Status or Hardware information → Wi-Fi MAC address.",
+      "For macOS MAC lookup in the illustrated interface: Network → selected Wi-Fi → Advanced → Hardware → Wi-Fi Address.",
+      "For iOS IPv4 lookup: Settings → Wi-Fi → information icon beside the connected network → IP/IPv4 Address.",
+      "For Android IP lookup: Settings → About phone/device → Status or IP address.",
+      "For macOS IPv4 lookup: read Wi-Fi Address in the Hardware tab of the connected Wi-Fi network."
+    ],
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "optionExplanations": [
+      "This is the iOS MAC path shown on page 31.",
+      "This is the Android MAC path shown on page 31.",
+      "The page-31 macOS screenshot instructions identify Wi-Fi Address under Hardware.",
+      "The iOS IP path on page 32 uses information about the connected Wi-Fi network.",
+      "The Android IP instructions shown use Status or IP address.",
+      "Wi-Fi Address identifies MAC information; the shown IPv4 lookup uses Network → Wi-Fi → Details → TCP/IP."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o59-q029",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Inspecting local configuration",
+    "objectiveId": "itcs217-l09-o59",
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each inspection goal to the appropriate command and field. Use each right option once; none is unused.",
+    "explanation": "Linux interface commands and Windows ipconfig /all expose different labeled address fields; choose the command for the stated information.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 31
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 32
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 34
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "objectiveIds": [
+      "itcs217-l09-o59",
+      "itcs217-l09-o60",
+      "itcs217-l09-o62"
+    ],
+    "leftItems": [
+      "Inspect a Linux interface’s MAC address",
+      "Inspect a Windows adapter’s MAC address",
+      "Inspect a Linux active interface’s assigned IP address"
+    ],
+    "rightItems": [
+      "ip a or ifconfig: read the active interface’s IP address",
+      "ip link show or ifconfig -a: read ether/HWaddr for the interface",
+      "ipconfig /all: read Physical Address for the adapter"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "The illustrated Linux MAC instructions use ip link show or ifconfig -a and ether/HWaddr.",
+      "The Windows MAC field is Physical Address in ipconfig /all output.",
+      "The Linux IP instructions use ip a or ifconfig and the relevant active-interface address."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o63-q030",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Inspecting local configuration",
+    "objectiveId": "itcs217-l09-o63",
+    "type": "multiple",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Interpret the two Windows examples: Network Connection Details on PDF page 33 and ipconfig /all on PDF page 34. Select all correct readings.",
+    "explanation": "The two screenshots describe different adapters/configurations; fields must be interpreted within their own screenshot rather than merged into one machine configuration.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 33
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 34
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-2"
+    ],
+    "objectiveIds": [
+      "itcs217-l09-o63",
+      "itcs217-l09-o64"
+    ],
+    "answers": [
+      "Page 33 reports DHCP Enabled = Yes; Lease Obtained and Lease Expires mark the start and end of the displayed lease.",
+      "On page 33, IPv4 Default Gateway, IPv4 DHCP Server and IPv4 DNS Server each show 192.168.1.1.",
+      "On page 33, 255.255.255.0 is the host’s IPv4 address and 192.168.1.43 is its subnet mask.",
+      "On page 34, the adapter’s IPv4 address is 192.168.43.222 and its subnet mask is 255.255.255.0.",
+      "On page 34, the IPv4 default gateway and DHCP server both show 192.168.43.1.",
+      "On page 34, Lease Obtained is 12:16:01 AM and Lease Expires is 1:16:00 AM on March 22, 2021; these are separate lease timestamps."
+    ],
+    "correct": [
+      0,
+      1,
+      3,
+      4,
+      5
+    ],
+    "optionExplanations": [
+      "The enable field reports use of DHCP, while the lease fields describe its time interval.",
+      "All three server/gateway fields contain that value in this screenshot; identical values do not make their roles identical.",
+      "These fields are reversed: IPv4 Address is 192.168.1.43 and IPv4 Subnet Mask is 255.255.255.0.",
+      "These are the values beside IPv4 Address and Subnet Mask in the command output.",
+      "The IPv4 gateway line and DHCP Server line both identify 192.168.43.1 in this example.",
+      "The labels explicitly separate when this lease was obtained from when it expires."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o65-q031",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "DHCP configuration",
+    "objectiveId": "itcs217-l09-o65",
+    "objectiveIds": [
+      "itcs217-l09-o65",
+      "itcs217-l09-o68",
+      "itcs217-l09-o69",
+      "itcs217-l09-o70"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Use the lecture’s DHCP-server example. Its address pool starts at 192.168.1.100 and permits 50 users. Match each configuration decision to its outcome. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "DHCP developed from BOOTP and distributes addressing and other host configuration. The screenshot explicitly says a blank checkbox disables the server; Apply commits the change. The final address is .100 + (50 − 1) = .149; using .150 counts 51 addresses. Lease duration and DNS-server addresses configure different properties.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 35
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 37
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Choose the service and its historical predecessor that distribute host network configuration",
+      "Uncheck the DHCP-server Enabled box and press Apply",
+      "Determine the last pool address, counting the starting address as the first",
+      "Distinguish Client Lease Time from the DNS-server entries"
+    ],
+    "rightItems": [
+      "192.168.1.150",
+      "Lease time controls assignment duration; DNS entries identify name-resolution servers",
+      "DHCP, developed from BOOTP, supplies IP address, subnet mask, gateway and other configuration",
+      "The server is disabled after the change is applied",
+      "192.168.1.149"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "DHCP developed from BOOTP and distributes addressing and other host configuration.",
+      "The screenshot explicitly says a blank checkbox disables the server; Apply commits the change.",
+      "The final address is .100 + (50 − 1) = .149; using .150 counts 51 addresses.",
+      "Lease duration and DNS-server addresses configure different properties."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o66-q032",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "DHCP acquisition",
+    "objectiveId": "itcs217-l09-o66",
+    "objectiveIds": [
+      "itcs217-l09-o66"
+    ],
+    "type": "ordering",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Arrange these DHCP message names in the order of a successful initial four-message address acquisition, first to last. Assume the client initially has no assigned IPv4 address.",
+    "explanation": "The client discovers servers, a server offers configuration, the client requests its selection, and the server acknowledges it.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 35
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 36
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "items": [
+      "DHCP Request",
+      "DHCP ACK",
+      "DHCP Discover",
+      "DHCP Offer"
+    ],
+    "correctOrder": [
+      2,
+      3,
+      0,
+      1
+    ],
+    "stepExplanations": [
+      "Discover starts server discovery.",
+      "Offer proposes an address/configuration.",
+      "Request communicates the client’s selection.",
+      "ACK confirms the allocation."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o67-q033",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "DHCP message roles",
+    "objectiveId": "itcs217-l09-o67",
+    "objectiveIds": [
+      "itcs217-l09-o67"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each message to its role in the initial successful DHCP exchange. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "Discover searches for DHCP service. Offer is the server’s proposal. Request communicates the client’s selected offer in this initial exchange. ACK is the server confirmation.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 35
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 36
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "DHCP Discover",
+      "DHCP Offer",
+      "DHCP Request",
+      "DHCP ACK"
+    ],
+    "rightItems": [
+      "Server confirms the selected allocation",
+      "Client searches for available configuration service",
+      "Client communicates which offered allocation it wants",
+      "Server proposes an address and configuration",
+      "Client releases an existing lease"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "Discover searches for DHCP service.",
+      "Offer is the server’s proposal.",
+      "Request communicates the client’s selected offer in this initial exchange.",
+      "ACK is the server confirmation."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o71-q034",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "DHCP packet interpretation",
+    "objectiveId": "itcs217-l09-o71",
+    "objectiveIds": [
+      "itcs217-l09-o71",
+      "itcs217-l09-o72",
+      "itcs217-l09-o73",
+      "itcs217-l09-o74"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Use the specific initial exchange captured on PDF pages 39–42. Match each packet observation task to its interpretation; do not generalize the example to every DHCP deployment. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "A client without an assigned IPv4 address sends the shown initial messages from 0.0.0.0 to broadcast; client port 68 targets server port 67. The shown server replies come from .1 to .10, reversing the UDP direction. The displayed Offer and ACK target the client MAC; this observation does not establish a universal unicast rule. The common transaction identifier connects the four messages into one transaction.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 39
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 40
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 41
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 42
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Find IP addressing and UDP direction for the client’s Discover and Request",
+      "Find IP addressing and UDP direction for the server’s Offer and ACK",
+      "Interpret the Ethernet destination for Offer and ACK in this capture",
+      "Explain why transaction ID 0x3d1d appears in all four messages"
+    ],
+    "rightItems": [
+      "The repeated transaction ID associates the messages with the same exchange",
+      "0.0.0.0 → 255.255.255.255; UDP 68 → 67",
+      "192.168.0.1 → 192.168.0.10; UDP 67 → 68",
+      "They are unicast to the client MAC in this capture",
+      "All messages must be Ethernet broadcasts in every DHCP exchange"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "A client without an assigned IPv4 address sends the shown initial messages from 0.0.0.0 to broadcast; client port 68 targets server port 67.",
+      "The shown server replies come from .1 to .10, reversing the UDP direction.",
+      "The displayed Offer and ACK target the client MAC; this observation does not establish a universal unicast rule.",
+      "The common transaction identifier connects the four messages into one transaction."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o75-q035",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "DHCP encapsulated fields",
+    "objectiveId": "itcs217-l09-o75",
+    "objectiveIds": [
+      "itcs217-l09-o75",
+      "itcs217-l09-o76"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each BOOTP/DHCP field interpretation in the displayed Offer/ACK exchange to the correct meaning. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "BOOTP Request/Reply is a broader field than the DHCP message identity; do not equate Boot Request exclusively with DHCP Request. Your (client) IP identifies the address offered to this client. The client MAC field identifies the client hardware interface, separately from the offered IPv4 address.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 39
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 40
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 41
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 42
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Relate BOOTP message type to the four DHCP message names",
+      "Interpret Your (client) IP address = 192.168.0.10 in the Offer",
+      "Interpret the client MAC field in the Offer/ACK"
+    ],
+    "rightItems": [
+      "The hardware identity of the client receiving the proposed/confirmed allocation",
+      "A Boot Request (1) can carry Discover or Request; a Boot Reply (2) can carry Offer or ACK",
+      "The address proposed to the client, rather than the server’s own address",
+      "A DHCP Request is the only message that can be a BOOTP Request"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "BOOTP Request/Reply is a broader field than the DHCP message identity; do not equate Boot Request exclusively with DHCP Request.",
+      "Your (client) IP identifies the address offered to this client.",
+      "The client MAC field identifies the client hardware interface, separately from the offered IPv4 address."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o77-q036",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "DHCP capture preparation",
+    "objectiveId": "itcs217-l09-o77",
+    "objectiveIds": [
+      "itcs217-l09-o77",
+      "itcs217-l09-o78"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Match each intended action to the corresponding command or command sequence shown in the lecture. Treat eth0 as the example interface; commands depend on the installed network manager. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "ipconfig /release is the Windows release command shown. The nmcli sequence disconnects and reconnects the interface; it is not the networkctl operation. networkctl renew requests renewal through systemd-networkd. networkctl release releases the interface configuration through systemd-networkd.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 43
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Release Windows DHCP configuration before recapturing acquisition",
+      "Disconnect and reconnect eth0 using NetworkManager",
+      "Request renewal of eth0 through systemd-networkd",
+      "Release eth0 configuration through systemd-networkd"
+    ],
+    "rightItems": [
+      "sudo networkctl release eth0",
+      "ipconfig /release",
+      "sudo networkctl renew eth0",
+      "sudo nmcli device disconnect eth0, followed by sudo nmcli device connect eth0",
+      "arp -a"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "ipconfig /release is the Windows release command shown.",
+      "The nmcli sequence disconnects and reconnects the interface; it is not the networkctl operation.",
+      "networkctl renew requests renewal through systemd-networkd.",
+      "networkctl release releases the interface configuration through systemd-networkd."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o79-q037",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Switch and router forwarding",
+    "objectiveId": "itcs217-l09-o79",
+    "objectiveIds": [
+      "itcs217-l09-o79",
+      "itcs217-l09-o80",
+      "itcs217-l09-o81",
+      "itcs217-l09-o82"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Use these supplied tables: switch MAC-AA→port 1, MAC-BB→port 4; router routes to the SAME destination have metric 2000 via RT2/E0 and metric 2500 via RT3/E1. Match each task to its result. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "The local switch connects hosts and uses MAC addressing for layer-2 frame forwarding. Routers link networks and select forwarding paths using network-layer destination information. The supplied forwarding entry maps MAC-BB to port 4. Of the two stated routes to the same destination, the example selects metric 2000 via RT2/E0.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 44
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 45
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 46
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 47
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Select the device and forwarding identity for local host-to-host frame delivery",
+      "Select the device and forwarding identity for communication between networks",
+      "Forward a known unicast frame whose destination is MAC-BB",
+      "Select the illustrated lower-metric route to the stated destination"
+    ],
+    "rightItems": [
+      "RT2 through E0, metric 2000",
+      "Switch: layer-2 frames and destination MAC addresses",
+      "Port 4",
+      "Router: layer-3 packets and destination IP addresses",
+      "RT3 through E1, metric 2500"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "The local switch connects hosts and uses MAC addressing for layer-2 frame forwarding.",
+      "Routers link networks and select forwarding paths using network-layer destination information.",
+      "The supplied forwarding entry maps MAC-BB to port 4.",
+      "Of the two stated routes to the same destination, the example selects metric 2000 via RT2/E0."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o83-q038",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Broadcast-domain scope",
+    "objectiveId": "itcs217-l09-o83",
+    "objectiveIds": [
+      "itcs217-l09-o83"
+    ],
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Two ordinary switched Ethernet LANs are connected by a router. There is no configured broadcast forwarding or bridging across the router. Host A sends an Ethernet broadcast on the first LAN. Which statement correctly describes its scope?",
+    "explanation": "An ordinary switch forwards within its LAN broadcast domain; a router separates those LAN domains and routes between networks. This does not claim that every switch configuration has one domain.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 47
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "answers": [
+      "It automatically reaches both LANs because routers forward every frame.",
+      "It stays within the first LAN broadcast domain; reaching another network requires routed communication.",
+      "It reaches only the switch and can never reach another host.",
+      "The router forwards that Ethernet broadcast unchanged only onto directly attached LANs."
+    ],
+    "correct": [
+      1
+    ],
+    "optionExplanations": [
+      "The stated router does not bridge or forward these Ethernet broadcasts.",
+      "The broadcast belongs to the first LAN; routers connect separate networks.",
+      "The switch can forward a broadcast to other local hosts.",
+      "Direct attachment does not make the router bridge those Ethernet broadcast domains; no such forwarding is configured in the stated scenario."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o84-q039",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "ARP discovery and capture",
+    "objectiveId": "itcs217-l09-o84",
+    "objectiveIds": [
+      "itcs217-l09-o84",
+      "itcs217-l09-o85",
+      "itcs217-l09-o87",
+      "itcs217-l09-o97"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Analyze",
+    "prompt": "Interpret the ordinary Ethernet/IPv4 ARP capture excerpts on PDF pages 56–57. Match each record to its operation, Ethernet destination and meaning; assume no proxy or gratuitous ARP. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "The request capture advertises the requester’s own MAC/IP, specifies target IP 10.34.10.80 and leaves target hardware zero. Its ARP operation is 1 and enclosing Ethernet destination is broadcast. The reply capture advertises 10.34.10.80 at 00:26:73:8c:b4:fd and targets the original requester, 10.34.10.44 at 8c:16:45:d6:44:ab. Its operation is 2 and Ethernet destination is unicast to that requester.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 48
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 49
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 50
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 56
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 57
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Request excerpt: sender hardware 8c:16:45:d6:44:ab; sender protocol 10.34.10.44; target hardware 00:00:00:00:00:00; target protocol 10.34.10.80",
+      "Reply excerpt: sender hardware 00:26:73:8c:b4:fd; sender protocol 10.34.10.80; target hardware 8c:16:45:d6:44:ab; target protocol 10.34.10.44"
+    ],
+    "rightItems": [
+      "Operation 2; unicast Ethernet destination 8c:16:45:d6:44:ab; supplies 10.34.10.80 → 00:26:73:8c:b4:fd",
+      "Operation 1; broadcast Ethernet destination FF:FF:FF:FF:FF:FF; asks who owns 10.34.10.80",
+      "Operation 1; unicast to 00:26:73:8c:b4:fd; asks for the requester’s own IPv4 address"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "The request capture advertises the requester’s own MAC/IP, specifies target IP 10.34.10.80 and leaves target hardware zero. Its ARP operation is 1 and enclosing Ethernet destination is broadcast.",
+      "The reply capture advertises 10.34.10.80 at 00:26:73:8c:b4:fd and targets the original requester, 10.34.10.44 at 8c:16:45:d6:44:ab. Its operation is 2 and Ethernet destination is unicast to that requester."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o86-q040",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Ethernet IPv4 ARP format",
+    "objectiveId": "itcs217-l09-o86",
+    "objectiveIds": [
+      "itcs217-l09-o86"
+    ],
+    "type": "matching",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Remember",
+    "prompt": "For the Ethernet/IPv4 ARP format illustrated in the lecture, match each descriptor to its value. Interpret the values as protocol fields, not Ethernet destination addresses. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "Hardware type 0x0001 denotes Ethernet in the illustrated format. Protocol type 0x0800 identifies IPv4. Ethernet hardware addresses occupy six bytes. IPv4 protocol addresses occupy four bytes.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 49
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Hardware type",
+      "Protocol type",
+      "Hardware address length",
+      "Protocol address length"
+    ],
+    "rightItems": [
+      "4 bytes",
+      "0x0800",
+      "0x0001",
+      "6 bytes",
+      "0x0002"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "Hardware type 0x0001 denotes Ethernet in the illustrated format.",
+      "Protocol type 0x0800 identifies IPv4.",
+      "Ethernet hardware addresses occupy six bytes.",
+      "IPv4 protocol addresses occupy four bytes."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o88-q041",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "ARP request address fields",
+    "objectiveId": "itcs217-l09-o88",
+    "objectiveIds": [
+      "itcs217-l09-o88",
+      "itcs217-l09-o90"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "In the ordinary Ethernet/IPv4 request, A (IP A-IP, MAC A-MAC) asks for B-IP on its LAN. The Ethernet frame destination is FF:FF:FF:FF:FF:FF. Match the ARP payload’s four address fields; B’s MAC is not yet known. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "The sender hardware field identifies A’s MAC. The sender protocol field identifies A’s IPv4 address. The illustrated unknown target hardware field is zero; it is different from the enclosing Ethernet broadcast destination. The request asks for the owner of B-IP, so B-IP is the target protocol value.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 49
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 56
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Sender hardware address",
+      "Sender protocol address",
+      "Target hardware address in the illustrated request",
+      "Target protocol address"
+    ],
+    "rightItems": [
+      "B-IP",
+      "00:00:00:00:00:00",
+      "A-MAC",
+      "A-IP",
+      "FF:FF:FF:FF:FF:FF"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "The sender hardware field identifies A’s MAC.",
+      "The sender protocol field identifies A’s IPv4 address.",
+      "The illustrated unknown target hardware field is zero; it is different from the enclosing Ethernet broadcast destination.",
+      "The request asks for the owner of B-IP, so B-IP is the target protocol value."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o89-q042",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "ARP reply address fields",
+    "objectiveId": "itcs217-l09-o89",
+    "objectiveIds": [
+      "itcs217-l09-o89"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "B (B-IP, B-MAC) replies to the ordinary ARP request from A (A-IP, A-MAC) on the same Ethernet LAN. Match the four address fields INSIDE B’s ARP reply. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "B sends the reply, so sender hardware is B-MAC. B’s advertised IPv4 address is B-IP. The reply targets requester A’s known MAC, A-MAC. The target protocol address identifies requester A-IP.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 49
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 57
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Sender hardware address",
+      "Sender protocol address",
+      "Target hardware address",
+      "Target protocol address"
+    ],
+    "rightItems": [
+      "A-IP",
+      "B-MAC",
+      "A-MAC",
+      "B-IP",
+      "00:00:00:00:00:00"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "B sends the reply, so sender hardware is B-MAC.",
+      "B’s advertised IPv4 address is B-IP.",
+      "The reply targets requester A’s known MAC, A-MAC.",
+      "The target protocol address identifies requester A-IP."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o91-q043",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "ARP cache inspection",
+    "objectiveId": "itcs217-l09-o91",
+    "objectiveIds": [
+      "itcs217-l09-o91",
+      "itcs217-l09-o92"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Match each Windows/Linux ARP-cache task to the correct result or command. The example arp -a record is 10.0.2.2 at 52:54:00:12:35:00 on eth0. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "arp -a exposes the cached protocol-address to hardware-address association for the interface. The lecture shows netsh interface ip delete arpcache as an administrative cache-deletion operation; arp -d is also shown for deletion.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 51
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Interpret the displayed arp -a record",
+      "Select the displayed Windows operation for deleting the ARP cache with administrator privileges"
+    ],
+    "rightItems": [
+      "10.0.2.2 maps to MAC 52:54:00:12:35:00 on eth0",
+      "netsh interface ip delete arpcache",
+      "10.0.2.2 is an Ethernet port number",
+      "ipconfig /all"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "arp -a exposes the cached protocol-address to hardware-address association for the interface.",
+      "The lecture shows netsh interface ip delete arpcache as an administrative cache-deletion operation; arp -d is also shown for deletion."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o93-q044",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Routed ARP and decapsulation",
+    "objectiveId": "itcs217-l09-o93",
+    "objectiveIds": [
+      "itcs217-l09-o93",
+      "itcs217-l09-o94",
+      "itcs217-l09-o95",
+      "itcs217-l09-o96"
+    ],
+    "type": "matching",
+    "difficulty": "Hard",
+    "cognitiveLevel": "Analyze",
+    "prompt": "Follow Alice→R1→R2→Bob in the lecture. Each relevant hop here is an Ethernet-capable local link; required ARP caches are initially empty. Match each forwarding stage to the action needed. The IP destination remains Bob throughout. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "For an off-network destination, Alice builds a local frame to her default gateway, not directly to Bob’s distant MAC. R1 needs R2’s adjacent-interface MAC for this explicitly Ethernet-capable hop. Only the last-hop router on Bob’s LAN needs Bob’s MAC for this delivery; earlier nodes use their own local next hops. Bob decapsulates the local frame to obtain the enclosed datagram.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 52
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 53
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 54
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 55
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "Alice sends toward off-network Bob through local gateway R1",
+      "R1 forwards across its local Ethernet-capable link to R2",
+      "R2 forwards on the final LAN containing Bob",
+      "Bob receives the frame addressed to his local interface"
+    ],
+    "rightItems": [
+      "Resolve Bob’s local IP to Bob’s MAC; earlier hops needed only their own next-hop MACs",
+      "Remove the incoming link frame and pass its enclosed datagram upward",
+      "Resolve the local gateway interface IP to R1’s local MAC",
+      "Resolve the next-router interface IP to R2’s MAC on their shared link",
+      "Every node first resolves Bob’s MAC end-to-end"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "For an off-network destination, Alice builds a local frame to her default gateway, not directly to Bob’s distant MAC.",
+      "R1 needs R2’s adjacent-interface MAC for this explicitly Ethernet-capable hop.",
+      "Only the last-hop router on Bob’s LAN needs Bob’s MAC for this delivery; earlier nodes use their own local next hops.",
+      "Bob decapsulates the local frame to obtain the enclosed datagram."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o98-q045",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "ARP versus RARP",
+    "objectiveId": "itcs217-l09-o98",
+    "objectiveIds": [
+      "itcs217-l09-o98",
+      "itcs217-l09-o99"
+    ],
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match the two address-resolution needs to the appropriate mechanism. Use the stated purpose and server-table behavior; do not infer an IP header from the simplified RARP illustration. Match each left item to one right option. Use each right option at most once; some options may be unused.",
+    "explanation": "ARP resolves the adjacent target protocol address to a hardware address for local transmission. RARP answers the reverse own-address question using the requester MAC and a server mapping table; this differs from asking for a next-hop MAC.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 48
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 58
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-3"
+    ],
+    "leftItems": [
+      "A sender knows its next hop’s IPv4 address but needs the local-link hardware address",
+      "A booting station knows its own hardware address but needs its assigned IPv4 address"
+    ],
+    "rightItems": [
+      "RARP: a server consults its MAC-to-IP table and returns the requester’s assigned IP",
+      "ARP: resolve the known local next-hop IPv4 address to its MAC",
+      "ARP: obtain the requester’s own assigned IP from a server MAC-to-IP table"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "ARP resolves the adjacent target protocol address to a hardware address for local transmission.",
+      "RARP answers the reverse own-address question using the requester MAC and a server mapping table; this differs from asking for a next-hop MAC."
+    ]
+  },
+  {
+    "id": "itcs217-l09-o05-q046",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link communication",
+    "objectiveId": "itcs217-l09-o05",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Analyze",
+    "prompt": "A laptop sends an IP datagram over Wi-Fi to a router, which forwards it onto an Ethernet link. What must happen at the router?",
+    "answers": [
+      "Forward the complete Wi-Fi frame unchanged onto Ethernet",
+      "Remove the Wi-Fi frame and put the datagram into a new Ethernet frame",
+      "Discard the datagram because different links cannot form one path",
+      "Keep the Wi-Fi header and add only an Ethernet trailer"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Frame encapsulation is local to each link. The datagram is forwarded in a frame suitable for the next link.",
+    "optionExplanations": [
+      "Wi-Fi and Ethernet use different link-specific frame formats.",
+      "The router decapsulates the incoming frame and constructs the outgoing link frame.",
+      "A path can combine different link technologies.",
+      "The outgoing link needs its own suitable frame, not a hybrid header/trailer."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 4
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 6
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 18
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o11-q047",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link services and access",
+    "objectiveId": "itcs217-l09-o11",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A receiver reports that new frames are dropped because its buffer is full. The link has no observed bit corruption. Which change directly addresses the stated problem?",
+    "answers": [
+      "Increase the number of error-detection bits only",
+      "Change the destination MAC to broadcast",
+      "Coordinate the sending rate with receiver capacity",
+      "Replace every data frame with a link-management frame"
+    ],
+    "correct": [
+      2
+    ],
+    "explanation": "This is a flow-control problem: the sender must adapt to receiver capacity to avoid overflow.",
+    "optionExplanations": [
+      "Detection bits do not create receiver buffer capacity.",
+      "Broadcasting does not regulate arrival rate at this receiver.",
+      "Flow control prevents the sender from overwhelming the receiver.",
+      "Management frames do not provide the required data-flow regulation by themselves."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 10
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 11
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o19-q048",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Sublayers and framing",
+    "objectiveId": "itcs217-l09-o19",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Analyze",
+    "prompt": "A dedicated full-duplex link has no shared-medium contention. A capture still shows each datagram enclosed by link control fields. Which conclusion explains this observation?",
+    "answers": [
+      "Framing serves link delivery even when contention coordination is unnecessary",
+      "The capture proves a collision must have occurred",
+      "The link must actually be a shared bus because frames are present",
+      "A dedicated link should carry only application bytes without link control fields"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "The data-link sublayer still frames datagrams on dedicated links. Shared-medium access coordination addresses a separate concern.",
+    "optionExplanations": [
+      "The need to encapsulate data and carry link control information remains on a dedicated link.",
+      "Frame presence does not establish a collision.",
+      "Both dedicated and shared links use framing.",
+      "Dedicated access does not remove the need for link framing."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 13
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 15
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 16
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o10-q049",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Link services and access",
+    "objectiveId": "itcs217-l09-o10",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Analyze",
+    "prompt": "A receiver identifies a damaged frame. It has error detection but no forward error correction. Which inference about recovery is justified?",
+    "answers": [
+      "The detection result itself uniquely reconstructs the original bits",
+      "Detecting the error guarantees that retransmission has already happened",
+      "Detecting the error guarantees that this link implements recovery",
+      "The damage is identified, but detection alone does not establish correction or retransmission"
+    ],
+    "correct": [
+      3
+    ],
+    "explanation": "Detection establishes that corruption was identified. It does not imply receiver-side correction or guarantee optional ACK/retransmission support.",
+    "optionExplanations": [
+      "Error detection does not itself reconstruct the original data.",
+      "A detection result does not prove that the sender has retransmitted.",
+      "The lecture marks link recovery as optional.",
+      "Detection, receiver correction and link recovery are distinct capabilities."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 9
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 15
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o32-q050",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC communication",
+    "objectiveId": "itcs217-l09-o32",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Three HDLC traces show: X, a secondary sends only after primary permission; Y, a secondary initiates while a primary still manages the link; Z, either peer combined station initiates. Which mode assignment fits all three traces?",
+    "answers": [
+      "X: ARM; Y: NRM; Z: ABM",
+      "X: NRM; Y: ARM; Z: ABM",
+      "X: NRM; Y: ABM; Z: ARM",
+      "X: ABM; Y: ARM; Z: NRM"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "The traces differ in permission and station roles: NRM is permission-controlled, ARM retains primary management while allowing secondary initiation, and ABM is balanced.",
+    "optionExplanations": [
+      "This reverses the permission distinction between NRM and ARM.",
+      "NRM requires permission, ARM permits secondary initiation, and ABM uses balanced peers.",
+      "ABM is the peer arrangement Z, not the unbalanced arrangement Y.",
+      "NRM is the permission-controlled arrangement X, not balanced peer operation Z."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 20
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 21
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o39-q051",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "HDLC frame structure",
+    "objectiveId": "itcs217-l09-o39",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Use the illustrated HDLC variant with two 8-bit flags, an 8-bit address, an 8-bit control field and a 32-bit FCS. With a 120-byte payload, what is the total frame length, excluding any bit stuffing?",
+    "answers": [
+      "124 bytes",
+      "126 bytes",
+      "128 bytes",
+      "152 bytes"
+    ],
+    "correct": [
+      2
+    ],
+    "explanation": "The two flags contribute two bytes, address and control two more, and the FCS four. The total is 120+8=128 bytes.",
+    "optionExplanations": [
+      "Four bytes accounts for only part of the overhead.",
+      "Six bytes would fit a 16-bit rather than the specified 32-bit FCS.",
+      "The overhead is 1+1+1+1+4=8 bytes; 120+8=128 bytes.",
+      "The 32-bit FCS occupies four bytes, not 32 bytes."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 22
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o46-q052",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Related frame formats",
+    "objectiveId": "itcs217-l09-o46",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "A capture decoder must distinguish two HDLC-like formats. One adds a Protocol field for upper-layer identification; the other adds a Type field. Which pairing is correct?",
+    "answers": [
+      "PPP: Protocol; Cisco HDLC: Type",
+      "PPP: Type; Cisco HDLC: Protocol",
+      "LAPB: Protocol; basic HDLC: Type",
+      "ATM: Protocol; Frame Relay: Type"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "PPP adds a Protocol field, while the compared Cisco HDLC format uses a Type field.",
+    "optionExplanations": [
+      "These are the distinguishing additions shown in the frame comparison.",
+      "This reverses the two named fields.",
+      "The displayed LAPB and basic HDLC formats do not make this pair of additions.",
+      "ATM and Frame Relay have different depicted structures."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 24
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o52-q053",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Addressing and casting",
+    "objectiveId": "itcs217-l09-o52",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Analyze",
+    "prompt": "In the lecture’s routed path, Alice sends to Bob through R1 and R2. Assume no address translation. Which identities remain the datagram’s endpoints while local link addresses change?",
+    "answers": [
+      "The MAC addresses of R1 and R2",
+      "The IP addresses of Alice and Bob",
+      "The MAC addresses of Alice and Bob on every link",
+      "The IP addresses of the current pair of neighboring routers"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "IP source/destination identities describe the end-to-end path. Each link frame uses the relevant local source/destination link addresses.",
+    "optionExplanations": [
+      "Router MAC addresses identify local interfaces, not end-to-end datagram endpoints.",
+      "The datagram retains source Alice IP and destination Bob IP across the illustrated path.",
+      "End-host MAC addresses do not serve as the frame endpoints on all intermediate links.",
+      "Local router neighbors are link endpoints, not replacements for the datagram endpoints."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 27
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 52
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 53
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 54
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o53-q054",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Addressing and casting",
+    "objectiveId": "itcs217-l09-o53",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A service gives several servers the same service destination and delivers each request to just one member of that set. Which delivery pattern does this describe?",
+    "answers": [
+      "Broadcast",
+      "Multicast",
+      "Unicast to every member",
+      "Anycast"
+    ],
+    "correct": [
+      3
+    ],
+    "explanation": "The distinguishing feature is one-to-one-of-many delivery, which the lecture calls anycast.",
+    "optionExplanations": [
+      "Broadcast delivers to everyone in the broadcast domain.",
+      "Multicast targets selected group members rather than one member of the set.",
+      "Sending to every member is inconsistent with delivery to one member.",
+      "Anycast means delivery to one of multiple possible receivers."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 28
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 29
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o64-q055",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Inspecting local configuration",
+    "objectiveId": "itcs217-l09-o64",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A Windows ipconfig /all listing shows IPv4 Address 192.168.43.222, Subnet Mask 255.255.255.0, Default Gateway 192.168.43.1 and DHCP Server 192.168.43.1. Which field identifies the next-hop router for off-network traffic?",
+    "answers": [
+      "IPv4 Address",
+      "Subnet Mask",
+      "Default Gateway",
+      "DHCP Server solely because it allocated the address"
+    ],
+    "correct": [
+      2
+    ],
+    "explanation": "Select the field by its role. The gateway and DHCP server may have the same address in this example, but their configuration functions differ.",
+    "optionExplanations": [
+      "The IPv4 Address field identifies the host interface.",
+      "The mask describes the network boundary rather than naming the next-hop router.",
+      "The Default Gateway field identifies the router used for off-network destinations.",
+      "A DHCP server provides configuration; it need not always be the gateway even if the two values coincide here."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 5
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 34
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o67-q056",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "DHCP",
+    "objectiveId": "itcs217-l09-o67",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A client has received an address proposal from a DHCP server. It now sends the message selecting that proposal, but has not yet received the server’s final confirmation. Which pair describes those next two message roles?",
+    "answers": [
+      "Discover selects; Offer confirms",
+      "Offer selects; Discover confirms",
+      "ACK selects; Request confirms",
+      "Request selects; ACK confirms"
+    ],
+    "correct": [
+      3
+    ],
+    "explanation": "The illustrated initial exchange moves from Discover to Offer to Request to ACK. Proposal receipt is followed by client selection and then server confirmation.",
+    "optionExplanations": [
+      "Discover seeks configuration and Offer proposes it.",
+      "Offer is a server proposal, while Discover is a client solicitation.",
+      "This reverses selection and confirmation.",
+      "The client Request selects the proposal and the server ACK confirms it."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 35
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 36
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o80-q057",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "Switches and routers",
+    "objectiveId": "itcs217-l09-o80",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A switch table maps MAC 02:00:00:00:00:11 to port 2, 02:00:00:00:00:22 to port 5, and 02:00:00:00:00:33 to port 7. A frame arrives on port 2 with destination 02:00:00:00:00:33. Which output port follows from the supplied table?",
+    "answers": [
+      "Port 7",
+      "Port 2",
+      "Port 5",
+      "All listed ports because the destination is known"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "A switch uses the frame’s destination MAC to consult its MAC-to-port table; this lookup yields port 7.",
+    "optionExplanations": [
+      "The destination MAC maps to port 7.",
+      "Port 2 is associated with another MAC and is the ingress port.",
+      "Port 5 maps to the address ending in 22.",
+      "A known unicast mapping supplies the specific destination port."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 45
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o90-q058",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "ARP and RARP",
+    "objectiveId": "itcs217-l09-o90",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Analyze",
+    "prompt": "An ordinary Ethernet/IPv4 ARP request has destination Ethernet MAC FF:FF:FF:FF:FF:FF and target hardware address 00:00:00:00:00:00 in the ARP payload. Why are those fields different?",
+    "answers": [
+      "The zero field makes the Ethernet frame unicast",
+      "The Ethernet destination broadcasts the query; the ARP target MAC is still unknown",
+      "The all-ones field identifies only the DHCP server",
+      "The ARP payload already knows the target MAC and must hide it"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "The outer destination controls delivery of this request; the target hardware field belongs to the query being resolved. Their values serve different purposes.",
+    "optionExplanations": [
+      "Frame delivery is determined by the Ethernet destination, which is broadcast here.",
+      "The broadcast reaches local stations, while zeros represent the unresolved target hardware address in the illustrated request.",
+      "The broadcast MAC addresses the broadcast domain, not a particular DHCP server.",
+      "ARP is asking for the mapping, so the target MAC is not already known."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 49
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 56
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o95-q059",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "ARP and RARP",
+    "objectiveId": "itcs217-l09-o95",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Analyze",
+    "prompt": "Alice sends through R1 to R2, and Bob is on R2’s directly connected Ethernet LAN. No relevant ARP mapping is cached. Who must resolve Bob’s IP to Bob’s MAC for the final hop?",
+    "answers": [
+      "Alice before sending to R1",
+      "R1 before sending to R2",
+      "R2 on Bob’s LAN",
+      "Every router must resolve Bob’s MAC on its own LAN"
+    ],
+    "correct": [
+      2
+    ],
+    "explanation": "Each hop resolves its own local next-hop address. Bob’s MAC is needed by R2 for final-link delivery, not by Alice or R1 for their earlier links.",
+    "optionExplanations": [
+      "Alice needs the local gateway MAC for her first hop.",
+      "R1 needs the next-hop router’s link address rather than Bob’s remote MAC.",
+      "R2 is the final router on Bob’s LAN and needs Bob’s MAC to construct the last Ethernet frame.",
+      "A remote host MAC is not the local next-hop address for every router."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 52
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 53
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 54
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  },
+  {
+    "id": "itcs217-l09-o98-q060",
+    "subject": "ITCS217",
+    "lecture": "Lecture 9",
+    "topic": "ARP and RARP",
+    "objectiveId": "itcs217-l09-o98",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "An older booting station knows its own MAC address but needs its assigned IP address. Which choice distinguishes that task from ordinary ARP?",
+    "answers": [
+      "RARP asks a server for the station’s IP using its known MAC; ARP resolves a known local next-hop IP to a MAC",
+      "ARP and RARP both primarily allocate complete DHCP configuration",
+      "ARP finds the station’s own IP from its MAC; RARP finds the gateway MAC from its IP",
+      "RARP chooses an Internet route while ARP identifies UDP ports"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "RARP supports an own-IP lookup based on a known hardware address. Ordinary ARP resolves a known local next-hop protocol address to its hardware address.",
+    "optionExplanations": [
+      "This matches the complementary directions described for RARP and ARP.",
+      "DHCP provides broader configuration; these are address-resolution purposes.",
+      "This swaps the roles of the two protocols.",
+      "Route selection and UDP port identification are different functions."
+    ],
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 48
+      },
+      {
+        "file": "ITCS217-Lecture 9-Intro-to Data-Link-Layer-2026.pdf",
+        "page": 58
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l09-level-4"
+    ]
+  }
+]

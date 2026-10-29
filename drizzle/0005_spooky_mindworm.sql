@@ -1,0 +1,1 @@
+ALTER TABLE `study_sets` ADD `plan` text DEFAULT '{}' NOT NULL;

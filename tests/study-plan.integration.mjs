@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+const base='http://127.0.0.1:5187';
+const call=(path,options={})=>fetch(base+path,{...options,headers:{Cookie:'__sites_local_auth=1',...options.headers}});
+const json=(method,body)=>({method,headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+let r=await call('/api/study-sets',json('POST',{title:'Plan test '+crypto.randomUUID()}));assert.equal(r.status,201);const set=(await r.json()).set;
+const endpoint='/api/study-sets/'+set.id+'/plan';
+assert.equal((await fetch(base+endpoint)).status,401);
+assert.equal((await call('/api/study-sets/not-owned/plan')).status,404);
+r=await call(endpoint);let data=await r.json();assert.deepEqual(data.topics,[]);assert.deepEqual(data.plan.covered,[]);
+async function upload(name,text){const f=new FormData();f.set('setId',set.id);f.set('file',new File([text],name));f.set('pages',JSON.stringify([{number:1,label:'Page 1',text}]));f.set('options',JSON.stringify({notes:'summarized',split:'headings'}));const response=await call('/api/materials',{method:'POST',body:f});assert.equal(response.status,201,await response.clone().text());return(await response.json()).material;}
+await upload('Lecture 1.txt','# Boolean logic\nBoolean logic uses true and false values and combines propositions.\n# Conjunction\nConjunction is true when both operands are true.');
+r=await call(endpoint);data=await r.json();assert.equal(data.topics.length,2);assert.ok(data.topics.every(t=>t.sources[0].text));assert.deepEqual(data.plan.covered,[]);
+const first=data.topics[0].id;
+const plan={...data.plan,mode:'cram',sort:'exam',priorities:{[first]:'essential'},covered:[first],customOrder:[first],recalls:{[first]:'My recall response'},exams:[{id:'exam1',title:'Midterm',date:'2026-11-01',topicIds:[first]}],syllabus:[{id:'week1',title:'Week 1',topicIds:[first]}]};
+r=await call(endpoint,json('PUT',plan));assert.equal(r.status,200);
+r=await call(endpoint);data=await r.json();assert.deepEqual(data.plan,plan);
+assert.equal((await call(endpoint,json('PUT',{...plan,mode:'invalid'}))).status,400);
+assert.equal((await call(endpoint,json('PUT',{...plan,mastered:[first]}))).status,400);
+assert.equal((await call(endpoint,{...json('PUT',plan),headers:{'Content-Type':'application/json',Origin:'https://other.example'}})).status,403);
+await upload('Lecture 2.txt','# Boolean logic\nAn additional explanation of Boolean logic in a second source.\n# Simulation\nSimulation tests how a circuit behaves before it is manufactured.');
+r=await call(endpoint);data=await r.json();assert.equal(data.topics.length,3);assert.equal(data.topics.find(t=>t.id===first).sources.length,2);assert.deepEqual(data.plan,plan);
+r=await call('/api/study-sets/'+set.id,json('PATCH',{title:'Renamed plan test',description:'Updated',color:'mint'}));assert.equal(r.status,200);
+r=await call(endpoint);assert.deepEqual((await r.json()).plan,plan);
+console.log('PASS: owner-scoped plans, automatic topic updates, exact-heading consolidation, retained progress/preferences/recall/exam/syllabus data, and validation without fabricated mastery.');
