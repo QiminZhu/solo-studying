@@ -6,39 +6,24 @@ import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/csr/ArrowRight";
 import { PlatformShell } from "../platform-shell";
-import { LectureQuizLibrary } from "../lecture-quiz-library";
 import { lectureFolder } from "@/lib/quiz-navigation";
 import {
   createAttempt,
   parseAttempts,
   attemptSummary,
 } from "@/lib/quiz-v3/attempt";
-import {
-  importBank,
-  quizBundleSchema,
-  responseUnits,
-  workloadIssues,
-  type QuizBundle,
-} from "@/lib/quiz-v3/contract";
+import type { QuizBundle } from "@/lib/quiz-v3/contract";
 import { lecture9Quizzes } from "@/lib/quiz-v3/lecture9";
 import {
   attemptsSnapshot,
-  banksSnapshot,
-  parseAuthorBanks,
   resetQuiz,
   saveAttempt,
-  saveAuthorBank,
   serverSnapshot,
   subscribe,
 } from "@/lib/quiz-v3/store";
 
 export function QuizSelection() {
   const raw = useSyncExternalStore(subscribe, attemptsSnapshot, serverSnapshot);
-  const banksRaw = useSyncExternalStore(
-    subscribe,
-    banksSnapshot,
-    serverSnapshot,
-  );
   const ready = useSyncExternalStore(
     subscribe,
     () => true,
@@ -48,7 +33,7 @@ export function QuizSelection() {
     try {
       return {
         attempts: parseAttempts(raw),
-        bundles: [...lecture9Quizzes, ...parseAuthorBanks(banksRaw)],
+        bundles: lecture9Quizzes,
         error: "",
       };
     } catch (e) {
@@ -59,20 +44,12 @@ export function QuizSelection() {
           e instanceof Error ? e.message : "Saved quizzes are unavailable.",
       };
     }
-  }, [raw, banksRaw]);
+  }, [raw]);
   const router = useRouter();
   const [error, setError] = useState("");
   const [resetId, setResetId] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [deferred, setDeferred] = useState(false);
-  const [imported, setImported] = useState<QuizBundle["questions"]>([]);
-  const [reading, setReading] = useState(false);
-  const [importNotice, setImportNotice] = useState("");
   const resetDialog = useRef<HTMLDialogElement>(null);
   const resetTrigger = useRef<HTMLButtonElement | null>(null);
-  const fileVersion = useRef(0);
-  const workload = workloadIssues(imported);
 
   function start(bundle: QuizBundle, practiceOf?: string) {
     try {
@@ -273,154 +250,6 @@ export function QuizSelection() {
             );
           })}
         </section>
-        <LectureQuizLibrary />
-        <details className="v3-author-panel">
-          <summary>Author tools: import a six-format JSON bank</summary>
-          <p>
-            Imports create an unverified author preview, never a published
-            Lecture 9 quiz. Existing question IDs, versions, keys, explanations,
-            and source references are preserved.
-          </p>
-          <p>
-            <a href="/quiz-v3-example.json" download>
-              Download the labeled v3 fixture example
-            </a>{" "}
-            ·{" "}
-            <a href="/quiz-v3-contract.html">
-              Read the import and workload guide
-            </a>
-          </p>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (!imported.length || workload.length || reading) return;
-              try {
-                const id = `author-${crypto.randomUUID()}`;
-                const bundle = quizBundleSchema.parse({
-                  quiz: {
-                    id,
-                    title,
-                    description,
-                    bankId: id,
-                    bankVersion: 1,
-                    questionIds: imported.map((q) => q.id),
-                    feedbackMode: deferred ? "deferred" : "immediate",
-                    contentKind: "draft",
-                    revisionGuidance: {},
-                  },
-                  questions: imported,
-                });
-                saveAuthorBank(bundle);
-                setImported([]);
-                setImportNotice(`“${title}” saved as an author preview.`);
-                setTitle("");
-                setError("");
-              } catch (e) {
-                setError(
-                  e instanceof Error ? e.message : "Import could not be saved.",
-                );
-              }
-            }}
-          >
-            <label className="carbon-field">
-              <span>Quiz title</span>
-              <input
-                value={title}
-                maxLength={120}
-                required
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </label>
-            <label className="carbon-field">
-              <span>Description (optional)</span>
-              <textarea
-                value={description}
-                maxLength={1000}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </label>
-            <label className="carbon-field">
-              <span>BankQuestion v3 JSON array (maximum 1 MB)</span>
-              <input
-                type="file"
-                accept=".json,application/json"
-                onChange={async (e) => {
-                  const version = ++fileVersion.current;
-                  const file = e.target.files?.[0];
-                  setImported([]);
-                  setImportNotice("");
-                  setError("");
-                  if (!file) return;
-                  if (file.size > 1_000_000) {
-                    setError("Use a JSON file smaller than 1 MB.");
-                    return;
-                  }
-                  setReading(true);
-                  try {
-                    const questions = importBank(await file.text());
-                    if (version === fileVersion.current) setImported(questions);
-                  } catch (e) {
-                    if (version === fileVersion.current)
-                      setError(
-                        e instanceof Error
-                          ? e.message
-                          : "This file could not be read.",
-                      );
-                  } finally {
-                    if (version === fileVersion.current) setReading(false);
-                  }
-                }}
-              />
-            </label>
-            <label className="check-row">
-              <input
-                type="checkbox"
-                checked={deferred}
-                onChange={(e) => setDeferred(e.target.checked)}
-              />
-              Reveal feedback only after final submission
-            </label>
-            <p className="carbon-helper">
-              Default authoring policy: 20 questions, 50 response units; 4
-              matching pairs, 6 ordering items, 3 blanks, 6 choice options.
-              These configurable limits are workload policies, not proven
-              learning thresholds.
-            </p>
-            <div role="status">
-              {reading
-                ? "Reading bank…"
-                : imported.length
-                  ? `${imported.length} questions · ${imported.reduce((n, q) => n + responseUnits(q), 0)} response units`
-                  : importNotice || "No bank loaded."}
-            </div>
-            {workload.length > 0 && (
-              <div className="carbon-error" role="alert">
-                <p>
-                  Split this quiz or have the author explicitly revise the
-                  workload policy:
-                </p>
-                <ul>
-                  {workload.map((issue) => (
-                    <li key={issue}>{issue}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <button
-              className="carbon-button primary"
-              disabled={
-                !ready ||
-                reading ||
-                !title.trim() ||
-                !imported.length ||
-                workload.length > 0 ||
-                Boolean(library.error)
-              }
-            >
-              Save author preview
-            </button>
-          </form>
-        </details>
         <dialog
           ref={resetDialog}
           className="carbon-dialog"

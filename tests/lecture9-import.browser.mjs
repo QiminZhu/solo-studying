@@ -12,6 +12,10 @@ async function overflow(){assert.ok(await page.evaluate(()=>document.documentEle
 try {
  for(const bundle of lecture9Quizzes){
   await page.goto(origin+'/subjects/itcs217/lectures/lecture-9');
+  assert.equal(await page.getByRole('button',{name:'Create quiz',exact:true}).count(),0);
+  assert.equal(await page.getByText('Author tools: import a six-format JSON bank',{exact:true}).count(),0);
+  assert.equal(await page.getByRole('heading',{name:'Original and saved quizzes',exact:true}).count(),0);
+  assert.equal(await page.getByRole('article').count(),4);
   const card=page.getByRole('article').filter({has:page.getByRole('heading',{name:bundle.quiz.title,exact:true})});
   await card.getByRole('button',{name:'Start quiz',exact:true}).click();
   await page.waitForURL(url=>url.pathname.replace(/\/$/, '').endsWith('/quizzes/run') && url.searchParams.has('attempt'));
