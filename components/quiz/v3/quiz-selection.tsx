@@ -6,14 +6,13 @@ import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/csr/ArrowRight";
 import { PlatformShell } from "../platform-shell";
-import { lectureFolder } from "@/lib/quiz-navigation";
+import { lectureFolders } from "@/lib/quiz-navigation";
 import {
   createAttempt,
   parseAttempts,
   attemptSummary,
 } from "@/lib/quiz-v3/attempt";
 import type { QuizBundle } from "@/lib/quiz-v3/contract";
-import { lecture9Quizzes } from "@/lib/quiz-v3/lecture9";
 import {
   attemptsSnapshot,
   resetQuiz,
@@ -22,7 +21,13 @@ import {
   subscribe,
 } from "@/lib/quiz-v3/store";
 
-export function QuizSelection() {
+export function QuizSelection({
+  lecture,
+  bundles,
+}: {
+  lecture: (typeof lectureFolders)[number];
+  bundles: readonly QuizBundle[];
+}) {
   const raw = useSyncExternalStore(subscribe, attemptsSnapshot, serverSnapshot);
   const ready = useSyncExternalStore(
     subscribe,
@@ -33,18 +38,18 @@ export function QuizSelection() {
     try {
       return {
         attempts: parseAttempts(raw),
-        bundles: lecture9Quizzes,
+        bundles,
         error: "",
       };
     } catch (e) {
       return {
         attempts: [],
-        bundles: lecture9Quizzes,
+        bundles,
         error:
           e instanceof Error ? e.message : "Saved quizzes are unavailable.",
       };
     }
-  }, [raw]);
+  }, [raw, bundles]);
   const router = useRouter();
   const [error, setError] = useState("");
   const [resetId, setResetId] = useState("");
@@ -75,8 +80,8 @@ export function QuizSelection() {
         <div className="page-context">
           <nav aria-label="Breadcrumb">
             <Link href="/subjects">Subjects</Link> /{" "}
-            <Link href={lectureFolder.subjectHref}>ITCS217</Link> /{" "}
-            <span aria-current="page">{lectureFolder.title}</span>
+            <Link href={lecture.subjectHref}>ITCS217</Link> /{" "}
+            <span aria-current="page">{lecture.title}</span>
           </nav>
           <span className="neutral-status">
             Guest access · saved on this device
@@ -84,14 +89,17 @@ export function QuizSelection() {
         </div>
         <div className="v3-heading">
           <p className="carbon-label">ITCS217 / Lecture folder</p>
-          <h1>{lectureFolder.title}</h1>
+          <h1>{lecture.title}</h1>
           <p>
-            Choose one of four progressive Lecture 9 quizzes with curated questions.
+            Choose one of four progressive {lecture.title} quizzes with curated
+            questions.
           </p>
         </div>
         <div className="carbon-notice v3-notice">
-          <strong>Lecture 9 publication is pending.</strong> The imported bank retains its supplied review statuses. These quizzes are
-          available as author previews; independent publication evidence has not been supplied.
+          <strong>{lecture.title} publication is pending.</strong> The imported
+          bank retains its supplied review statuses. These quizzes are available
+          as author previews; independent publication evidence has not been
+          supplied.
         </div>
         <p className="carbon-helper">
           Answers, position, checks, and submissions survive refresh in this
@@ -128,25 +136,33 @@ export function QuizSelection() {
             return (
               <article key={quiz.id} className="subject-quiz-card v3-quiz-card">
                 <div
-                  className="v3-monster-placeholder"
-                  aria-label={
+                  className={
                     quiz.iconAsset
-                      ? "Custom monster artwork"
-                      : "Monster artwork placeholder"
+                      ? "v3-eye-frame"
+                      : "v3-eye-frame v3-eye-frame-pending"
                   }
                 >
                   {quiz.iconAsset ? (
-                    <Image src={quiz.iconAsset} width={80} height={80} alt="" />
+                    <Image
+                      src={quiz.iconAsset}
+                      alt=""
+                      fill
+                      sizes="(max-width: 600px) 100vw, 33vw"
+                      style={{
+                        objectFit: "cover",
+                        objectPosition: "center 42%",
+                      }}
+                    />
                   ) : (
-                    <span>Artwork pending</span>
+                    <p className="v3-eye-pending">Artwork pending</p>
                   )}
+                  <h2 className="v3-eye-title">{quiz.title}</h2>
                 </div>
                 <p className="carbon-label">
                   {quiz.contentKind === "fixture"
                     ? "Software fixture · not lecture content"
                     : "Author preview · unverified"}
                 </p>
-                <h2>{quiz.title}</h2>
                 <p>{quiz.description}</p>
                 <p>
                   {questions.length}{" "}

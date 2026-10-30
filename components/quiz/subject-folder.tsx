@@ -3,7 +3,7 @@ import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import { FolderOpenIcon } from "@phosphor-icons/react/dist/ssr/FolderOpen";
 import { PlatformShell } from "./platform-shell";
 import { subjectFolder } from "@/lib/subject-quizzes";
-import { lectureFolder } from "@/lib/quiz-navigation";
+import { lectureFolders } from "@/lib/quiz-navigation";
 
 export function SubjectFolder() {
   return (
@@ -34,25 +34,25 @@ export function SubjectFolder() {
         <section aria-labelledby="lectures-heading">
           <div className="subject-quizzes-title">
             <h2 id="lectures-heading">Lectures</h2>
-            <span>1 lecture</span>
+            <span>{lectureFolders.length} lectures</span>
           </div>
           <div className="subject-quiz-grid">
-            <Link
-              href={lectureFolder.href}
-              className="subject-folder-card"
-              aria-label="Open Lecture 9"
-            >
-              <FolderOpenIcon size={32} aria-hidden="true" />
-              <h3>{lectureFolder.title}</h3>
-              <p>
-                Quiz collection, original test questions, and your saved
-                quizzes.
-              </p>
-              <span>
-                Open lecture folder{" "}
-                <ArrowRightIcon size={16} aria-hidden="true" />
-              </span>
-            </Link>
+            {lectureFolders.map((folder) => (
+              <Link
+                key={folder.id}
+                href={folder.href}
+                className="subject-folder-card"
+                aria-label={`Open ${folder.title}`}
+              >
+                <FolderOpenIcon size={32} aria-hidden="true" />
+                <h3>{folder.title}</h3>
+                <p>{folder.summary}</p>
+                <span>
+                  Open lecture folder{" "}
+                  <ArrowRightIcon size={16} aria-hidden="true" />
+                </span>
+              </Link>
+            ))}
           </div>
         </section>
       </main>

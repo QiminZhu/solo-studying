@@ -45,7 +45,10 @@ async function open(title) {
     .first()
     .click();
   await page.waitForURL((url) => url.pathname.replace(/\/$/, "") === "/quizzes/run");
-  await page.getByRole("heading", { name: title, exact: true }).waitFor();
+  await page
+    .getByRole("navigation", { name: "Breadcrumb" })
+    .getByText(title, { exact: true })
+    .waitFor();
 }
 async function next() {
   await page
@@ -55,7 +58,7 @@ async function next() {
 async function check() {
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
   await page
-    .getByRole("region", { name: "Answer feedback", exact: true })
+    .getByRole("region", { name: "Check result", exact: true })
     .waitFor();
 }
 async function assertNoLeak() {
@@ -152,28 +155,41 @@ try {
   assert.equal(focusStyle.width, "2px");
   await assertNoLeak();
   await check();
-  assert.match(
-    await page
-      .getByRole("region", { name: "Answer feedback", exact: true })
-      .innerText(),
-    /Incorrect · 0 \/ 1 point/,
+  const wrongResult = page.getByRole("region", { name: "Check result", exact: true });
+  assert.match(await wrongResult.innerText(), /Not quite yet/);
+  assert.equal(await page.locator(".runner-answer.correct").count(), 0);
+  assert.equal(
+    await page.getByText("Exact label equality selects A.", { exact: true }).count(),
+    0,
   );
+  assert.equal(await page.getByText("Answer key:", { exact: false }).count(), 0);
+  await page.getByRole("button", { name: "Show the explanation", exact: true }).click();
+  assert.equal(
+    await page.getByText("Exact label equality selects A.", { exact: true }).isVisible(),
+    true,
+  );
+  assert.equal(await page.locator(".runner-answer.correct").count(), 0);
   await page
     .getByRole("button", { name: "Try again", exact: true })
     .click();
   await page.getByRole("radio", { name: "A", exact: true }).check();
   await check();
-  assert.match(await page.locator("body").innerText(), /First check: 0 \/ 1/);
+  assert.match(
+    await page.getByRole("region", { name: "Check result", exact: true }).innerText(),
+    /The first check remains incorrect/,
+  );
+  assert.match(await page.locator("body").innerText(), /First check: incorrect/);
   await next();
   for (const name of ["AD", "AB", "AC"])
     await page.getByRole("checkbox", { name, exact: true }).check();
   await check();
   assert.match(
     await page
-      .getByRole("region", { name: "Answer feedback", exact: true })
+      .getByRole("region", { name: "Check result", exact: true })
       .innerText(),
-    /Correct · 1 \/ 1 point/,
+    /This first check is the assessment/,
   );
+  assert.equal(await page.locator(".runner-answer.correct").count(), 3);
   await next();
   await page.getByRole("radio", { name: "False", exact: true }).check();
   await check();
@@ -207,7 +223,8 @@ try {
     .getByRole("button", { name: "Begin a new practice attempt", exact: true })
     .click();
   await page
-    .getByRole("heading", { name: "The Slimekeeper’s Cellar", exact: true })
+    .getByRole("navigation", { name: "Breadcrumb" })
+    .getByText("The Slimekeeper’s Cellar", { exact: true })
     .waitFor();
   assert.notEqual(page.url(), firstUrl);
   assert.equal(
@@ -254,9 +271,19 @@ try {
   await check();
   assert.match(
     await page
-      .getByRole("region", { name: "Answer feedback", exact: true })
+      .getByRole("region", { name: "Check result", exact: true })
       .innerText(),
-    /Correct · 1 \/ 1 point/,
+    /This first check is the assessment/,
+  );
+  assert.equal(await page.locator(".v3-pair-note.correct").count(), 3);
+  assert.equal(await page.getByText("Answer key:", { exact: false }).count(), 0);
+  assert.equal(
+    await page
+      .getByText("Match identical labels, independently of their presentation order.", {
+        exact: true,
+      })
+      .count(),
+    0,
   );
   await next();
   await page.getByRole("button", { name: "Move 1 up", exact: true }).click();
@@ -267,9 +294,14 @@ try {
   await check();
   assert.match(
     await page
-      .getByRole("region", { name: "Answer feedback", exact: true })
+      .getByRole("region", { name: "Check result", exact: true })
       .innerText(),
-    /Correct · 1 \/ 1 point/,
+    /This first check is the assessment/,
+  );
+  assert.equal(await page.getByText("Answer key:", { exact: false }).count(), 0);
+  assert.equal(
+    await page.getByText("Increasing order is 1, 2, 3.", { exact: true }).count(),
+    0,
   );
   await selection();
   await open("The Golem’s Proving Grounds");
@@ -302,9 +334,19 @@ try {
   await check();
   assert.match(
     await page
-      .getByRole("region", { name: "Answer feedback", exact: true })
+      .getByRole("region", { name: "Check result", exact: true })
       .innerText(),
-    /Correct · 1 \/ 1 point/,
+    /This first check is the assessment/,
+  );
+  assert.equal(await page.getByText("Answer key:", { exact: false }).count(), 0);
+  assert.equal(
+    await page
+      .getByText(
+        "The accepted label is blue sky (or azure); the numeric quotient is 2.50 kg.",
+        { exact: true },
+      )
+      .count(),
+    0,
   );
   await selection();
   await open("The Memory Eater");
@@ -319,9 +361,10 @@ try {
       caret: "initial",
     });
   }
-  await page.getByRole("button", { name: "Hide questions", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "Question navigation", exact: true })
+    .waitFor();
   await noOverflow();
-  await page.getByRole("button", { name: "Show questions", exact: true }).click();
   await page.getByRole("radio", { name: "X", exact: true }).check();
   await next();
   await page.getByRole("checkbox", { name: "ZX", exact: true }).check();

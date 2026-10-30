@@ -13,7 +13,7 @@ await mkdir(stage, { recursive: true });
 for (const entry of ['app', 'components', 'hooks', 'lib', 'vendor', 'db', 'cloudflare-env.d.ts', 'public', 'postcss.config.mjs', 'tsconfig.json', 'package.json']) {
   await cp(path.join(root, entry), path.join(stage, entry), { recursive: true });
 }
-for (const entry of ['api', 'chatgpt-auth.ts', 'dashboard']) {
+for (const entry of ['api', 'chatgpt-auth.ts', 'dashboard', 'preview']) {
   await rm(path.join(stage, 'app', entry), { recursive: true, force: true });
 }
 await symlink(path.join(root, 'node_modules'), path.join(stage, 'node_modules'), 'dir');
@@ -22,6 +22,19 @@ await writeFile(path.join(stage, 'app/page.tsx'), `import { LandingPage } from '
 import './landing.css';
 import '@/components/landing/prototype/landing-prototype.css';
 export default function Page() { return <LandingPage />; }\n`);
+// The runner preview is a dev-only comparison. Keep it out of the guest site.
+await writeFile(path.join(stage, 'app/quizzes/run/page.tsx'), `import { Suspense } from "react";
+import type { Metadata } from "next";
+import { SixFormatRunner } from "@/components/quiz/v3/quiz-runner";
+export const metadata: Metadata = { title: "Quiz attempt — Solo Studying" };
+export default function QuizAttemptPage() {
+  return (
+    <Suspense fallback={<p role="status">Loading quiz…</p>}>
+      <SixFormatRunner />
+    </Suspense>
+  );
+}
+`);
 // Static hosts cannot execute redirects; preserve earlier bookmarks in the browser.
 for (const route of ['create-quiz', 'quizzes', 'dashboard']) {
   await mkdir(path.join(stage, 'app', route), { recursive: true });

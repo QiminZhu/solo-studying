@@ -32,6 +32,7 @@ import {
   canReveal,
   contentIdentity,
   missedGuidance,
+  practicePhase,
   topicScores,
 } from "../lib/quiz-v3/attempt.ts";
 import { lecture9Questions } from "../lib/question-banks/itcs217-lecture9.ts";
@@ -453,6 +454,45 @@ test("an incomplete check is refused and topic results follow the first check", 
   assert.equal(topic?.score, 0);
   assert.equal(attemptSummary(completed).firstScore, 0);
   assert.equal(attemptSummary(completed).score, 1);
+});
+test("a wrong immediate check withholds the key until the current response is correct", () => {
+  const bundle = fixtureQuizzes[0];
+  const question = bundle.questions[0];
+  assert.equal(question.type, "single");
+  let attempt = createAttempt(bundle, "withhold", 100);
+  attempt = updateAttempt(attempt, {
+    type: "answer",
+    questionId: question.id,
+    response: { kind: "choice", selected: [0] },
+  });
+  attempt = updateAttempt(attempt, { type: "check", questionId: question.id });
+  assert.equal(practicePhase(attempt, question.id), "withheld");
+  assert.equal(canReveal(attempt, question.id), true);
+  assert.equal(gradeQuestion(question, attempt.firstResponses[question.id]).score, 0);
+  attempt = updateAttempt(attempt, { type: "retry", questionId: question.id });
+  assert.equal(practicePhase(attempt, question.id), "answering");
+  attempt = updateAttempt(attempt, {
+    type: "answer",
+    questionId: question.id,
+    response: { kind: "choice", selected: [1] },
+  });
+  attempt = updateAttempt(attempt, { type: "check", questionId: question.id });
+  assert.equal(practicePhase(attempt, question.id), "correct");
+  assert.equal(gradeQuestion(question, attempt.answers[question.id]).score, 1);
+  assert.equal(gradeQuestion(question, attempt.firstResponses[question.id]).score, 0);
+  let deferred = createAttempt(fixtureQuizzes[3], "withhold-deferred", 100);
+  const deferredQuestion = deferred.bundle.questions[0];
+  deferred = updateAttempt(deferred, {
+    type: "answer",
+    questionId: deferredQuestion.id,
+    response: { kind: "choice", selected: [0] },
+  });
+  deferred = updateAttempt(deferred, {
+    type: "check",
+    questionId: deferredQuestion.id,
+  });
+  assert.equal(practicePhase(deferred, deferredQuestion.id), "answering");
+  assert.equal(canReveal(deferred, deferredQuestion.id), false);
 });
 test("The Memory Eater permits revision and navigation without any reveal or summary grade before explicit submission", () => {
   const bundle = fixtureQuizzes[3];

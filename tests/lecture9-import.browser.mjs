@@ -36,24 +36,25 @@ try {
     for(const b of q.blanks) await page.getByRole('textbox',{name:`Blank ${b.id}${b.kind==='number'&&b.unit?` (${b.unit})`:''}`,exact:true}).fill(b.kind==='number'?String(b.value):b.acceptedAnswers[0]);
    }
    assert.equal(await page.getByRole('region',{name:'Answer feedback',exact:true}).count(),0);
+   assert.equal(await page.getByRole('region',{name:'Check result',exact:true}).count(),0);
    if(bundle.quiz.feedbackMode==='immediate'){
     await page.getByRole('button',{name:'Check answer',exact:true}).click();
-    await page.getByRole('region',{name:'Answer feedback',exact:true}).waitFor();
-    assert.match(await page.getByRole('region',{name:'Answer feedback',exact:true}).innerText(),/Correct · 1 \/ 1 point/);
+    const result=page.getByRole('region',{name:'Check result',exact:true});
+    await result.waitFor();
+    assert.match(await result.innerText(),/This first check is the assessment/);
+    assert.equal(await page.getByText('Answer key:',{exact:false}).count(),0);
+    assert.equal(await page.getByText(q.explanation,{exact:true}).count(),0);
     if(['single','multiple','boolean'].includes(q.type)){
-     const feedback=page.getByRole('region',{name:'Answer feedback',exact:true});
-     assert.equal(await feedback.locator('li.v3-part.correct').count(),q.correct.length);
-     assert.equal(await feedback.locator('li.v3-part.incorrect').count(),0);
-     const details=feedback.locator('details.v3-option-explanations');
-     if(q.answers.length>q.correct.length){
-      assert.equal(await details.getAttribute('open'),null);
-      const other=q.answers.findIndex((_,i)=>!q.correct.includes(i));
-      assert.equal(await details.getByText(q.optionExplanations[other],{exact:true}).isVisible(),false);
-      await details.locator('summary').focus();await page.keyboard.press('Enter');
-      assert.equal(await details.getByText(q.optionExplanations[other],{exact:true}).isVisible(),true);
-     }
+     assert.equal(await page.locator('.runner-answer.correct').count(),q.correct.length);
+     const other=q.answers.findIndex((_,i)=>!q.correct.includes(i));
+     if(other>=0) assert.equal(await page.getByText(q.optionExplanations[other],{exact:true}).count(),0);
     }
-
+    await page.getByRole('button',{name:'Show the explanation',exact:true}).click();
+    assert.equal(await page.getByRole('region',{name:'Explanation',exact:true}).getByText(q.explanation,{exact:true}).isVisible(),true);
+    if(['single','multiple','boolean'].includes(q.type)){
+     const other=q.answers.findIndex((_,i)=>!q.correct.includes(i));
+     if(other>=0) assert.equal(await page.getByText(q.optionExplanations[other],{exact:true}).count(),0);
+    }
    } else {
     assert.equal(await page.getByRole('button',{name:'Check answer',exact:true}).count(),0);
     assert.ok(!(await page.locator('body').innerText()).includes(q.explanation));

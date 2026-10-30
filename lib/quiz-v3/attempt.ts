@@ -179,6 +179,18 @@ export function canReveal(a: Attempt, id: string): boolean {
     (a.bundle.quiz.feedbackMode === "immediate" && a.checked.includes(id))
   );
 }
+export type PracticePhase = "answering" | "withheld" | "correct";
+/** A wrong immediate check stays recorded, but the answer key waits until the current response is correct. */
+export function practicePhase(a: Attempt, id: string): PracticePhase {
+  if (a.submittedAt !== null || a.bundle.quiz.feedbackMode !== "immediate")
+    return "answering";
+  if (!a.checked.includes(id)) return "answering";
+  const question = a.bundle.questions.find((item) => item.id === id);
+  if (!question) return "answering";
+  return gradeQuestion(question, a.answers[id]).score === 1
+    ? "correct"
+    : "withheld";
+}
 export function attemptSummary(a: Attempt) {
   const qs = a.bundle.questions;
   return {

@@ -2,24 +2,21 @@
 
 import { ArrowUpIcon } from "@phosphor-icons/react/dist/csr/ArrowUp";
 import { ArrowDownIcon } from "@phosphor-icons/react/dist/csr/ArrowDown";
+import { CheckIcon } from "@phosphor-icons/react/dist/csr/Check";
 import type { BankQuestionV3 } from "@/lib/quiz-v3/contract";
-import {
-  emptyResponse,
-  gradeQuestion,
-  type Response,
-} from "@/lib/quiz-v3/grading";
+import { emptyResponse, type Response } from "@/lib/quiz-v3/grading";
 
 export function ResponseEditor({
   question: q,
   response,
   disabled,
-  revealed = false,
+  markCorrect = false,
   onChange,
 }: {
   question: BankQuestionV3;
   response?: Response;
   disabled: boolean;
-  revealed?: boolean;
+  markCorrect?: boolean;
   onChange: (response: Response) => void;
 }) {
   const r =
@@ -35,35 +32,43 @@ export function ResponseEditor({
             ? "Select all that apply."
             : "Choose one answer."}
         </legend>
-        {q.answers.map((answer, i) => (
-          <label
-            key={i}
-            className={`runner-answer ${r.selected.includes(i) ? "selected" : ""}`}
-          >
-            <input
-              type={q.type === "multiple" ? "checkbox" : "radio"}
-              name={`answer-${q.id}`}
-              checked={r.selected.includes(i)}
-              onChange={() =>
-                onChange({
-                  kind: "choice",
-                  selected:
-                    q.type === "multiple"
-                      ? r.selected.includes(i)
-                        ? r.selected.filter((v) => v !== i)
-                        : [...r.selected, i]
-                      : [i],
-                })
-              }
-            />
-            <span>{answer}</span>
-          </label>
-        ))}
+        {q.answers.map((answer, i) => {
+          const showCorrect =
+            markCorrect && r.selected.includes(i) && q.correct.includes(i);
+          return (
+            <label
+              key={i}
+              className={`runner-answer${showCorrect ? " correct" : r.selected.includes(i) ? " selected" : ""}`}
+            >
+              <input
+                type={q.type === "multiple" ? "checkbox" : "radio"}
+                name={`answer-${q.id}`}
+                checked={r.selected.includes(i)}
+                onChange={() =>
+                  onChange({
+                    kind: "choice",
+                    selected:
+                      q.type === "multiple"
+                        ? r.selected.includes(i)
+                          ? r.selected.filter((v) => v !== i)
+                          : [...r.selected, i]
+                        : [i],
+                  })
+                }
+              />
+              <span>{answer}</span>
+              {showCorrect && (
+                <span className="answer-status">
+                  <CheckIcon size={16} aria-hidden="true" /> Correct
+                </span>
+              )}
+            </label>
+          );
+        })}
       </fieldset>
     );
   if (q.type === "matching" && r.kind === "matching") {
     const matched = Object.keys(r.selected).length;
-    const grade = revealed ? gradeQuestion(q, response) : undefined;
     return (
       <fieldset disabled={disabled} className="v3-responses">
         <legend>Match each item.</legend>
@@ -76,10 +81,6 @@ export function ResponseEditor({
           {matched} of {q.leftItems.length} matched.
         </p>
         {q.leftItems.map((left, i) => {
-          const matchIndex = q.matches.findIndex(
-            ([leftIndex]) => leftIndex === i,
-          );
-          const note = matchIndex >= 0 ? grade?.parts[matchIndex] : undefined;
           return (
             <div key={i} className="carbon-field v3-match-row">
               <span>{left}</span>
@@ -107,16 +108,8 @@ export function ResponseEditor({
                   );
                 })}
               </select>
-              {note && (
-                <p className={`v3-pair-note ${note.status}`}>
-                  {`${
-                    note.status === "correct"
-                      ? "Correct"
-                      : note.status === "incorrect"
-                        ? "Incorrect"
-                        : "Unanswered"
-                  }. ${note.explanation}`}
-                </p>
+              {markCorrect && r.selected[i] !== undefined && (
+                <p className="v3-pair-note correct">Correct</p>
               )}
             </div>
           );

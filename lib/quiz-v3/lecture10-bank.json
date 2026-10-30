@@ -1,0 +1,3254 @@
+[
+  {
+    "id": "l10-l1-q01",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Framing and transparency",
+    "objectiveId": "l10-frame-boundaries",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Why does a data-link protocol mark frame boundaries?",
+    "explanation": "Framing turns the bit stream into identifiable units with recognizable boundaries.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 7
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "To separate identifiable data units in the received bit stream.",
+      "To report how many frames remain unacknowledged.",
+      "To make a corrupted payload valid without retransmission.",
+      "To identify which individual payload bits need correction."
+    ],
+    "optionExplanations": [
+      "Boundaries let the receiver identify where each frame begins and ends.",
+      "Outstanding-frame counts belong to flow/ARQ state rather than frame delimiters.",
+      "Delimiters do not correct damaged payload bits.",
+      "Boundaries identify frames; locating and correcting bit errors is a different task."
+    ],
+    "correct": [
+      0
+    ],
+    "objectiveIds": [
+      "l10-frame-boundaries"
+    ]
+  },
+  {
+    "id": "l10-l1-q02",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Framing and transparency",
+    "objectiveId": "l10-byte-bit",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Which distinction correctly describes byte-oriented and bit-oriented framing?",
+    "explanation": "Character/octet and bit sequences are different framing models; both need a way to distinguish payload from boundaries.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 8
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 9
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 11
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "Byte-oriented framing has no delimiters; bit-oriented framing must use addresses as delimiters.",
+      "Byte-oriented framing treats data as character/octet units; bit-oriented framing treats it as a bit sequence.",
+      "Only byte-oriented framing can carry information from a network layer.",
+      "Bit-oriented framing measures its receive window in individual bits rather than frames."
+    ],
+    "optionExplanations": [
+      "Both can use explicit flags; addresses serve another role.",
+      "The distinction concerns the framing unit and transparency mechanism.",
+      "Both support upper-layer data.",
+      "Bit-oriented framing describes representation and delimiters; its ARQ window is still measured in frames."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-byte-bit"
+    ]
+  },
+  {
+    "id": "l10-l1-q03",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Framing and transparency",
+    "objectiveId": "l10-byte-stuff",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "In the symbolic ESC-prefix example in the lecture, which payload bytes need an added ESC prefix?",
+    "explanation": "The diagram uses ESC FLAG for a literal flag and ESC ESC for a literal escape. This is the lecture symbolic convention, not a claim that PPP uses literal ESC duplication for all octets.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 10
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "Only ordinary ASCII letters.",
+      "A data byte equal to FLAG or ESC.",
+      "Only the first byte of the payload.",
+      "Only the actual opening and closing frame delimiters."
+    ],
+    "optionExplanations": [
+      "Ordinary nonreserved values do not need these prefixes.",
+      "Both symbols must be escaped so they remain literal data.",
+      "Escaping depends on data values, not their position.",
+      "The delimiters retain their control role; reserved values inside data need escaping."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-byte-stuff"
+    ]
+  },
+  {
+    "id": "l10-l1-q04",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Framing and transparency",
+    "objectiveId": "l10-bit-stuff",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Under the five-consecutive-ones bit-stuffing rule, what is inserted into the frame body?",
+    "explanation": "A stuffed zero follows five consecutive ones, including a run beginning the body. External clarification of the slide wording: RFC 1662 section 5.2, https://www.rfc-editor.org/rfc/rfc1662.html#section-5.2 .",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 11
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 12
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "A zero only when a complete 01111110 flag has already appeared in the data.",
+      "A zero after every run of five consecutive ones.",
+      "A one after every run of five consecutive zeros.",
+      "An eight-bit flag after each five data bits."
+    ],
+    "optionExplanations": [
+      "Stuffing acts after five ones, before an accidental flag can form.",
+      "This breaks data patterns that might imitate a flag.",
+      "That is not the transparency rule.",
+      "Flags delimit frames and are not inserted at that interval."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-bit-stuff"
+    ]
+  },
+  {
+    "id": "l10-l1-q05",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Framing and transparency",
+    "objectiveId": "l10-flag",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Remember",
+    "prompt": "Which eight-bit value is the HDLC frame delimiter?",
+    "explanation": "HDLC uses the eight-bit 01111110 flag to identify frame boundaries.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 11
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 63
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "11111111",
+      "01111110",
+      "01111100",
+      "00000000"
+    ],
+    "optionExplanations": [
+      "This is not the HDLC flag.",
+      "This is 0x7E, the flag pattern.",
+      "This has a different number of consecutive ones.",
+      "This is not the delimiter."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-flag"
+    ]
+  },
+  {
+    "id": "l10-l1-q06",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Framing and transparency",
+    "objectiveId": "l10-fcs-purpose",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "A received frame fails its FCS check. What does that check establish?",
+    "explanation": "FCS/CRC detects corruption. Reliable-delivery procedures decide whether and when to retransmit.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 7
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 23
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 64
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "The original payload has already been reconstructed.",
+      "The receiver buffer must be full.",
+      "The receiver has already recovered the original payload from its frame number.",
+      "A transmission error was detected; protocol recovery may require retransmission."
+    ],
+    "optionExplanations": [
+      "A failed check does not reconstruct the original data.",
+      "Corruption and receiver capacity are different issues.",
+      "A sequence number does not reconstruct damaged data.",
+      "FCS detects corruption, while ARQ controls recovery."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-fcs-purpose"
+    ]
+  },
+  {
+    "id": "l10-l1-q07",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Flow control, buffers and state",
+    "objectiveId": "l10-buffer-rate",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Why can a receiver lose correct frames even when every received FCS passes?",
+    "explanation": "Flow control balances arrival and consumption rates so finite receive buffers do not overflow.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 15
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 16
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "A passing FCS means the receiver buffer is empty.",
+      "A correct frame cannot be held in a receive buffer.",
+      "Frames can arrive faster than the receiver processes them, filling its buffer.",
+      "Frame delimiters prevent the receiver from processing payloads."
+    ],
+    "optionExplanations": [
+      "FCS says nothing about available memory.",
+      "Correct frames may be buffered before processing or ordered delivery.",
+      "Capacity overflow can drop frames whose bits are intact.",
+      "Delimiters enable identification, not overflow."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l10-buffer-rate"
+    ]
+  },
+  {
+    "id": "l10-l1-q08",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Flow control, buffers and state",
+    "objectiveId": "l10-send-buffer",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Why does an ARQ sender retain a copy of an outstanding frame?",
+    "explanation": "An outstanding frame remains in the sender buffer until the acknowledgment permits its removal.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 17
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 23
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 36
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "It can release its copy as soon as it has sent the last data bit, before any ACK.",
+      "Retaining the copy guarantees the receiver has already accepted it.",
+      "It compares the saved payload with the returning ACK to reconstruct damaged bits.",
+      "It may need to retransmit the frame before successful acknowledgment."
+    ],
+    "optionExplanations": [
+      "The saved frame remains needed if acknowledgment does not arrive.",
+      "A local copy supplies no evidence of remote acceptance.",
+      "An ACK confirms reception; it is not a replacement payload for bit reconstruction.",
+      "The retained copy supports recovery."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-send-buffer"
+    ]
+  },
+  {
+    "id": "l10-l1-q09",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Flow control, buffers and state",
+    "objectiveId": "l10-flow-error",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Which pair correctly separates flow control from error control?",
+    "explanation": "Flow control concerns sender/receiver rates; error control concerns reliable recovery from damaged or missing frames.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 5
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 15
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 17
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 23
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "Flow control locates frame boundaries; error control identifies the destination station.",
+      "Flow control repairs damaged bits; error control allocates receiver memory.",
+      "Flow control and error control both only locate frame boundaries.",
+      "Flow control limits receiver overload; error control detects loss/corruption and supports recovery."
+    ],
+    "optionExplanations": [
+      "Those functions describe framing and addressing rather than flow/error control.",
+      "The responsibilities are reversed and oversimplified.",
+      "Boundary identification is framing.",
+      "These are distinct but cooperating link functions."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-flow-error"
+    ]
+  },
+  {
+    "id": "l10-l1-q10",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Flow control, buffers and state",
+    "objectiveId": "l10-fsm-event",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "What does an event-triggered FSM transition specify?",
+    "explanation": "An FSM reacts to an event by performing its listed actions and selecting a next state.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 19
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 20
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "An action without any defined destination state.",
+      "A compulsory move to a previously unused state.",
+      "Only the number of payload bytes.",
+      "Actions to perform and the next state, which may equal the current state."
+    ],
+    "optionExplanations": [
+      "A transition includes the resulting state.",
+      "A finite-state protocol may revisit states or self-loop.",
+      "An FSM describes protocol state and reactions.",
+      "A transition can perform actions without changing state."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-fsm-event"
+    ]
+  },
+  {
+    "id": "l10-l1-q11",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Flow control, buffers and state",
+    "objectiveId": "l10-fsm-initial",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "In the lecture FSM notation, an arrow labeled Start enters state Ready from outside the state diagram. What does it identify?",
+    "explanation": "The initial state is the state selected when the machine starts.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 19
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 20
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 21
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "Ready can only be entered after a timeout.",
+      "Ready must be the terminal state.",
+      "Ready is the initial state.",
+      "Ready is a corrupted-frame event."
+    ],
+    "optionExplanations": [
+      "The initial-state arrow does not require a timeout.",
+      "An initial state is not necessarily terminal.",
+      "The entering start arrow identifies where the machine begins.",
+      "Ready names a state, not an event."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l10-fsm-initial"
+    ]
+  },
+  {
+    "id": "l10-l1-q12",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Flow control, buffers and state",
+    "objectiveId": "l10-simple",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "What distinguishes the lecture Simple Protocol model?",
+    "explanation": "The Simple Protocol omits flow/error control; it should not be treated as reliable operation over an arbitrary noisy link.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 18
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 21
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 22
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "It requires cumulative ACKs before every initial transmission.",
+      "It buffers a receive window of out-of-order frames.",
+      "It retransmits every frame after a timer expires.",
+      "It includes neither flow control nor error control."
+    ],
+    "optionExplanations": [
+      "The Simple Protocol has no such ACK-based control.",
+      "That is a more advanced ARQ behavior.",
+      "That introduces error-control machinery absent from the model.",
+      "It represents an idealized simple transfer model."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-simple"
+    ]
+  },
+  {
+    "id": "l10-l1-q13",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Stop-and-Wait ARQ",
+    "objectiveId": "l10-sw-outstanding",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "What limits the sender in Stop-and-Wait ARQ?",
+    "explanation": "Stop-and-Wait permits one unacknowledged data frame at a time.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 23
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 24
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "The sender may transmit an unlimited number of new frames during a timeout.",
+      "Exactly five new frames must be sent before any ACK.",
+      "Only one frame may remain outstanding while the sender waits for its ACK.",
+      "The sender must discard its last frame immediately after transmission."
+    ],
+    "optionExplanations": [
+      "Stop-and-Wait has a one-frame outstanding limit.",
+      "That would be a pipelined window, not Stop-and-Wait.",
+      "The sender waits before sending the next new frame.",
+      "It retains a copy until acknowledged."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l10-sw-outstanding"
+    ]
+  },
+  {
+    "id": "l10-l1-q14",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Stop-and-Wait ARQ",
+    "objectiveId": "l10-sw-timeout",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "In the lecture positive-ACK Stop-and-Wait model, the receiver discards a corrupted data frame and sends no ACK. What eventually triggers recovery?",
+    "explanation": "A missing acknowledgment causes the retransmission timer to expire and the sender to resend its retained frame.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 23
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 24
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 28
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "The sender increments its sequence number and sends unrelated new data.",
+      "The receiver automatically corrects every damaged bit.",
+      "The receiver advances its expected sequence number to skip the corrupted frame.",
+      "The sender timeout causes retransmission of its saved frame."
+    ],
+    "optionExplanations": [
+      "It must first recover the outstanding frame.",
+      "The model detects and discards errors instead.",
+      "The stated protocol does not accept or skip the damaged outstanding data.",
+      "Without a valid ACK, the sender timer provides recovery."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-sw-timeout"
+    ]
+  },
+  {
+    "id": "l10-l1-q15",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Stop-and-Wait ARQ",
+    "objectiveId": "l10-sw-sequence",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Why are alternating frame numbers 0 and 1 needed in Stop-and-Wait ARQ?",
+    "explanation": "Alternating sequence numbers support duplicate detection while the one-frame window limits ambiguity.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 26
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 29
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 30
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "To advertise the receiver available buffer capacity.",
+      "To allow two different new frames to remain outstanding.",
+      "To guarantee that every ACK arrives before a timeout.",
+      "To distinguish a new frame from a retransmitted duplicate."
+    ],
+    "optionExplanations": [
+      "Alternating sequence numbers identify new versus repeated frames, not available memory.",
+      "The outstanding limit remains one.",
+      "Numbering does not control network timing.",
+      "After ACK loss, the same data may arrive again."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-sw-sequence"
+    ]
+  },
+  {
+    "id": "l10-l1-q16",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Stop-and-Wait ARQ",
+    "objectiveId": "l10-sw-ack",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Using the lecture Stop-and-Wait convention, what does ACK 1 mean?",
+    "explanation": "Stop-and-Wait ACK numbers in this lecture indicate the next expected alternating frame number.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 26
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 27
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "The receiver can buffer exactly one additional byte.",
+      "Frame 0 must be retransmitted because it was rejected.",
+      "Frame 1 itself has just been accepted.",
+      "Frame 0 has been accepted and frame 1 is expected next."
+    ],
+    "optionExplanations": [
+      "The ACK number is not a byte-capacity advertisement.",
+      "A valid positive ACK does not request that retransmission.",
+      "That is not the next-expected convention used here.",
+      "The ACK number is the next frame expected."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-sw-ack"
+    ]
+  },
+  {
+    "id": "l10-l1-q17",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Stop-and-Wait ARQ",
+    "objectiveId": "l10-sw-old-ack",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "A Stop-and-Wait sender currently awaits ACK 0 for outstanding frame 1. A delayed ACK 1 from the preceding successful frame 0 arrives. What should the sender do?",
+    "explanation": "Frame and ACK numbering let the sender reject an old ACK that does not confirm the currently outstanding frame.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 26
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 30
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "Declare that sequence numbering has stopped alternating.",
+      "Ignore that old ACK and continue waiting for the ACK of frame 1.",
+      "Reset the connection because every delayed ACK proves the data bits are corrupt.",
+      "Treat ACK 1 as fresh confirmation of frame 1."
+    ],
+    "optionExplanations": [
+      "A delayed ACK does not change the sequence rule.",
+      "ACK 1 acknowledges the preceding frame 0 under this convention.",
+      "Delay alone is not evidence of payload corruption and does not require this reset.",
+      "ACK 0 would acknowledge frame 1 here."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-sw-old-ack"
+    ]
+  },
+  {
+    "id": "l10-l1-q18",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-piggyback",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "What makes an acknowledgment piggybacked?",
+    "explanation": "Combining reverse data and ACK information reduces separate control-frame overhead.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 31
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 32
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "It replaces all sequence numbers with receiver addresses.",
+      "It merges several ACK-only frames into one ACK-only frame.",
+      "It travels in a frame that also carries data in the reverse direction.",
+      "It is transmitted as an empty standalone frame every time."
+    ],
+    "optionExplanations": [
+      "The functions of sequence numbering and addressing remain distinct.",
+      "Combining ACK-only traffic alone is not attaching an ACK to reverse data.",
+      "The reverse data frame also carries acknowledgment information.",
+      "A standalone ACK carries no reverse user data."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l10-piggyback"
+    ]
+  },
+  {
+    "id": "l10-l1-q19",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-pipeline",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Which behavior demonstrates pipelining?",
+    "explanation": "GBN and SR allow multiple outstanding frames; Stop-and-Wait does not pipeline data frames.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 33
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 34
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 48
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "Sending several frames while earlier frames still await acknowledgments.",
+      "Sending reverse-direction user data together with an ACK while keeping only one frame outstanding.",
+      "Waiting for an ACK before every new frame.",
+      "Repeating the same frame forever without accepting any ACK."
+    ],
+    "optionExplanations": [
+      "Several frames are in flight before their ACKs return.",
+      "This is piggybacking; it does not itself establish multiple outstanding frames.",
+      "That describes the Stop-and-Wait restriction.",
+      "Retransmission without progress is not useful pipelining."
+    ],
+    "correct": [
+      0
+    ],
+    "objectiveIds": [
+      "l10-pipeline"
+    ]
+  },
+  {
+    "id": "l10-l1-q20",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-gbn-receive",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "What does a conventional Go-Back-N receiver do with a valid but out-of-order frame?",
+    "explanation": "GBN simplifies its receiver by discarding out-of-order data frames.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 37
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 43
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 45
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "It advances the expected number past the missing frame and acknowledges that frame as accepted.",
+      "It always buffers the frame for later in-order delivery.",
+      "It discards the frame because its receive window accepts only the next expected frame.",
+      "It immediately delivers the frame past the missing earlier frame."
+    ],
+    "optionExplanations": [
+      "A conventional GBN receiver does not skip a gap in its accepted sequence.",
+      "That is the contrasting Selective Repeat behavior.",
+      "The receive window has size one.",
+      "Conventional GBN preserves in-order acceptance."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l10-gbn-receive"
+    ]
+  },
+  {
+    "id": "l10-l1-q21",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-gbn-ack-loss",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "A GBN sender transmitted frames 0,1,2. ACK 1 is lost, but valid cumulative ACK 3 arrives before the oldest outstanding timer expires. There is no wraparound. What follows?",
+    "explanation": "A later cumulative ACK can make an earlier ACK loss harmless if it arrives before timeout.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 39
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 44
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "Frames 0,1,2 are acknowledged without retransmitting them.",
+      "Only frame 3 is acknowledged.",
+      "Frame 0 must be resent solely because ACK 1 was lost.",
+      "The receiver must reset both sequence spaces to zero."
+    ],
+    "optionExplanations": [
+      "The later cumulative ACK covers the earlier missing acknowledgment.",
+      "GBN ACK 3 means frame 3 is expected next, not already received.",
+      "ACK 3 already confirms the entire consecutive prefix through 2.",
+      "A lost earlier ACK does not require a connection reset."
+    ],
+    "correct": [
+      0
+    ],
+    "objectiveIds": [
+      "l10-gbn-ack-loss"
+    ]
+  },
+  {
+    "id": "l10-l1-q22",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-gbn-tradeoff",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Why can Go-Back-N waste bandwidth on a lossy link?",
+    "explanation": "Simple receiving reduces receiver complexity but increases repeated transmission after a gap.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 47
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "It requires every receiver to buffer all out-of-order frames.",
+      "One missing frame can lead to retransmission of later outstanding frames too.",
+      "It prohibits more than one outstanding frame for all window settings.",
+      "Its cumulative ACKs can never acknowledge multiple frames."
+    ],
+    "optionExplanations": [
+      "Its receiver discards those frames.",
+      "Later frames may have been received intact but discarded out of order.",
+      "GBN can pipeline multiple frames.",
+      "Cumulative ACKs acknowledge a consecutive prefix."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-gbn-tradeoff"
+    ]
+  },
+  {
+    "id": "l10-l1-q23",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-sw-gbn",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Which Go-Back-N configuration matches the Stop-and-Wait special case described in the lecture?",
+    "explanation": "Stop-and-Wait can be viewed as GBN with one outstanding frame and sequence numbers 0 and 1.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 46
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "A send window equal to the full sequence space.",
+      "No sender timer and no acknowledgments.",
+      "A send window of seven and a receive window of seven.",
+      "A send window of one and two alternating sequence numbers."
+    ],
+    "optionExplanations": [
+      "GBN requires its maximum send window to be smaller than the full sequence space.",
+      "That removes ARQ recovery.",
+      "That is neither the GBN receiver rule nor Stop-and-Wait.",
+      "This reproduces the one-outstanding-frame behavior."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-sw-gbn"
+    ]
+  },
+  {
+    "id": "l10-l1-q24",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Delay, bandwidth-delay product and utilization",
+    "objectiveId": "l10-bdp",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Using the lecture round-trip-delay convention, what does bandwidth times RTT represent?",
+    "explanation": "The bandwidth-delay product measures available bit capacity during the round-trip interval; window payload can be compared with it.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 80
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 81
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "The number of errors that the frame FCS can always correct.",
+      "The number of bits that could be transmitted during one round-trip waiting interval.",
+      "The time needed to serialize one complete data frame.",
+      "The maximum number of frames a receiver can buffer, regardless of frame size."
+    ],
+    "optionExplanations": [
+      "BDP concerns capacity and delay; FCS is for error detection.",
+      "Multiplying bits per second by seconds gives the bit capacity of that interval.",
+      "Serialization delay is frame length divided by bandwidth.",
+      "BDP is measured in bits, not a frame count independent of size."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-bdp"
+    ]
+  },
+  {
+    "id": "l10-l1-q25",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-hdlc-scope",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Which description best fits HDLC?",
+    "explanation": "HDLC combines bit-oriented framing with link-control mechanisms.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 57
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 59
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "A byte-oriented link protocol using ESC prefixes in place of bit stuffing.",
+      "A transport-layer protocol that provides end-to-end process addressing.",
+      "A bit-oriented data-link protocol for point-to-point or multipoint serial links, with duplex operation.",
+      "An ARQ method that never uses flags or sequence numbers."
+    ],
+    "optionExplanations": [
+      "That confuses the byte-oriented transparency example with bit-oriented HDLC.",
+      "HDLC provides link control rather than transport-layer process delivery.",
+      "This matches the lecture protocol scope.",
+      "HDLC uses framing flags and can implement sequence-based ARQ."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l10-hdlc-scope"
+    ]
+  },
+  {
+    "id": "l10-l1-q26",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-connection",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "What differentiates connection-oriented operation from connectionless frame transfer?",
+    "explanation": "Connection establishment and maintained state distinguish connection-oriented operation; this does not imply an entire session must be buffered before any delivery.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 57
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 58
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "Connection-oriented operation prevents all possible transmission errors.",
+      "Connectionless operation requires a full logical setup before every independent frame.",
+      "Only transport-layer protocols can ever use logical connections.",
+      "A logical connection is established before connection-oriented data exchange."
+    ],
+    "optionExplanations": [
+      "Reliability mechanisms recover errors; setup does not eliminate them.",
+      "Independent connectionless frames do not require that setup.",
+      "The lecture explicitly includes data-link examples.",
+      "Setup creates shared link state."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-connection"
+    ]
+  },
+  {
+    "id": "l10-l1-q27",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-nrm",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "In HDLC Normal Response Mode, how are station roles organized?",
+    "explanation": "NRM has primary/secondary roles and can support point-to-point or multipoint operation.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 60
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "The station that most recently sent data always becomes primary.",
+      "Both endpoints must be combined stations on an ABM link.",
+      "Every secondary may act as an unrestricted primary at any time.",
+      "A primary issues commands and a secondary responds under the primary control."
+    ],
+    "optionExplanations": [
+      "NRM station roles are not reassigned automatically after each data frame.",
+      "Combined balanced stations describe ABM.",
+      "That contradicts the NRM role restriction.",
+      "NRM is an unbalanced configuration."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-nrm"
+    ]
+  },
+  {
+    "id": "l10-l1-q28",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-abm",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "What identifies Asynchronous Balanced Mode?",
+    "explanation": "ABM gives both point-to-point peers combined station roles.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 61
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "A mode in which only one endpoint maintains send and receive sequence state.",
+      "A point-to-point link with combined stations that can each issue commands and responses.",
+      "A multipoint arrangement where secondaries only respond to one primary.",
+      "A mode in which both peers must wait for permission from the same primary."
+    ],
+    "optionExplanations": [
+      "Both directions can have their own protocol state in balanced operation.",
+      "The configuration is balanced.",
+      "That describes NRM instead.",
+      "That is incompatible with balanced combined-station roles."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-abm"
+    ]
+  },
+  {
+    "id": "l10-l1-q29",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Flow control, buffers and state",
+    "objectiveId": "l10-layer-services",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Which set contains the data-link services grouped together in the lecture recap?",
+    "explanation": "The recap groups framing, addressing, flow control, error control and media-access control within the data-link layer.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 5
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "End-to-end process delivery, application formatting, media access and name lookup.",
+      "Signal encoding, cable voltage control, IP routing and frame retransmission.",
+      "Framing, IP route selection, flow control and process-port selection.",
+      "Framing, link addressing, flow/error control and media-access coordination."
+    ],
+    "optionExplanations": [
+      "This mixes a link function with transport/application responsibilities.",
+      "Physical signaling and network routing are mixed with one link-control service.",
+      "IP route selection and process-port selection belong to different layer responsibilities.",
+      "These are the responsibilities shown within the data-link layer."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-layer-services"
+    ]
+  },
+  {
+    "id": "l10-l1-q30",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-address-capacity",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Remember",
+    "prompt": "What address-code capacity does the lecture associate with its illustrated one-octet HDLC addressing convention?",
+    "explanation": "The lecture one-octet illustration has 128 address-code patterns. This is not a universal claim that every mode assigns 128 usable stations.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 63
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-1",
+      "lecture:10"
+    ],
+    "answers": [
+      "8",
+      "7",
+      "128",
+      "256"
+    ],
+    "optionExplanations": [
+      "Eight is the number of bits in an octet, not the address-code capacity.",
+      "Seven is the count of address bits in the illustration, not the capacity.",
+      "The illustration uses seven address bits, giving 128 bit patterns.",
+      "This counts eight unrestricted address bits rather than the seven-bit address portion in the illustration."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l10-address-capacity"
+    ]
+  },
+  {
+    "id": "l10-l2-q01",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-information",
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each HDLC field to its main role. Match each left item once. Right options may not be reused; two right options are unused.",
+    "explanation": "Field functions differ even though they cooperate within the same frame.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 63
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 64
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 66
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 70
+      }
+    ],
+    "status": "approved",
+    "version": 3,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "leftItems": [
+      "Information",
+      "Address in a primary NRM command or secondary NRM response",
+      "FCS"
+    ],
+    "rightItems": [
+      "Carries user data or management content.",
+      "Supplies CRC-based error detection.",
+      "Identifies the secondary station: destination in the command, source in the response.",
+      "Identifies the primary station: source in a primary command, destination in a secondary response.",
+      "Supplies a CRC that reconstructs every damaged payload without retransmission."
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "The information field carries content, rather than a check value.",
+      "The same secondary address is used with direction-dependent interpretation.",
+      "The FCS checks for transmission corruption."
+    ],
+    "objectiveIds": [
+      "l10-information",
+      "l10-address-direction",
+      "l10-fcs-purpose"
+    ]
+  },
+  {
+    "id": "l10-l2-q02",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-field-order",
+    "type": "ordering",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Arrange the fields of an HDLC I-frame from first transmitted field to last transmitted field.",
+    "explanation": "The lecture I-frame format is Flag, Address, Control, Information, FCS, Flag.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 62
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 66
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "items": [
+      "Closing flag",
+      "Control",
+      "Information",
+      "Address",
+      "FCS",
+      "Opening flag"
+    ],
+    "correctOrder": [
+      5,
+      3,
+      1,
+      2,
+      4,
+      0
+    ],
+    "stepExplanations": [
+      "Begins the frame boundary.",
+      "Follows the opening flag.",
+      "Follows the address and carries control information.",
+      "Carries user data in this I-frame.",
+      "The error-detection field follows the information.",
+      "Marks the end of this frame."
+    ],
+    "objectiveIds": [
+      "l10-field-order"
+    ]
+  },
+  {
+    "id": "l10-l2-q03",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-gbn-ack",
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match each ARQ observation to its meaning. Use the lecture GBN and individual-ACK SR summaries, rather than the cumulative-ACK SR variant. Match each left item once. Right options may not be reused; one right option is unused.",
+    "explanation": "The ACK convention and retransmission scope must be interpreted together.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 39
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 53
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 54
+      }
+    ],
+    "status": "approved",
+    "version": 3,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "leftItems": [
+      "GBN receives ACK 4, before sequence wraparound.",
+      "SR receives individual ACK 4.",
+      "GBN oldest timer expires with outstanding frames 4, 5, 6.",
+      "SR conceptual timer organization compared with the course implementation."
+    ],
+    "rightItems": [
+      "Frame 4 itself is acknowledged.",
+      "Retransmit frames 4, 5 and 6.",
+      "Frames 0 through 3 are acknowledged; frame 4 is expected.",
+      "Conceptually one timer per outstanding frame; the course may use a single-timer implementation.",
+      "Conceptually one timer covers the whole SR window; the course instead requires a separate timer for every outstanding frame."
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "pairExplanations": [
+      "A GBN ACK identifies the next expected frame.",
+      "An SR individual ACK confirms that particular frame.",
+      "GBN retransmits the oldest frame and later outstanding frames.",
+      "The lecture distinguishes the conceptual per-frame timer model from its single-timer course simplification."
+    ],
+    "objectiveIds": [
+      "l10-gbn-ack",
+      "l10-sr-ack",
+      "l10-gbn-retransmit",
+      "l10-sr-timer"
+    ]
+  },
+  {
+    "id": "l10-l2-q04",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Stop-and-Wait ARQ",
+    "objectiveId": "l10-sw-order",
+    "type": "ordering",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Order the milestones in one successful Stop-and-Wait ARQ cycle. Frame 0 is initially next, no loss occurs, and the sender waits for the returning ACK.",
+    "explanation": "The positive ACK closes the current send-and-wait cycle before a new frame is sent.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 23
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 24
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 26
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 27
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "items": [
+      "Receiver accepts valid frame 0 and emits ACK 1.",
+      "Sender releases the saved frame 0 and becomes ready for new frame 1.",
+      "Sender sends and retains frame 0, starts its timer, and waits.",
+      "Sender receives the valid ACK 1 and stops its timer."
+    ],
+    "correctOrder": [
+      2,
+      0,
+      3,
+      1
+    ],
+    "stepExplanations": [
+      "The sender cannot send the next new frame yet.",
+      "ACK 1 indicates the next expected alternating frame.",
+      "The ACK confirms the outstanding transmission.",
+      "Successful acknowledgment permits progress."
+    ],
+    "objectiveIds": [
+      "l10-sw-order"
+    ]
+  },
+  {
+    "id": "l10-l2-q05",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Selective Repeat",
+    "objectiveId": "l10-sr-ambiguity",
+    "type": "multiple",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Select all correct statements about SR sequence-space and window limits. Assume an m-bit sequence field and equal sending/receiving windows.",
+    "explanation": "For SR, W <= 2^(m-1); the limit addresses sequence-number reuse, not just bit corruption.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 50
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 52
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "answers": [
+      "With m = 3, a window of 7 is safe because GBN permits a send window of 7.",
+      "Keeping a window at most half the sequence space prevents old retransmissions from being accepted as new after wraparound.",
+      "The half-space rule is needed only when FCS checks fail.",
+      "With m = 3, the maximum SR window in either direction is 4 frames."
+    ],
+    "optionExplanations": [
+      "SR accepts a range of sequence numbers, so its ambiguity limit differs from GBN.",
+      "The limit separates old and new sequence-number ranges.",
+      "Old/new ambiguity can occur with intact duplicate frames too.",
+      "Half of the eight-number sequence space is four."
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "objectiveIds": [
+      "l10-sr-ambiguity",
+      "l10-sr-window"
+    ]
+  },
+  {
+    "id": "l10-l2-q06",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-supervisory-codes",
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match the HDLC S-frame subcodes, printed in the lecture table order, to their control actions. Match each left item once. Right options may not be reused; none are unused.",
+    "explanation": "The subcodes distinguish receiver readiness from the two recovery scopes.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 69
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "leftItems": [
+      "00",
+      "01",
+      "10",
+      "11"
+    ],
+    "rightItems": [
+      "SREJ: request retransmission of a particular missing frame.",
+      "RR: acknowledge and indicate readiness.",
+      "REJ: request retransmission from the missing frame onward.",
+      "RNR: acknowledge but indicate a busy receiver."
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "Receiver Ready indicates that the receiver can accept more frames.",
+      "Receiver Not Ready controls sending when capacity is unavailable.",
+      "Reject supports GBN-style group recovery.",
+      "Selective Reject supports selective recovery."
+    ],
+    "objectiveIds": [
+      "l10-supervisory-codes"
+    ]
+  },
+  {
+    "id": "l10-l2-q07",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-frame-roles",
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match these HDLC control functions to the most appropriate frame class. Classify ordinary user-data transfer, standalone supervision and link setup. Match each left item once. Right options may not be reused; none are unused.",
+    "explanation": "These are common roles; the UI unnumbered-information command is an exception to an overly broad claim that no U-frame can carry user information.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 65
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 66
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 68
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 70
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 72
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "leftItems": [
+      "User data accompanied by a piggybacked ACK.",
+      "Standalone RR/RNR/REJ/SREJ flow or error supervision.",
+      "SABM or DISC link-management exchange."
+    ],
+    "rightItems": [
+      "S-frame",
+      "U-frame",
+      "I-frame"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "I-frames carry user data and can also acknowledge reverse traffic.",
+      "S-frames support supervision without user information.",
+      "These unnumbered commands manage the link."
+    ],
+    "objectiveIds": [
+      "l10-frame-roles"
+    ]
+  },
+  {
+    "id": "l10-l2-q08",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-control-length",
+    "type": "multiple",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Select all correct statements about field lengths in the lecture HDLC frame description.",
+    "explanation": "Address, control and FCS fields have distinct permitted sizes.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 63
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 64
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "answers": [
+      "Every HDLC address must contain exactly four octets.",
+      "The CRC-based FCS can occupy two or four octets.",
+      "The address can occupy one or more octets, depending on the addressing convention.",
+      "The control field can occupy one or two octets."
+    ],
+    "optionExplanations": [
+      "That is incompatible with the variable address length described.",
+      "These are the two stated FCS sizes.",
+      "The lecture does not fix all addresses at one octet.",
+      "The lecture gives both control-field lengths."
+    ],
+    "correct": [
+      1,
+      2,
+      3
+    ],
+    "objectiveIds": [
+      "l10-address-length",
+      "l10-control-length",
+      "l10-fcs-length"
+    ]
+  },
+  {
+    "id": "l10-l2-q09",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-u-commands",
+    "type": "matching",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Match common HDLC unnumbered commands/responses to their link-management functions. Match each left item once. Right options may not be reused; none are unused.",
+    "explanation": "Mode-setting commands, unnumbered acknowledgment and disconnect have distinct management roles.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 71
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 72
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 73
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "leftItems": [
+      "SABM",
+      "SNRM",
+      "UA",
+      "DISC"
+    ],
+    "rightItems": [
+      "Request setup so the two peers can each issue commands and responses.",
+      "Request termination of the logical link.",
+      "Confirm acceptance of a link setup or termination command.",
+      "Request setup in which one controlling station directs a responding station."
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "SABM requests balanced-mode setup between combined stations.",
+      "SNRM requests normal-response-mode setup with primary/secondary roles.",
+      "UA confirms management exchanges such as successful setup or disconnect.",
+      "DISC requests link termination."
+    ],
+    "objectiveIds": [
+      "l10-u-commands"
+    ]
+  },
+  {
+    "id": "l10-l2-q10",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-connection-cycle",
+    "type": "ordering",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Order these milestones in the successful ABM connection-and-disconnection example. All five milestones occur exactly once; each listed response is the immediate reply to its preceding management command.",
+    "explanation": "A successful management handshake precedes data transfer, and a second management handshake closes the link.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 73
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "items": [
+      "A and B exchange information frames.",
+      "A sends SABM to B.",
+      "A sends DISC to B.",
+      "B sends UA accepting the setup.",
+      "B sends UA accepting the disconnect."
+    ],
+    "correctOrder": [
+      1,
+      3,
+      0,
+      2,
+      4
+    ],
+    "stepExplanations": [
+      "A requests ABM setup.",
+      "The unnumbered acknowledgment confirms connection establishment.",
+      "Data transfer follows successful setup.",
+      "The disconnect command starts teardown.",
+      "This response completes teardown."
+    ],
+    "objectiveIds": [
+      "l10-connection-cycle"
+    ]
+  },
+  {
+    "id": "l10-l2-q11",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-control-prefix",
+    "type": "multiple",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Select all correct interpretations of these HDLC control-field layouts. Prefix bits are printed in first-transmitted-bit order; no constant value for P/F is assumed.",
+    "explanation": "Bit-order context matters. The class prefix and P/F field have different purposes; no binary poll/final shortcut is assumed.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 67
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 68
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 70
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 71
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "answers": [
+      "A basic U-frame begins 11, with two function-code bits before P/F and three after P/F.",
+      "A first type bit 0 identifies an I-frame.",
+      "P/F is the payload FCS and its value determines whether CRC checking is enabled.",
+      "A first type-bit pair 10 identifies an S-frame.",
+      "P/F denotes the poll/final field."
+    ],
+    "optionExplanations": [
+      "The U-frame control layout splits the management code around P/F.",
+      "The I-frame layout begins with zero.",
+      "P/F means poll/final; the FCS is a different field.",
+      "The supervisory layout begins with one then zero.",
+      "This is the role of that control field; the slide binary-value shortcut is not used."
+    ],
+    "correct": [
+      0,
+      1,
+      3,
+      4
+    ],
+    "objectiveIds": [
+      "l10-control-prefix",
+      "l10-u-structure",
+      "l10-pf"
+    ]
+  },
+  {
+    "id": "l10-l2-q12",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Delay, bandwidth-delay product and utilization",
+    "objectiveId": "l10-capacity-effect",
+    "type": "multiple",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "prompt": "Select all correct relationships for the lecture error-free utilization approximation, with frame length fixed and operation below 100% utilization.",
+    "explanation": "Useful utilization depends on window payload relative to bandwidth times RTT; retransmissions add overhead.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 47
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 80
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 81
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 82
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-2",
+      "lecture:10"
+    ],
+    "answers": [
+      "Increasing bandwidth while keeping RTT and window unchanged increases the window needed for the same utilization.",
+      "Increasing RTT while keeping bandwidth and window unchanged reduces utilization.",
+      "More retransmitted data necessarily increases useful-payload utilization.",
+      "Increasing the usable send window increases the amount sent while waiting for ACKs."
+    ],
+    "optionExplanations": [
+      "More bit capacity is available during the same wait.",
+      "The same window fills a smaller fraction of a longer bandwidth-delay interval.",
+      "Repeated payload consumes capacity without adding new useful delivery.",
+      "More outstanding payload can occupy the waiting interval."
+    ],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "objectiveIds": [
+      "l10-capacity-effect"
+    ]
+  },
+  {
+    "id": "l10-l3-q01",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Framing and transparency",
+    "objectiveId": "l10-bit-unstuff",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Apply the five-consecutive-ones rule in two independent frame-body operations. (a) Stuff original body 11111011111 before transmission. (b) Unstuff received body 0111110010 after real boundary flags have already been removed. Which pair gives the transmitted body for (a) and the recovered original body for (b)?",
+    "explanation": "Both transformations must be correct: add two zeros in (a) and remove the one inserted zero in (b). External clarification of the starting-run rule: https://www.rfc-editor.org/rfc/rfc1662.html#section-5.2 .",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 12
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 13
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-3",
+      "lecture:10"
+    ],
+    "answers": [
+      "(a) 1111100111110; (b) 0111110010",
+      "(a) 1111100111110; (b) 011111010",
+      "(a) 111110111110; (b) 0111110010",
+      "(a) 111110111110; (b) 011111010"
+    ],
+    "optionExplanations": [
+      "Part (a) is right, but (b) incorrectly retains the inserted transparency bit.",
+      "Insert a zero after each five-one run in (a), including the initial run; remove only the stuffed zero after five ones in (b).",
+      "Part (a) misses one insertion, and part (b) retains a stuffed bit.",
+      "Part (b) is right, but (a) omits the extra zero after its initial five-one run."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-bit-stuff",
+      "l10-bit-unstuff"
+    ]
+  },
+  {
+    "id": "l10-l3-q02",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-sequence-space",
+    "type": "fill_blank",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A link uses a 4-bit sequence field, starting at 0. Count the first transmitted frame as transmission 1, and assume all frames are new and accepted. The sequence number of transmission 19 is {{1}}. The maximum GBN sender window is {{2}} frames. The maximum SR sender window (equal to its receiver window) is {{3}} frames. Rounding: none; all answers are integers.",
+    "explanation": "Modulo sequence numbers and permissible window sizes are different quantities.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 36
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 41
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 50
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 52
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 83
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-3",
+      "lecture:10"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 2,
+        "absoluteTolerance": 0,
+        "unit": "sequence number",
+        "rounding": "none",
+        "explanation": "(19 - 1) mod 16 = 2."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 15,
+        "absoluteTolerance": 0,
+        "unit": "frames",
+        "rounding": "none",
+        "explanation": "GBN permits at most 2^4 - 1 = 15 outstanding frames."
+      },
+      {
+        "id": "3",
+        "kind": "number",
+        "value": 8,
+        "absoluteTolerance": 0,
+        "unit": "frames",
+        "rounding": "none",
+        "explanation": "SR permits at most 2^(4-1) = 8 frames in each window."
+      }
+    ],
+    "objectiveIds": [
+      "l10-sequence-space",
+      "l10-gbn-send-window",
+      "l10-sr-window"
+    ]
+  },
+  {
+    "id": "l10-l3-q03",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Delay, bandwidth-delay product and utilization",
+    "objectiveId": "l10-rtt",
+    "type": "fill_blank",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Use the lecture simplified batch model: one-way distance is 1500 m and propagation speed is 500 m/s. Ignore serialization, ACK transmission and processing times. Transfer 1200 data bits in 100-bit frames without loss. Completion includes the final ACK. GBN is explicitly operated in synchronized batches of 3 frames, waiting for the entire batch ACK before the next batch. RTT = {{1}} seconds; Stop-and-Wait completion = {{2}} seconds; this batched GBN completion = {{3}} seconds. Rounding: none.",
+    "explanation": "The explicitly synchronized batch model makes completion time number-of-batches times RTT; this is not an exact formula for every continuously sliding implementation.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 78
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 79
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-3",
+      "lecture:10"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 6,
+        "absoluteTolerance": 0,
+        "unit": "seconds",
+        "rounding": "none",
+        "explanation": "RTT = 2*1500/500 = 6 seconds."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 72,
+        "absoluteTolerance": 0,
+        "unit": "seconds",
+        "rounding": "none",
+        "explanation": "12 frames each require a six-second round-trip cycle: 12*6 = 72."
+      },
+      {
+        "id": "3",
+        "kind": "number",
+        "value": 24,
+        "absoluteTolerance": 0,
+        "unit": "seconds",
+        "rounding": "none",
+        "explanation": "12 frames form four three-frame batches: 4*6 = 24 seconds."
+      }
+    ],
+    "objectiveIds": [
+      "l10-rtt",
+      "l10-sw-duration",
+      "l10-gbn-duration"
+    ]
+  },
+  {
+    "id": "l10-l3-q04",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Delay, bandwidth-delay product and utilization",
+    "objectiveId": "l10-bdp",
+    "type": "fill_blank",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A lossless link has bandwidth 2 Mbps (2,000,000 bits/s), round-trip propagation delay 30 ms and 1500-bit data frames. Use the lecture approximation U = min(1, W*L/(B*RTT)), ignoring serialization time in the denominator, ACK overhead and processing. BDP = {{1}} bits; Stop-and-Wait utilization (W=1) = {{2}} percent; pipelined utilization with W=20 = {{3}} percent. Rounding: none.",
+    "explanation": "Window payload is compared with bandwidth times RTT under the stated lecture approximation.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 80
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 81
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 82
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-3",
+      "lecture:10"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 60000,
+        "absoluteTolerance": 0,
+        "unit": "bits",
+        "rounding": "none",
+        "explanation": "2,000,000*0.030 = 60,000 bits."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 2.5,
+        "absoluteTolerance": 0,
+        "unit": "percent",
+        "rounding": "none",
+        "explanation": "100*1500/60,000 = 2.5 percent."
+      },
+      {
+        "id": "3",
+        "kind": "number",
+        "value": 50,
+        "absoluteTolerance": 0,
+        "unit": "percent",
+        "rounding": "none",
+        "explanation": "100*20*1500/60,000 = 50 percent."
+      }
+    ],
+    "objectiveIds": [
+      "l10-bdp",
+      "l10-sw-utilization",
+      "l10-window-utilization"
+    ]
+  },
+  {
+    "id": "l10-l3-q05",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-gbn-ack",
+    "type": "fill_blank",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Structured GBN trace: m=3, sender window=4, receiver initially expects 0. Before any ACK returns the sender sends frames 0,1,2,3. Frame 0 is accepted; frame 1 is lost; frames 2 and 3 arrive intact but out of order. ACK numbers mean next expected. Before timeout, ACK 1 reaches the sender; no other ACK changes its state. There is no wraparound. The receiver next expected sequence number is {{1}}; the oldest outstanding frame sequence number is {{2}}; the number of frames retransmitted when its GBN timer expires is {{3}}. Rounding: none.",
+    "explanation": "GBN receiver discard and cumulative ACK state explain the grouped retransmission.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 37
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 39
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 43
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 45
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-3",
+      "lecture:10"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 1,
+        "absoluteTolerance": 0,
+        "unit": "sequence number",
+        "rounding": "none",
+        "explanation": "Only frame 0 was accepted, so the receiver still expects 1."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 1,
+        "absoluteTolerance": 0,
+        "unit": "sequence number",
+        "rounding": "none",
+        "explanation": "ACK 1 releases frame 0, leaving frame 1 oldest."
+      },
+      {
+        "id": "3",
+        "kind": "number",
+        "value": 3,
+        "absoluteTolerance": 0,
+        "unit": "frames",
+        "rounding": "none",
+        "explanation": "Frames 1,2,3 remain outstanding, so all three are retransmitted."
+      }
+    ],
+    "objectiveIds": [
+      "l10-gbn-ack",
+      "l10-gbn-receive",
+      "l10-gbn-timer",
+      "l10-gbn-retransmit"
+    ]
+  },
+  {
+    "id": "l10-l3-q06",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Selective Repeat",
+    "objectiveId": "l10-sr-buffer",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Structured SR trace: m=3, both windows=4, receiver initially expects 0. It accepts frame 0, loses frame 1, then receives intact frames 2 and 3 within its window. ACK n individually acknowledges frame n. After NAK 1, retransmitted frame 1 arrives intact. Which delivery sequence follows?",
+    "explanation": "SR retains valid out-of-order data and releases the consecutive run when the missing frame arrives.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 48
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 51
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 54
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 55
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-3",
+      "lecture:10"
+    ],
+    "answers": [
+      "Discard buffered 2 and 3 and demand retransmission of the entire outstanding group.",
+      "Keep 1,2,3 buffered permanently even after all three are intact.",
+      "Deliver 2 and 3 to the network layer before the missing frame 1 arrives.",
+      "Deliver buffered frames 1,2,3 in order after filling the gap; do not request new copies of 2 and 3."
+    ],
+    "optionExplanations": [
+      "That would replace the stated SR behavior with GBN-style recovery.",
+      "There is no remaining sequence gap preventing delivery.",
+      "The stated SR model buffers out-of-order frames for in-order delivery.",
+      "Once frame 1 arrives, the consecutively buffered run becomes deliverable."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-sr-buffer",
+      "l10-receive-buffer"
+    ]
+  },
+  {
+    "id": "l10-l3-q07",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-ns",
+    "type": "fill_blank",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "An HDLC analyzer has decoded a valid I-frame traveling from B to A: N(S)=5 and N(R)=3. Both directions started at sequence 0, and neither has wrapped. N(R) uses next-expected cumulative ACKs. The sequence number of this B-to-A data frame is {{1}}. B next expects A frame {{2}}. The number of A frames acknowledged by this N(R) is {{3}}. Rounding: none.",
+    "explanation": "N(S) refers to data in the current direction; N(R) acknowledges the independent reverse direction.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 67
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 74
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 75
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-3",
+      "lecture:10"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 5,
+        "absoluteTolerance": 0,
+        "unit": "sequence number",
+        "rounding": "none",
+        "explanation": "N(S) numbers the current outgoing data frame from B."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 3,
+        "absoluteTolerance": 0,
+        "unit": "sequence number",
+        "rounding": "none",
+        "explanation": "N(R)=3 says B next expects A frame 3."
+      },
+      {
+        "id": "3",
+        "kind": "number",
+        "value": 3,
+        "absoluteTolerance": 0,
+        "unit": "frames",
+        "rounding": "none",
+        "explanation": "Frames 0,1,2 are acknowledged, giving three A frames."
+      }
+    ],
+    "objectiveIds": [
+      "l10-ns",
+      "l10-hdlc-piggy",
+      "l10-nr"
+    ]
+  },
+  {
+    "id": "l10-l3-q08",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Flow control, buffers and state",
+    "objectiveId": "l10-flow-error",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A dedicated full-duplex link shows zero detected FCS errors. Receiver logs show arrivals averaging 1200 frames/s, processing 800 frames/s, and a filled receive buffer. New frames are dropped. Which action directly addresses the observed cause?",
+    "explanation": "The evidence identifies a rate/capacity mismatch, so receiver-aware flow control is the relevant response.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 15
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 16
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 17
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 47
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-3",
+      "lecture:10"
+    ],
+    "answers": [
+      "Increase the send window without changing the receiver processing rate.",
+      "Limit sending to a rate the receiver can sustain and pause while capacity recovers.",
+      "Replace every correct FCS with a longer one while maintaining the same traffic rate.",
+      "Retransmit every outstanding frame repeatedly before checking receiver readiness."
+    ],
+    "optionExplanations": [
+      "This can increase pressure on the already-full buffer.",
+      "Arrival exceeds processing capacity, so flow control addresses the overload.",
+      "Additional error-detection bits do not remove the measured processing bottleneck.",
+      "Repeated traffic can worsen receiver overload."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-flow-error",
+      "l10-buffer-rate"
+    ]
+  },
+  {
+    "id": "l10-l4-q01",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Framing and transparency",
+    "objectiveId": "l10-byte-stuff",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Synthetic investigation: A byte-oriented link uses the lecture symbolic ESC-prefix convention: payload FLAG is encoded ESC FLAG and payload ESC is encoded ESC ESC. Real frame delimiters remain unescaped. A sender mistakenly transmits an unescaped FLAG inside payload A FLAG ESC B, and the receiver treats it as an early boundary. After that bug is repaired, a fresh Stop-and-Wait frame 0 arrives intact and is delivered once, but ACK 1 is lost. The sender times out and retransmits frame 0 while the receiver expects frame 1. No other fault occurs. Which encoding repair addresses the initial framing fault?",
+    "explanation": "Transparency must preserve the reserved value as data. ARQ handles recovery after frame loss or corruption but does not replace correct framing.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 9
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 10
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 23
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 29
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-1"
+    ],
+    "answers": [
+      "Increase the ARQ send window without changing the bytes.",
+      "Encode the payload as A ESC FLAG ESC ESC B between the unchanged real boundary flags.",
+      "Encode ordinary A and B with ESC but leave the payload FLAG unescaped.",
+      "Delete the real opening and closing flags but leave A FLAG ESC B unchanged."
+    ],
+    "optionExplanations": [
+      "A larger window cannot repair a payload/delimiter ambiguity.",
+      "Escaping the literal payload FLAG prevents it being read as a boundary.",
+      "The reserved FLAG and ESC values require escaping; ordinary letters do not.",
+      "Removing real boundaries does not provide reliable frame identification."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-byte-stuff"
+    ]
+  },
+  {
+    "id": "l10-l4-q02",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Stop-and-Wait ARQ",
+    "objectiveId": "l10-sw-timeout",
+    "type": "multiple",
+    "difficulty": "Hard",
+    "cognitiveLevel": "Analyze",
+    "prompt": "Synthetic investigation: A byte-oriented link uses the lecture symbolic ESC-prefix convention: payload FLAG is encoded ESC FLAG and payload ESC is encoded ESC ESC. Real frame delimiters remain unescaped. A sender mistakenly transmits an unescaped FLAG inside payload A FLAG ESC B, and the receiver treats it as an early boundary. After that bug is repaired, a fresh Stop-and-Wait frame 0 arrives intact and is delivered once, but ACK 1 is lost. The sender times out and retransmits frame 0 while the receiver expects frame 1. No other fault occurs. Select all observations that support the two stated fault diagnoses.",
+    "explanation": "Combine evidence from both ends: a sender timeout does not distinguish data loss from ACK loss.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 10
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 23
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 29
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 30
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-1"
+    ],
+    "answers": [
+      "The sender timeout alone proves that the data frame never reached the receiver.",
+      "After the repair, receiver logs record one delivery of frame 0 while the sender logs no received ACK 1 before timeout.",
+      "The receiver treats a payload FLAG as a boundary before it reaches B.",
+      "Because frame 0 was delivered, a subsequent duplicate must be delivered as a new packet."
+    ],
+    "optionExplanations": [
+      "ACK loss can produce the same sender timeout.",
+      "This combination is consistent with successful data receipt followed by ACK loss.",
+      "This directly supports an escaping/transparency failure.",
+      "Alternating sequence numbers let the receiver detect the duplicate instead."
+    ],
+    "correct": [
+      1,
+      2
+    ],
+    "objectiveIds": [
+      "l10-byte-stuff",
+      "l10-sw-timeout"
+    ]
+  },
+  {
+    "id": "l10-l4-q03",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Stop-and-Wait ARQ",
+    "objectiveId": "l10-sw-duplicate",
+    "type": "single",
+    "difficulty": "Hard",
+    "cognitiveLevel": "Apply",
+    "prompt": "Synthetic investigation: A byte-oriented link uses the lecture symbolic ESC-prefix convention: payload FLAG is encoded ESC FLAG and payload ESC is encoded ESC ESC. Real frame delimiters remain unescaped. A sender mistakenly transmits an unescaped FLAG inside payload A FLAG ESC B, and the receiver treats it as an early boundary. After that bug is repaired, a fresh Stop-and-Wait frame 0 arrives intact and is delivered once, but ACK 1 is lost. The sender times out and retransmits frame 0 while the receiver expects frame 1. No other fault occurs. What should the receiver do when the retransmitted frame 0 arrives intact?",
+    "explanation": "A repeated ACK repairs the lost acknowledgment without duplicate data delivery.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 26
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 29
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 30
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-1"
+    ],
+    "answers": [
+      "Discard it and permanently stop sending ACKs.",
+      "Accept it as new frame 1 because every timeout advances receiver state.",
+      "Discard its duplicate payload, send ACK 1 again, and still expect new frame 1.",
+      "Deliver frame 0 again and send ACK 0."
+    ],
+    "optionExplanations": [
+      "Repeating the correct ACK allows the sender to recover from ACK loss.",
+      "A sender timeout does not renumber the received frame or advance the receiver.",
+      "The data was already delivered and the receiver expects the alternate sequence number.",
+      "This duplicates network-layer delivery and uses the wrong next-expected ACK."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l10-sw-duplicate",
+      "l10-sw-sequence"
+    ]
+  },
+  {
+    "id": "l10-l4-q04",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-hdlc-rej",
+    "type": "single",
+    "difficulty": "Hard",
+    "cognitiveLevel": "Apply",
+    "prompt": "Synthetic investigation: An HDLC link uses GBN with m=3 and send window 4. A has sent frames 0,1,2,3. B accepts 0; frame 1 is damaged; intact frames 2 and 3 are discarded as out of order. A receives a REJ supervisory frame with N(R)=1 before timeout; only frame 0 is acknowledged. No wraparound or additional loss occurs. Which immediate recovery matches the trace?",
+    "explanation": "The reject identifies the first missing frame; grouped recovery restores the missing consecutive sequence.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 37
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 39
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 69
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 76
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 77
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-2"
+    ],
+    "answers": [
+      "A retransmits only frame 3 while B delivers frame 2 first.",
+      "A retransmits outstanding frames 1,2,3.",
+      "A retransmits frame 0 only.",
+      "A sends only a fresh frame 4 and treats 1,2,3 as delivered."
+    ],
+    "optionExplanations": [
+      "That cannot fill missing frame 1 and contradicts the stated GBN model.",
+      "REJ 1 requests GBN-style recovery from the missing frame onward.",
+      "Frame 0 has already been acknowledged.",
+      "The gap remains and the receiver discarded the later frames."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-hdlc-rej",
+      "l10-gbn-retransmit"
+    ]
+  },
+  {
+    "id": "l10-l4-q05",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-gbn-receive",
+    "type": "multiple",
+    "difficulty": "Hard",
+    "cognitiveLevel": "Analyze",
+    "prompt": "Synthetic investigation: An HDLC link uses GBN with m=3 and send window 4. A has sent frames 0,1,2,3. B accepts 0; frame 1 is damaged; intact frames 2 and 3 are discarded as out of order. A receives a REJ supervisory frame with N(R)=1 before timeout; only frame 0 is acknowledged. No wraparound or additional loss occurs. Select all observations that distinguish this receiver/recovery behavior from SR buffering with selective recovery.",
+    "explanation": "Receiver storage policy and requested retransmission scope are stronger distinguishing evidence than features common to both protocols.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 37
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 48
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 54
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 69
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 77
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-2"
+    ],
+    "answers": [
+      "B discarded intact frames 2 and 3 while still expecting 1.",
+      "Frame numbers appear in the trace.",
+      "REJ N(R)=1 requests recovery beginning at the missing frame rather than only an individual selected frame.",
+      "The link has an FCS."
+    ],
+    "optionExplanations": [
+      "Conventional GBN does not preserve such out-of-order frames.",
+      "Both protocols use sequence numbers, so numbering alone does not distinguish them.",
+      "The group-recovery scope contrasts with SREJ-style selection.",
+      "Both GBN and SR can use FCS error detection."
+    ],
+    "correct": [
+      0,
+      2
+    ],
+    "objectiveIds": [
+      "l10-gbn-receive",
+      "l10-hdlc-rej"
+    ]
+  },
+  {
+    "id": "l10-l4-q06",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Selective Repeat",
+    "objectiveId": "l10-sr-nak",
+    "type": "fill_blank",
+    "difficulty": "Hard",
+    "cognitiveLevel": "Apply",
+    "prompt": "Consider the explicitly changed version of the preceding synthetic loss pattern: the link now uses SR, m=3, both windows=4, individual ACK n confirms frame n. Frame 0 is delivered, frame 1 is missing, and valid frames 2 and 3 are buffered and individually acknowledged. B sends NAK 1 before the sender timer expires. The number of frames that A should retransmit immediately is {{1}}. After frame 1 arrives intact, the number of frames B can newly deliver in order, counting frame 1 and its consecutive buffered successors, is {{2}}. Rounding: none.",
+    "explanation": "SR both reduces retransmission and retains valid later frames. Changing the ACK convention and storage policy is essential to this comparison.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 50
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 51
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 54
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 55
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-2"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 1,
+        "absoluteTolerance": 0,
+        "unit": "frames",
+        "rounding": "none",
+        "explanation": "NAK 1 requests frame 1 immediately; no wait for timeout or repeat of acknowledged 2 and 3 is needed."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 3,
+        "absoluteTolerance": 0,
+        "unit": "frames",
+        "rounding": "none",
+        "explanation": "The completed sequence 1,2,3 can now be delivered in order."
+      }
+    ],
+    "objectiveIds": [
+      "l10-sr-nak",
+      "l10-sr-retransmit",
+      "l10-sr-buffer"
+    ]
+  },
+  {
+    "id": "l10-l4-q07",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-u-commands",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Synthetic investigation: A and B are intended to establish a point-to-point ABM link with combined stations. A capture instead shows A issuing SNRM and the peer reporting NRM setup. The link is then reset and correctly established in ABM. In that corrected session, A sends I-frames 0 and 1 to B. B sends A an I-frame decoded as N(S)=0, N(R)=2, followed by B I-frame N(S)=1, N(R)=2. A has not sent frame 2 yet. Both directions started at 0 and no sequence number wrapped. Which change corrects the initial mode mismatch?",
+    "explanation": "The command must request the intended station configuration before data exchange.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 60
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 61
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 71
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 72
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 73
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-3"
+    ],
+    "answers": [
+      "Keep SNRM and require B to act only as a secondary in the intended ABM session.",
+      "Replace the mode request with SABM and accept a successful UA before information exchange.",
+      "Replace every I-frame with an RNR frame.",
+      "Remove all control fields so either peer can transmit without a mode."
+    ],
+    "optionExplanations": [
+      "That preserves the NRM mismatch rather than establishing balanced roles.",
+      "SABM requests the balanced mode; UA acknowledges successful management setup.",
+      "Busy-receiver supervision is not ABM setup.",
+      "Removing protocol control does not establish the intended link."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l10-u-commands"
+    ]
+  },
+  {
+    "id": "l10-l4-q08",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Pipelining and Go-Back-N",
+    "objectiveId": "l10-bidirectional",
+    "type": "multiple",
+    "difficulty": "Hard",
+    "cognitiveLevel": "Analyze",
+    "prompt": "Synthetic investigation: A and B are intended to establish a point-to-point ABM link with combined stations. A capture instead shows A issuing SNRM and the peer reporting NRM setup. The link is then reset and correctly established in ABM. In that corrected session, A sends I-frames 0 and 1 to B. B sends A an I-frame decoded as N(S)=0, N(R)=2, followed by B I-frame N(S)=1, N(R)=2. A has not sent frame 2 yet. Both directions started at 0 and no sequence number wrapped. Select all interpretations supported by the corrected-session trace.",
+    "explanation": "Each direction needs independent send/receive state; the two sequence fields describe different traffic directions.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 31
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 35
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 46
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 67
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 74
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 75
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-3"
+    ],
+    "answers": [
+      "B second N(S)=1 proves that B has accepted A frame 2.",
+      "B repeated N(R)=2 in its next I-frame is consistent with B still waiting for A frame 2.",
+      "The repeated N(R) proves piggybacking has stopped carrying data.",
+      "B first I-frame carries B data frame 0 and acknowledges A frames 0 and 1."
+    ],
+    "optionExplanations": [
+      "The send sequence in one direction does not establish receipt in the other.",
+      "B can advance its own N(S) while its reverse-direction receive expectation stays unchanged.",
+      "Both captured frames are I-frames with B data and acknowledgment information.",
+      "N(S)=0 numbers B own data, while N(R)=2 acknowledges A consecutive frames before 2."
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "objectiveIds": [
+      "l10-bidirectional",
+      "l10-hdlc-piggy",
+      "l10-ns",
+      "l10-nr"
+    ]
+  },
+  {
+    "id": "l10-l4-q09",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-shared-flag",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "In a synthetic back-to-back HDLC capture, the parser sees FLAG, Address, Control, Information, FCS, FLAG, Address, Control, Information, FCS, FLAG. FCS passes for both I-frames, with no missing data. The parser wrongly labels the second frame invalid solely because there is no additional separate opening FLAG. Which correction is justified?",
+    "explanation": "A single boundary flag can serve adjacent frames; separate frame checks still apply.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 62
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 66
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-3"
+    ],
+    "answers": [
+      "Treat the middle flag as user data in both frames.",
+      "Declare that an I-frame can never follow another I-frame.",
+      "Move the first FCS after the final flag to form one combined frame.",
+      "Allow the middle flag to close the first frame and open the next adjacent frame."
+    ],
+    "optionExplanations": [
+      "It is a real boundary, not a stuffed payload value.",
+      "No such restriction is part of the frame format.",
+      "Each valid frame retains its own FCS before its ending boundary.",
+      "The lecture explicitly permits a shared boundary flag."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l10-shared-flag"
+    ]
+  },
+  {
+    "id": "l10-l4-q10",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Flow control, buffers and state",
+    "objectiveId": "l10-flow-error",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Synthetic investigation: A 1 Mbps GBN link has RTT=20 ms, 1000-bit data frames, m=4 and a configured sender window of 15. Use the lecture approximation U=min(1,W*L/(B*RTT)), excluding serialization from the denominator and ignoring ACK overhead. Captures show zero detected FCS errors. Receiver logs show a full buffer and processing slower than arrivals. The receiver sends RNR and the sender correctly pauses new data. When capacity recovers, the receiver will send RR; no loss or other bottleneck is assumed after recovery. Which diagnosis best explains the pause?",
+    "explanation": "A correct pause can protect receiver storage; passing FCS does not imply available receiver capacity.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 15
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 16
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 69
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 80
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 82
+      }
+    ],
+    "status": "approved",
+    "version": 2,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-4"
+    ],
+    "answers": [
+      "Receiver-capacity flow control is operating; RNR reports a busy receiver.",
+      "HDLC bit stuffing has replaced all ACKs permanently.",
+      "The sequence-number space must have shrunk below sixteen numbers.",
+      "RNR proves a corrupted frame requires all outstanding frames to be retransmitted."
+    ],
+    "optionExplanations": [
+      "Full buffers and slower processing explain the not-ready message.",
+      "Framing transparency does not remove receiver-readiness control.",
+      "The m=4 sequence space is unchanged by buffer use.",
+      "RNR signals receiver busy; REJ is the group-recovery supervision."
+    ],
+    "correct": [
+      0
+    ],
+    "objectiveIds": [
+      "l10-flow-error"
+    ]
+  },
+  {
+    "id": "l10-l4-q11",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "HDLC modes and frame fields",
+    "objectiveId": "l10-supervisory-codes",
+    "type": "multiple",
+    "difficulty": "Hard",
+    "cognitiveLevel": "Analyze",
+    "prompt": "Synthetic investigation: A 1 Mbps GBN link has RTT=20 ms, 1000-bit data frames, m=4 and a configured sender window of 15. Use the lecture approximation U=min(1,W*L/(B*RTT)), excluding serialization from the denominator and ignoring ACK overhead. Captures show zero detected FCS errors. Receiver logs show a full buffer and processing slower than arrivals. The receiver sends RNR and the sender correctly pauses new data. When capacity recovers, the receiver will send RR; no loss or other bottleneck is assumed after recovery. Select all observations that directly support receiver overload rather than detected bit corruption as the present reason for the pause.",
+    "explanation": "Use capacity and readiness observations as evidence; unrelated header dimensions do not establish the cause.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 15
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 16
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 64
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 69
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-4"
+    ],
+    "answers": [
+      "The sender has a four-bit sequence field.",
+      "The receiver sends RNR while the reported FCS-error count remains zero.",
+      "The frame payload length is 1000 bits.",
+      "The receiver buffer is full while arrivals exceed processing."
+    ],
+    "optionExplanations": [
+      "That determines sequence-space limits but does not identify receiver overload.",
+      "The readiness signal and measured error record support a flow-control explanation.",
+      "Payload size alone does not show a full buffer or a corruption event.",
+      "This directly identifies the capacity imbalance."
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "objectiveIds": [
+      "l10-buffer-rate",
+      "l10-supervisory-codes"
+    ]
+  },
+  {
+    "id": "l10-l4-q12",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Delay, bandwidth-delay product and utilization",
+    "objectiveId": "l10-window-utilization",
+    "type": "fill_blank",
+    "difficulty": "Hard",
+    "cognitiveLevel": "Apply",
+    "prompt": "Synthetic investigation: A 1 Mbps GBN link has RTT=20 ms, 1000-bit data frames, m=4 and a configured sender window of 15. Use the lecture approximation U=min(1,W*L/(B*RTT)), excluding serialization from the denominator and ignoring ACK overhead. Captures show zero detected FCS errors. Receiver logs show a full buffer and processing slower than arrivals. The receiver sends RNR and the sender correctly pauses new data. When capacity recovers, the receiver will send RR; no loss or other bottleneck is assumed after recovery. After RR and recovery, compare error-free operation with the stated window of 15 and a proposed window of 7. Using the stated approximation, utilization at W=15 is {{1}} percent and utilization at W=7 is {{2}} percent. Rounding: none.",
+    "explanation": "A smaller usable window occupies less of the available bandwidth-delay interval after receiver recovery. These figures describe the stated error-free model, not the preceding paused period.",
+    "sourceRefs": [
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 80
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 81
+      },
+      {
+        "file": "ITCS217-Lecture-10-Flow-control-and-Error-Control-2026.pdf",
+        "page": 82
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:l10-level-4",
+      "lecture:10",
+      "scenario:l10-mystery-4"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 75,
+        "absoluteTolerance": 0,
+        "unit": "percent",
+        "rounding": "none",
+        "explanation": "BDP=1,000,000*0.020=20,000 bits; 100*15*1000/20,000=75."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 35,
+        "absoluteTolerance": 0,
+        "unit": "percent",
+        "rounding": "none",
+        "explanation": "100*7*1000/20,000=35 percent under the same approximation."
+      }
+    ],
+    "objectiveIds": [
+      "l10-window-utilization",
+      "l10-capacity-effect"
+    ]
+  }
+]

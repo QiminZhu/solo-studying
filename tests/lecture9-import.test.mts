@@ -17,7 +17,15 @@ test("Lecture 9 import preserves all data, tag membership, grading and feedback 
     assert.equal(bundle.questions.length, [20, 12, 8, 12][i]);
     assert.equal(bundle.quiz.id, `itcs217-l09-progressive-level-${i + 1}`);
     assert.deepEqual(bundle.questions, bank.filter(q => q.tags?.includes(`quiz:l09-level-${i + 1}`)));
-    assert.equal(bundle.quiz.iconAsset, undefined);
+    assert.equal(
+      bundle.quiz.iconAsset,
+      [
+        "/quiz-icons/slimekeeper.png",
+        "/quiz-icons/webweaver.png",
+        "/quiz-icons/golem.png",
+        "/quiz-icons/memory-eater.png",
+      ][i],
+    );
     assert.equal(bundle.quiz.feedbackMode, i === 3 ? "deferred" : "immediate");
     let attempt = createAttempt(bundle, `verify-${i}`, 0);
     for (const q of bundle.questions) {

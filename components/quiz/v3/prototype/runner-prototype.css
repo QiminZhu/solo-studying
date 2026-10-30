@@ -1,0 +1,356 @@
+/* PROTOTYPE: runner type and arrangement comparison. Dev-only. */
+.runner-prototype {
+  padding-bottom: 32px;
+}
+
+.rp-titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  margin: 0 0 24px;
+}
+
+.rp-a .rp-titlebar h1,
+.rp-c .rp-titlebar h1 {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+}
+
+.rp-progress {
+  margin: 0;
+  color: #525252;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.rp-a .rp-reading {
+  max-width: 720px;
+}
+
+.rp-a .runner-grid {
+  grid-template-columns: minmax(0, 720px) 304px;
+  justify-content: space-between;
+}
+
+.rp-a .rp-launcher {
+  display: none;
+}
+
+.rp-a .rp-launcher summary {
+  width: fit-content;
+  cursor: pointer;
+  list-style: none;
+}
+
+.rp-a .rp-launcher summary::-webkit-details-marker {
+  display: none;
+}
+
+.rp-a .rp-launcher[open] .question-nav-grid {
+  margin-top: 16px;
+}
+
+.rp-a .runner-answer,
+.rp-b .runner-answer,
+.rp-c .runner-answer,
+.rp-a .rp-explanation,
+.rp-b .rp-explanation,
+.rp-c .rp-explanation,
+.rp-a .v3-part,
+.rp-b .v3-part,
+.rp-c .v3-part {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.rp-feedback {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #8d8d8d;
+}
+
+.rp-feedback .carbon-helper {
+  margin-top: 0 !important;
+}
+
+.rp-score {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.rp-score.correct {
+  color: #198038;
+}
+
+.rp-score.incorrect {
+  color: #da1e28;
+}
+
+.rp-explanation {
+  margin: 0;
+}
+
+.rp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.rp-actions {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.rp-actions-primary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.rp-note {
+  flex-basis: 100%;
+  margin: 8px 0 0;
+  color: #525252;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.rp-b .rp-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.rp-b .rp-strip button {
+  flex: 0 0 48px;
+  min-height: 48px;
+  background: #fff;
+  border: 1px solid #8d8d8d;
+  color: #161616;
+}
+
+.rp-b .rp-strip button.answered {
+  background: #e0e0e0;
+}
+
+.rp-b .rp-strip button.current {
+  border: 2px solid #0f62fe;
+  background: #edf5ff;
+  color: #0f62fe;
+}
+
+.rp-b .rp-strip button:disabled {
+  color: #161616;
+  background: #fff;
+  opacity: 1;
+}
+
+.rp-strip-note {
+  margin: 8px 0 0;
+  color: #525252;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.rp-b .rp-reading {
+  max-width: 640px;
+  margin: 32px auto 24px;
+}
+
+.rp-b .rp-reading h1 {
+  margin: 8px 0 24px;
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 400;
+}
+
+.rp-b .rp-actions {
+  margin-top: 8px;
+}
+
+.rp-c .rp-task h2 {
+  margin: 8px 0 24px;
+}
+
+.rp-c .rp-desk {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) 360px;
+  justify-content: space-between;
+  gap: 48px;
+  align-items: start;
+}
+
+.rp-c .rp-desk-side {
+  position: sticky;
+  top: 24px;
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  padding: 16px;
+  background: #f4f4f4;
+}
+
+.rp-waiting {
+  margin: 0;
+  padding: 16px;
+  background: #fff;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.runner-prototype .question-nav-grid > button:disabled {
+  color: #161616;
+  background: #fff;
+  opacity: 1;
+}
+
+.carbon-app .runner-prototype-switcher {
+  position: fixed;
+  z-index: 60;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: 48px minmax(220px, 1fr) 48px auto;
+  align-items: center;
+  gap: 4px;
+  width: calc(100% - 32px);
+  max-width: 720px;
+  padding: 8px;
+  background: #0b1f3f;
+  color: #fff;
+  border: 1px solid #5d79a4;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px #06215a40;
+}
+
+.carbon-app .runner-prototype-switcher > button {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #e3eeff;
+  font: 400 12px/16px "IBM Plex Sans", Arial, sans-serif;
+}
+
+.carbon-app .runner-prototype-switcher > button:hover {
+  background: #203d67;
+}
+
+.carbon-app .runner-prototype-switcher > button:focus-visible {
+  outline: 2px solid #bfdbfe;
+  outline-offset: 0;
+}
+
+.runner-prototype-switcher .prototype-switcher-label {
+  min-width: 0;
+  padding: 2px 12px;
+}
+
+.runner-prototype-switcher .prototype-switcher-label > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #bfdbfe;
+  font: 400 10px/16px "IBM Plex Sans", Arial, sans-serif;
+}
+
+.runner-prototype-switcher .prototype-switcher-label > strong {
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.runner-prototype-switcher .prototype-switcher-label > small {
+  display: block;
+  color: #d7e7ff;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.carbon-app .runner-prototype-switcher > .prototype-original-button {
+  border-left: 1px solid #5d79a4;
+  border-radius: 0 10px 10px 0;
+  padding: 8px 12px;
+}
+
+.carbon-app
+  .runner-prototype-switcher
+  > .prototype-original-button[aria-pressed="true"] {
+  color: #0b1f3f;
+  background: #bfdbfe;
+}
+
+.carbon-app:has(.runner-prototype-switcher) .carbon-footer {
+  padding-bottom: 128px;
+}
+
+@media (max-width: 1100px) {
+  .rp-a .runner-grid,
+  .rp-c .rp-desk {
+    grid-template-columns: minmax(0, 1fr) 256px;
+    justify-content: stretch;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 900px) {
+  .rp-a .runner-grid,
+  .rp-c .rp-desk {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rp-a .runner-sidebar {
+    display: none;
+  }
+
+  .rp-a .rp-launcher {
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .rp-c .rp-desk-side {
+    position: static;
+  }
+
+  .rp-titlebar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rp-progress {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 600px) {
+  .carbon-app .runner-prototype-switcher {
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    bottom: 12px;
+  }
+
+  .carbon-app .runner-prototype-switcher > .prototype-original-button {
+    grid-column: 1 / -1;
+    border-left: 0;
+    border-top: 1px solid #5d79a4;
+    border-radius: 0 0 10px 10px;
+  }
+
+}

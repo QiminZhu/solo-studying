@@ -1,13 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { lectureFolder } from "@/lib/quiz-navigation";
+import { lectureFolder, lectureFolderForBank } from "@/lib/quiz-navigation";
+import {
+  lecture10Scenarios,
+  scenarioFor,
+} from "@/lib/quiz-v3/lecture10-scenarios";
 import {
   useMemo,
   useRef,
   useState,
   useSyncExternalStore,
   useEffect,
+  type RefObject,
 } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/csr/ArrowLeft";
@@ -18,15 +23,16 @@ import { PlatformShell } from "../platform-shell";
 import { ResponseEditor } from "./response-editor";
 import { QuestionFeedback } from "./question-feedback";
 import {
-  canReveal,
   createAttempt,
   parseAttempts,
   attemptSummary,
   contentIdentity,
   missedGuidance,
+  practicePhase,
   topicScores,
   type Attempt,
   type AttemptAction,
+  type PracticePhase,
 } from "@/lib/quiz-v3/attempt";
 import {
   gradeQuestion,
@@ -135,15 +141,14 @@ function ActiveAttempt({
   changed: boolean;
 }) {
   const [error, setError] = useState("");
-  const [navigationOpen, setNavigationOpen] = useState(true);
   const [reviewMissed, setReviewMissed] = useState(false);
   const heading = useRef<HTMLHeadingElement>(null);
   const submitDialog = useRef<HTMLDialogElement>(null);
   const submitTrigger = useRef<HTMLButtonElement>(null);
-  const navDialog = useRef<HTMLDialogElement>(null);
-  const navLauncher = useRef<HTMLButtonElement>(null);
+  const questionStrip = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { quiz, questions } = a.bundle;
+  const folder = lectureFolderForBank(quiz.bankId);
   const ordered = quiz.questionIds.map((id) =>
     questions.find((q) => q.id === id)!,
   );
@@ -152,19 +157,31 @@ function ActiveAttempt({
   const r =
     !stored || stored.kind === "unanswered" ? emptyResponse(q) : stored;
   const finished = a.submittedAt !== null;
-  const reveal = canReveal(a, q.id);
+  const phase = practicePhase(a, q.id);
   const summary = attemptSummary(a);
   const unanswered = summary.total - summary.answered;
   const errors = responseErrors(q, r);
   const progress = responseProgress(q, a.answers[q.id]);
   const onLast = a.index === ordered.length - 1;
   const immediate = quiz.feedbackMode === "immediate";
-  const practicing = immediate && !reveal;
-  const nextIsPrimary = !onLast && !practicing;
-  const reviewIsPrimary = onLast && !practicing;
+  const practicing = immediate && phase === "answering";
+  const nextIsPrimary = !onLast && !practicing && phase !== "withheld";
+  const reviewIsPrimary = onLast && !practicing && phase !== "withheld";
+  const explanationKey = `${q.id}:${phase}`;
+  const [explanationState, setExplanationState] = useState({
+    key: explanationKey,
+    open: false,
+  });
+  if (explanationState.key !== explanationKey)
+    setExplanationState({ key: explanationKey, open: false });
+  const explanationOpen =
+    explanationState.key === explanationKey && explanationState.open;
   const flaggedCount = a.flagged.length;
+  const resultRef = useRef<HTMLElement>(null);
+  const checkButton = useRef<HTMLButtonElement>(null);
   const previousPosition = useRef(a.index);
   const previousFinished = useRef(finished);
+  const previousPhase = useRef({ phase, id: q.id });
   useEffect(() => {
     if (
       previousPosition.current !== a.index ||
@@ -174,6 +191,24 @@ function ActiveAttempt({
     previousPosition.current = a.index;
     previousFinished.current = finished;
   }, [a.index, finished]);
+  useEffect(() => {
+    const previous = previousPhase.current;
+    if (previous.id === q.id) {
+      if (previous.phase === "answering" && phase !== "answering")
+        resultRef.current?.focus();
+      if (previous.phase === "withheld" && phase === "answering")
+        checkButton.current?.focus();
+    }
+    previousPhase.current = { phase, id: q.id };
+  }, [phase, q.id]);
+  useEffect(() => {
+    const strip = questionStrip.current;
+    const current = strip?.querySelector<HTMLButtonElement>("[aria-current='step']");
+    if (!strip || !current) return;
+    const left =
+      current.offsetLeft - strip.clientWidth / 2 + current.clientWidth / 2;
+    strip.scrollTo({ left: Math.max(0, left) });
+  }, [a.index]);
 
   function act(action: AttemptAction) {
     try {
@@ -189,12 +224,8 @@ function ActiveAttempt({
       return false;
     }
   }
-  function openQuestions() {
-    navDialog.current?.showModal();
-  }
   function goTo(index: number) {
     act({ type: "navigate", index });
-    if (navDialog.current?.open) navDialog.current.close();
   }
   function submit() {
     if (
@@ -237,30 +268,25 @@ function ActiveAttempt({
       <div className="page-context">
         <nav aria-label="Breadcrumb">
           <Link href="/subjects">Subjects</Link> /{" "}
-          <Link href={lectureFolder.subjectHref}>ITCS217</Link> /{" "}
-          <Link href={lectureFolder.href}>{lectureFolder.title}</Link> /{" "}
+          <Link href={folder.subjectHref}>ITCS217</Link> /{" "}
+          <Link href={folder.href}>{folder.title}</Link> /{" "}
           <span aria-current="page">
-            {finished ? "Results" : "Quiz attempt"}
+            {finished ? "Results" : quiz.title}
           </span>
         </nav>
       </div>
-      <div className="v3-heading">
-        <p className="carbon-label">
-          {quiz.feedbackMode === "deferred"
-            ? "Graded at the end"
-            : "Checked as you go"}
-        </p>
-        <h1 ref={finished ? heading : undefined} tabIndex={-1}>
-          {quiz.title}
-          {finished ? " — Results" : ""}
-        </h1>
-        {!finished && (
-          <p>
-            Question {a.index + 1} of {summary.total} · {summary.answered}{" "}
-            answered
+      {finished && (
+        <div className="v3-heading">
+          <p className="carbon-label">
+            {quiz.feedbackMode === "deferred"
+              ? "Graded at the end"
+              : "Checked as you go"}
           </p>
-        )}
-      </div>
+          <h1 ref={heading} tabIndex={-1}>
+            {quiz.title} — Results
+          </h1>
+        </div>
+      )}
       <details className="v3-quiz-details">
         <summary>Quiz details</summary>
         <p>
@@ -271,7 +297,7 @@ function ActiveAttempt({
           }. ${
             quiz.feedbackMode === "deferred"
               ? "Save and revise answers freely. Correctness, keys, explanations, sources, and revision guidance appear after final submission."
-              : "Select or enter a response, then check it. The first check is the one that counts."
+              : "Select or enter a response, then check it. A wrong check does not mark the answer key. The first check is the one that counts."
           }`}
         </p>
         <p>
@@ -371,7 +397,7 @@ function ActiveAttempt({
                 ? "Review every question"
                 : "Revisit missed questions"}
             </button>
-            <Link href={lectureFolder.href} className="carbon-button secondary">
+            <Link href={folder.href} className="carbon-button secondary">
               Return to quiz selection
             </Link>
           </div>
@@ -427,6 +453,7 @@ function ActiveAttempt({
               )
               .map((question) => (
                 <article key={question.id}>
+                  <ScenarioLabel tags={question.tags} />
                   <h3>
                     {ordered.indexOf(question) + 1}.{" "}
                     {readablePrompt(question.prompt)}
@@ -453,103 +480,84 @@ function ActiveAttempt({
         </>
       ) : (
         <>
-          <div
-            className={`runner-grid ${navigationOpen ? "" : "navigation-collapsed"}`}
+          <QuestionMap
+            stripRef={questionStrip}
+            ordered={ordered}
+            attempt={a}
+            onNavigate={goTo}
+          />
+          <p className="v3-qstrip-note">
+            {immediate ? "Checked as you go" : "Graded at the end"} · Question{" "}
+            {a.index + 1} of {summary.total} · {summary.answered} answered
+            {immediate && a.firstResponses[q.id]
+              ? ` · First check: ${
+                  gradeQuestion(q, a.firstResponses[q.id]).score
+                    ? "correct"
+                    : "incorrect"
+                }`
+              : ""}
+          </p>
+          <div className="v3-qstrip-tools">
+            <Link href={folder.href} className="carbon-button ghost">
+              Save & return
+            </Link>
+            <p className="carbon-helper">
+              Resume depends on this browser on this device.
+            </p>
+          </div>
+          <section
+            className="v3-question-first"
+            aria-labelledby="v3-question-heading"
           >
-            <section
-              className="runner-main"
-              aria-labelledby="v3-question-heading"
-            >
-              <div className="runner-progress">
-                <span>
-                  Question {a.index + 1} of {summary.total}
-                </span>
-                <span>{formatLabel(q.type)}</span>
+            <ScenarioLabel tags={q.tags} />
+            <p className="carbon-label">
+              {q.topic} · {formatLabel(q.type)}
+            </p>
+            <h1 id="v3-question-heading" ref={heading} tabIndex={-1}>
+              {readablePrompt(q.prompt)}
+            </h1>
+            <ResponseEditor
+              question={q}
+              response={r}
+              disabled={phase !== "answering"}
+              markCorrect={phase === "correct"}
+              onChange={(response) =>
+                act({ type: "answer", questionId: q.id, response })
+              }
+            />
+            {errors.length > 0 && (
+              <div role="alert" className="carbon-error">
+                {errors.join(" ")}
               </div>
-              <p className="carbon-label">{q.topic}</p>
-              <h2 id="v3-question-heading" ref={heading} tabIndex={-1}>
-                {readablePrompt(q.prompt)}
-              </h2>
-              <div className="v3-nav-launcher">
-                <button
-                  ref={navLauncher}
-                  type="button"
-                  className="carbon-button secondary"
-                  aria-haspopup="dialog"
-                  onClick={openQuestions}
-                >
-                  Questions · {a.index + 1}/{summary.total}
-                </button>
-                <Link
-                  href={lectureFolder.href}
-                  className="carbon-button ghost"
-                >
-                  Save & return
-                </Link>
-                <p className="carbon-helper">
-                  Resume depends on this browser on this device.
-                </p>
-              </div>
-              <ResponseEditor
-                question={q}
-                response={r}
-                disabled={reveal}
-                revealed={reveal}
-                onChange={(response) =>
-                  act({ type: "answer", questionId: q.id, response })
-                }
-              />
-              {errors.length > 0 && (
-                <div role="alert" className="carbon-error">
-                  {errors.join(" ")}
-                </div>
-              )}
-              <div aria-live="polite" aria-atomic="false">
-                {reveal && (
-                  <QuestionFeedback question={q} response={a.answers[q.id]} />
-                )}
-              </div>
-              {reveal && a.firstResponses[q.id] && (
-                <p className="carbon-helper">
-                  First check: {gradeQuestion(q, a.firstResponses[q.id]).score}{" "}
-                  / 1. This result is preserved if you try again.
-                </p>
-              )}
-              <div className="v3-actions">
-                {practicing && (
-                  <button
-                    className="carbon-button primary"
-                    disabled={!isAnswered(q, r) || errors.length > 0}
-                    onClick={() => act({ type: "check", questionId: q.id })}
-                  >
-                    Check answer
-                  </button>
-                )}
-                {nextIsPrimary && (
-                  <button
-                    className="carbon-button primary"
-                    onClick={() => goTo(a.index + 1)}
-                  >
-                    Next question
-                    <ArrowRightIcon size={16} aria-hidden="true" />
-                  </button>
-                )}
+            )}
+            <div className="v3-q-actions">
+              <button
+                className="carbon-button ghost"
+                disabled={a.index === 0}
+                onClick={() => goTo(a.index - 1)}
+              >
+                <ArrowLeftIcon size={16} aria-hidden="true" />
+                Previous
+              </button>
+              <button
+                className="carbon-button ghost"
+                aria-pressed={a.flagged.includes(q.id)}
+                onClick={() => act({ type: "flag", questionId: q.id })}
+              >
+                <FlagIcon size={18} aria-hidden="true" />
+                {a.flagged.includes(q.id) ? "Flagged" : "Flag for review"}
+              </button>
+              {!reviewIsPrimary && (
                 <button
                   ref={submitTrigger}
-                  className={`carbon-button ${reviewIsPrimary ? "primary" : onLast ? "secondary" : "ghost"}`}
+                  className={`carbon-button ${onLast ? "secondary" : "ghost"}`}
                   onClick={() => submitDialog.current?.showModal()}
                 >
                   {onLast ? "Review and submit" : "Finish quiz"}
                 </button>
-                {reveal && immediate && (
-                  <button
-                    className="carbon-button secondary"
-                    onClick={() => act({ type: "retry", questionId: q.id })}
-                  >
-                    Try again
-                  </button>
-                )}
-                {!reveal && progress !== "empty" && (
+              )}
+              <div className="v3-q-actions-primary">
+                {phase === "answering" && progress !== "empty" && (
                   <button
                     className="carbon-button ghost"
                     onClick={() =>
@@ -563,25 +571,50 @@ function ActiveAttempt({
                     Clear response
                   </button>
                 )}
-                <button
-                  className="carbon-button ghost"
-                  aria-pressed={a.flagged.includes(q.id)}
-                  onClick={() => act({ type: "flag", questionId: q.id })}
-                >
-                  <FlagIcon size={18} aria-hidden="true" />
-                  {a.flagged.includes(q.id) ? "Flagged" : "Flag for review"}
-                </button>
-              </div>
-              <div className="v3-actions">
-                <button
-                  className="carbon-button ghost"
-                  disabled={a.index === 0}
-                  onClick={() => goTo(a.index - 1)}
-                >
-                  <ArrowLeftIcon size={16} aria-hidden="true" />
-                  Previous
-                </button>
-                {!nextIsPrimary && (
+                {(phase === "withheld" || phase === "correct") && (
+                  <button
+                    type="button"
+                    className="carbon-button secondary"
+                    aria-expanded={explanationOpen}
+                    onClick={() =>
+                      setExplanationState((current) => ({
+                        key: explanationKey,
+                        open: !current.open,
+                      }))
+                    }
+                  >
+                    {explanationOpen
+                      ? "Hide the explanation"
+                      : "Show the explanation"}
+                  </button>
+                )}
+                {practicing && (
+                  <button
+                    ref={checkButton}
+                    className="carbon-button primary"
+                    disabled={!isAnswered(q, r) || errors.length > 0}
+                    onClick={() => act({ type: "check", questionId: q.id })}
+                  >
+                    Check answer
+                  </button>
+                )}
+                {phase === "withheld" && (
+                  <button
+                    className="carbon-button primary"
+                    onClick={() => act({ type: "retry", questionId: q.id })}
+                  >
+                    Try again
+                  </button>
+                )}
+                {nextIsPrimary ? (
+                  <button
+                    className="carbon-button primary"
+                    onClick={() => goTo(a.index + 1)}
+                  >
+                    Next question
+                    <ArrowRightIcon size={16} aria-hidden="true" />
+                  </button>
+                ) : (
                   <button
                     className="carbon-button ghost"
                     disabled={onLast}
@@ -591,81 +624,38 @@ function ActiveAttempt({
                     <ArrowRightIcon size={16} aria-hidden="true" />
                   </button>
                 )}
+                {reviewIsPrimary && (
+                  <button
+                    ref={submitTrigger}
+                    className="carbon-button primary"
+                    onClick={() => submitDialog.current?.showModal()}
+                  >
+                    Review and submit
+                  </button>
+                )}
               </div>
-              <p role="status" className="carbon-helper">
-                {a.answers[q.id]?.kind === "unanswered"
-                  ? "Cleared. You can enter a response. Saved in this browser."
-                  : progress === "complete"
-                    ? "Response saved in this browser."
-                    : progress === "partial"
-                      ? "Response incomplete. Changes are saved in this browser."
-                      : "Answers are saved in this browser on this device."}
-              </p>
-            </section>
-            <aside className="runner-sidebar" aria-label="Question navigation">
-              <div className="runner-navigation-header">
-                <h2>Questions</h2>
-                <button
-                  className="carbon-button ghost"
-                  aria-expanded={navigationOpen}
-                  aria-controls="v3-navigation"
-                  onClick={() => setNavigationOpen(!navigationOpen)}
-                >
-                  {navigationOpen ? "Hide questions" : "Show questions"}
-                </button>
-              </div>
-              <p>
-                {a.index + 1} / {ordered.length}
-              </p>
-              {navigationOpen && (
-                <QuestionMap
-                  id="v3-navigation"
-                  ordered={ordered}
-                  attempt={a}
-                  onNavigate={goTo}
-                />
-              )}
-              <Link
-                href={lectureFolder.href}
-                className="carbon-button secondary"
-              >
-                Save & return
-              </Link>
-              <p className="carbon-helper">
-                Resume depends on this browser on this device.
-              </p>
-            </aside>
-          </div>
-          <dialog
-            ref={navDialog}
-            className="carbon-dialog v3-question-drawer"
-            aria-labelledby="v3-drawer-title"
-            onClose={() => navLauncher.current?.focus()}
-          >
-            <h2 id="v3-drawer-title">
-              Questions · {a.index + 1}/{summary.total}
-            </h2>
-            <QuestionMap
-              id="v3-navigation-drawer"
-              ordered={ordered}
-              attempt={a}
-              onNavigate={goTo}
-            />
-            <div>
-              <Link
-                href={lectureFolder.href}
-                className="carbon-button secondary"
-              >
-                Save & return
-              </Link>
-              <button
-                className="carbon-button ghost"
-                onClick={() => navDialog.current?.close()}
-              >
-                Close
-              </button>
             </div>
-          </dialog>
+            {(phase === "withheld" || phase === "correct") && (
+              <PracticeCheckResult
+                resultRef={resultRef}
+                phase={phase}
+                question={q}
+                firstCorrect={
+                  gradeQuestion(q, a.firstResponses[q.id]).score === 1
+                }
+                explanationOpen={explanationOpen}
+              />
+            )}
+            <p role="status" className="carbon-helper">
+              {a.answers[q.id]?.kind === "unanswered"
+                ? "Cleared. You can enter a response. Saved in this browser."
+                : progress === "complete"
+                  ? "Response saved in this browser."
+                  : progress === "partial"
+                    ? "Response incomplete. Changes are saved in this browser."
+                    : "Answers are saved in this browser on this device."}
+            </p>
+          </section>
           <dialog
             ref={submitDialog}
             className="carbon-dialog"
@@ -714,20 +704,68 @@ function ActiveAttempt({
     </>
   );
 }
+function PracticeCheckResult({
+  resultRef,
+  phase,
+  question,
+  firstCorrect,
+  explanationOpen,
+}: {
+  resultRef: RefObject<HTMLElement | null>;
+  phase: Exclude<PracticePhase, "answering">;
+  question: Attempt["bundle"]["questions"][number];
+  firstCorrect: boolean;
+  explanationOpen: boolean;
+}) {
+  const choice = ["single", "multiple", "boolean"].includes(question.type);
+  return (
+    <section ref={resultRef} tabIndex={-1} aria-label="Check result">
+      {phase === "withheld" && (
+        <p className="carbon-notice" role="status">
+          <strong>Not quite yet.</strong> Give it another try.{" "}
+          {choice
+            ? "This first check stays incorrect, and the correct option is not marked."
+            : "This first check stays incorrect, and the answer key stays hidden."}
+        </p>
+      )}
+      {explanationOpen && (
+        <section className="v3-explanation" aria-label="Explanation">
+          <h3>Explanation</h3>
+          <p>{question.explanation}</p>
+        </section>
+      )}
+      {phase === "correct" && (
+        <p className="v3-attempt-success" role="status">
+          <CheckIcon size={16} aria-hidden="true" />
+          <span>
+            {firstCorrect
+              ? "Correct. This first check is the assessment."
+              : "This try is correct. The first check remains incorrect."}
+          </span>
+        </p>
+      )}
+    </section>
+  );
+}
 function QuestionMap({
-  id,
+  stripRef,
   ordered,
   attempt,
   onNavigate,
 }: {
-  id: string;
+  stripRef: RefObject<HTMLDivElement | null>;
   ordered: Attempt["bundle"]["questions"];
   attempt: Attempt;
   onNavigate: (index: number) => void;
 }) {
   return (
-    <div id={id}>
-      <div className="question-nav-grid">
+    <div className="v3-qstrip-block">
+      <div
+        ref={stripRef}
+        className="v3-qstrip"
+        role="navigation"
+        aria-label="Question navigation"
+      >
         {ordered.map((item, i) => {
           const state = responseProgress(item, attempt.answers[item.id]);
           const checked = attempt.checked.includes(item.id);
@@ -776,6 +814,15 @@ function progressName(state: ResponseProgress) {
     : state === "partial"
       ? "partly answered"
       : "unanswered";
+}
+function ScenarioLabel({ tags }: { tags?: readonly string[] }) {
+  const scenario = scenarioFor(tags);
+  if (!scenario) return null;
+  return (
+    <p className="carbon-label">
+      Scenario {scenario.order} of {lecture10Scenarios.length} · {scenario.title}
+    </p>
+  );
 }
 function readablePrompt(prompt: string) {
   return prompt.replace(/\{\{([^{}]+)\}\}/g, "[blank $1]");

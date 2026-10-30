@@ -13,10 +13,10 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "test:materials": "node --experimental-strip-types --test tests/material-processing.test.mts",
-    "test:quiz": "node --experimental-strip-types --test tests/landing-preview.test.mts tests/quiz-session.test.mts tests/subject-quizzes.test.mts tests/quiz-v3.test.mts tests/lecture9-import.test.mts",
+    "test:quiz": "node --experimental-strip-types --test tests/landing-preview.test.mts tests/quiz-session.test.mts tests/subject-quizzes.test.mts tests/quiz-v3.test.mts tests/lecture9-import.test.mts tests/lecture10-import.test.mts tests/practice-preview.test.mts",
     "build:static": "node scripts/build-static.mjs",
     "typecheck": "tsc --noEmit",
-    "lint:static": "eslint app/page.tsx app/layout.tsx app/subjects app/create-quiz app/quizzes app/question-runner components/landing components/quiz lib/quiz*.ts lib/quiz-v3 lib/subject*.ts lib/guest-quiz-store.ts scripts/build-static.mjs"
+    "lint:static": "eslint app/page.tsx app/layout.tsx app/subjects app/create-quiz app/quizzes app/question-runner app/preview components/landing components/quiz lib/quiz*.ts lib/quiz-v3 lib/subject*.ts lib/guest-quiz-store.ts scripts/build-static.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
