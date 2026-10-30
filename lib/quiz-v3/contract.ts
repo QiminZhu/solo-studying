@@ -312,7 +312,7 @@ export const quizDefinitionSchema = z
     contentKind: z.enum(["fixture", "draft", "published"]),
     iconAsset: z
       .string()
-      .regex(/^\/quiz-icons\/[a-zA-Z0-9_-]+\.(svg|png|webp)$/)
+      .regex(/^(?:\/[a-zA-Z0-9_-]+)?\/quiz-icons\/[a-zA-Z0-9_-]+\.(svg|png|webp)$/)
       .optional(),
     revisionGuidance: z
       .record(z.object({ topic: text, guidance: text }).strict())
