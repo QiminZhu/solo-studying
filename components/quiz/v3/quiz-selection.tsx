@@ -86,7 +86,7 @@ export function QuizSelection() {
           <p className="carbon-label">ITCS217 / Lecture folder</p>
           <h1>{lectureFolder.title}</h1>
           <p>
-            Choose one of four Lecture 9 quizzes. Each contains 15 curated questions.
+            Choose one of four progressive Lecture 9 quizzes with curated questions.
           </p>
         </div>
         <div className="carbon-notice v3-notice">

@@ -2,15 +2,21 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { lecture9Quizzes } from "../lib/quiz-v3/lecture9.ts";
+import { parseBank } from "../lib/quiz-v3/contract.ts";
 import { gradeQuestion, type Response } from "../lib/quiz-v3/grading.ts";
 import { createAttempt, updateAttempt, canReveal } from "../lib/quiz-v3/attempt.ts";
 
 test("Lecture 9 import preserves all data, tag membership, grading and feedback timing", () => {
   const source: unknown = JSON.parse(readFileSync(new URL("../lib/quiz-v3/lecture9-bank.json", import.meta.url), "utf8"));
-  assert.deepEqual(lecture9Quizzes.flatMap(b => b.questions), source);
+  const bank = parseBank(source);
+  assert.equal(bank.length, 94);
+  assert.deepEqual(lecture9Quizzes.flatMap(b => b.questions), bank.filter(q => q.tags?.some(t => /^quiz:l09-level-[1-4]$/.test(t))));
+  assert.equal(bank.filter(q => q.tags?.includes("practice:l09-reinforcement")).length, 42);
   assert.equal(lecture9Quizzes.length, 4);
   for (const [i, bundle] of lecture9Quizzes.entries()) {
-    assert.equal(bundle.questions.length, 15);
+    assert.equal(bundle.questions.length, [20, 12, 8, 12][i]);
+    assert.equal(bundle.quiz.id, `itcs217-l09-progressive-level-${i + 1}`);
+    assert.deepEqual(bundle.questions, bank.filter(q => q.tags?.includes(`quiz:l09-level-${i + 1}`)));
     assert.equal(bundle.quiz.iconAsset, undefined);
     assert.equal(bundle.quiz.feedbackMode, i === 3 ? "deferred" : "immediate");
     let attempt = createAttempt(bundle, `verify-${i}`, 0);
