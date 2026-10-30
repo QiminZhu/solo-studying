@@ -11,6 +11,7 @@ export function QuestionFeedback({
 }) {
   const grade = gradeQuestion(question, response);
   const isChoice = ["single", "multiple", "boolean"].includes(question.type);
+  const inlineParts = question.type === "matching";
   const selectedParts = grade.parts.filter((part) => part.submitted === "Selected");
   const otherParts = grade.parts.filter((part) => part.submitted !== "Selected");
   return (
@@ -57,7 +58,7 @@ export function QuestionFeedback({
             </details>
           )}
         </>
-      ) : (
+      ) : inlineParts ? null : (
         <>
       <p className="carbon-helper">
         Every response part is shown below. Parts are diagnostic; this question

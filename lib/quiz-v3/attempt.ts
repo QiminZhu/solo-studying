@@ -162,6 +162,8 @@ export function updateAttempt(a: Attempt, action: AttemptAction): Attempt {
   const response = a.answers[q.id] ?? { kind: "unanswered" };
   const errors = responseErrors(q, response);
   if (errors.length) throw new Error(errors.join(" "));
+  if (!isAnswered(q, response))
+    throw new Error("Complete the response before checking it.");
   return {
     ...a,
     checked: [...a.checked, q.id],
@@ -195,6 +197,26 @@ export function attemptSummary(a: Attempt) {
           )
         : null,
   };
+}
+/** Topic totals follow the preserved first check, the same basis as missed-question practice. */
+export function topicScores(a: Attempt) {
+  const questions = a.bundle.quiz.questionIds.map(
+    (id) => a.bundle.questions.find((question) => question.id === id)!,
+  );
+  return [...new Set(questions.map((question) => question.topic))].map(
+    (topic) => {
+      const items = questions.filter((question) => question.topic === topic);
+      return {
+        topic,
+        score: items.reduce(
+          (total, question) =>
+            total + gradeQuestion(question, a.firstResponses[question.id]).score,
+          0,
+        ),
+        total: items.length,
+      };
+    },
+  );
 }
 export function missedGuidance(a: Attempt) {
   if (a.submittedAt === null) return [];

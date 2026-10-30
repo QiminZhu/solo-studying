@@ -201,9 +201,10 @@ export function LandingPage({
                 <p className="carbon-label">Guest access & student accounts</p>
                 <h2>Start learning. Save progress when you’re ready.</h2>
                 <p>
-                  Guest quizzes run in your current browser tab. Optional
-                  accounts are the next step for persistent quiz history, saved
-                  results, topic progress, and revisiting missed questions.
+                  Guest quizzes are saved in this browser and do not
+                  synchronize across devices. Optional accounts are the next
+                  step for persistent quiz history, saved results, topic
+                  progress, and revisiting missed questions.
                 </p>
                 <p className="carbon-helper">
                   Account progress features are planned. The existing student

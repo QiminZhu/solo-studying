@@ -159,7 +159,7 @@ try {
     /Incorrect · 0 \/ 1 point/,
   );
   await page
-    .getByRole("button", { name: "Retry (first result kept)", exact: true })
+    .getByRole("button", { name: "Try again", exact: true })
     .click();
   await page.getByRole("radio", { name: "A", exact: true }).check();
   await check();
@@ -178,7 +178,7 @@ try {
   await page.getByRole("radio", { name: "False", exact: true }).check();
   await check();
   await page
-    .getByRole("button", { name: "Final submission", exact: true })
+    .getByRole("button", { name: "Review and submit", exact: true })
     .click();
   await page
     .getByRole("button", { name: "Submit attempt", exact: true })
@@ -319,9 +319,9 @@ try {
       caret: "initial",
     });
   }
-  await page.getByRole("button", { name: "Fold", exact: true }).click();
+  await page.getByRole("button", { name: "Hide questions", exact: true }).click();
   await noOverflow();
-  await page.getByRole("button", { name: "Expand", exact: true }).click();
+  await page.getByRole("button", { name: "Show questions", exact: true }).click();
   await page.getByRole("radio", { name: "X", exact: true }).check();
   await next();
   await page.getByRole("checkbox", { name: "ZX", exact: true }).check();
@@ -338,7 +338,7 @@ try {
   );
   await assertNoLeak();
   await page
-    .getByRole("button", { name: "Final submission", exact: true })
+    .getByRole("button", { name: "Finish quiz", exact: true })
     .click();
   await assertNoLeak();
   await page
@@ -366,13 +366,13 @@ try {
   await assertNoLeak();
   await page
     .getByRole("button", {
-      name: "I don’t know — leave unanswered",
+      name: "Clear response",
       exact: true,
     })
     .click();
   await assertNoLeak();
   await page
-    .getByRole("button", { name: "Final submission", exact: true })
+    .getByRole("button", { name: "Review and submit", exact: true })
     .click();
   await page
     .getByRole("button", { name: "Submit with unanswered items", exact: true })

@@ -12,6 +12,7 @@ import {
 import { useSearchParams, useRouter } from "next/navigation";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/csr/ArrowLeft";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/csr/ArrowRight";
+import { CheckIcon } from "@phosphor-icons/react/dist/csr/Check";
 import { FlagIcon } from "@phosphor-icons/react/dist/csr/Flag";
 import { PlatformShell } from "../platform-shell";
 import { ResponseEditor } from "./response-editor";
@@ -23,6 +24,7 @@ import {
   attemptSummary,
   contentIdentity,
   missedGuidance,
+  topicScores,
   type Attempt,
   type AttemptAction,
 } from "@/lib/quiz-v3/attempt";
@@ -31,6 +33,8 @@ import {
   emptyResponse,
   isAnswered,
   responseErrors,
+  responseProgress,
+  type ResponseProgress,
 } from "@/lib/quiz-v3/grading";
 import { fixtureQuizzes } from "@/lib/quiz-v3/fixtures";
 import {
@@ -136,18 +140,29 @@ function ActiveAttempt({
   const heading = useRef<HTMLHeadingElement>(null);
   const submitDialog = useRef<HTMLDialogElement>(null);
   const submitTrigger = useRef<HTMLButtonElement>(null);
+  const navDialog = useRef<HTMLDialogElement>(null);
+  const navLauncher = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const { quiz, questions } = a.bundle;
   const ordered = quiz.questionIds.map((id) =>
     questions.find((q) => q.id === id)!,
   );
   const q = ordered[a.index];
-  const r = a.answers[q.id] ?? emptyResponse(q);
+  const stored = a.answers[q.id];
+  const r =
+    !stored || stored.kind === "unanswered" ? emptyResponse(q) : stored;
   const finished = a.submittedAt !== null;
   const reveal = canReveal(a, q.id);
   const summary = attemptSummary(a);
   const unanswered = summary.total - summary.answered;
   const errors = responseErrors(q, r);
+  const progress = responseProgress(q, a.answers[q.id]);
+  const onLast = a.index === ordered.length - 1;
+  const immediate = quiz.feedbackMode === "immediate";
+  const practicing = immediate && !reveal;
+  const nextIsPrimary = !onLast && !practicing;
+  const reviewIsPrimary = onLast && !practicing;
+  const flaggedCount = a.flagged.length;
   const previousPosition = useRef(a.index);
   const previousFinished = useRef(finished);
   useEffect(() => {
@@ -173,6 +188,13 @@ function ActiveAttempt({
       );
       return false;
     }
+  }
+  function openQuestions() {
+    navDialog.current?.showModal();
+  }
+  function goTo(index: number) {
+    act({ type: "navigate", index });
+    if (navDialog.current?.open) navDialog.current.close();
   }
   function submit() {
     if (
@@ -221,56 +243,64 @@ function ActiveAttempt({
             {finished ? "Results" : "Quiz attempt"}
           </span>
         </nav>
-        <span className="neutral-status">
-          {quiz.contentKind === "fixture"
-            ? "Software test fixture"
-            : quiz.contentKind === "draft"
-              ? "Unverified author preview"
-              : "Published quiz"}
-        </span>
       </div>
       <div className="v3-heading">
         <p className="carbon-label">
-          {a.practiceOf
-            ? "Repeated practice progress"
-            : "First assessment attempt"}{" "}
-          ·{" "}
           {quiz.feedbackMode === "deferred"
-            ? "Feedback after final submission"
-            : "Feedback after checking"}
+            ? "Graded at the end"
+            : "Checked as you go"}
         </p>
         <h1 ref={finished ? heading : undefined} tabIndex={-1}>
           {quiz.title}
           {finished ? " — Results" : ""}
         </h1>
-        <p>
-          {finished
-            ? "A score describes this attempt. It does not establish complete lecture understanding."
-            : quiz.feedbackMode === "deferred"
-              ? "Save and revise answers freely. Correctness, keys, explanations, sources, and revision guidance appear after final submission."
-              : "Select or enter a response, then explicitly check your answer. Your first check is preserved if you retry."}
-        </p>
+        {!finished && (
+          <p>
+            Question {a.index + 1} of {summary.total} · {summary.answered}{" "}
+            answered
+          </p>
+        )}
       </div>
-      {quiz.contentKind !== "published" && (
-        <p className="carbon-notice">
+      <details className="v3-quiz-details">
+        <summary>Quiz details</summary>
+        <p>
+          {`${
+            a.practiceOf
+              ? "Repeated practice progress"
+              : "First assessment attempt"
+          }. ${
+            quiz.feedbackMode === "deferred"
+              ? "Save and revise answers freely. Correctness, keys, explanations, sources, and revision guidance appear after final submission."
+              : "Select or enter a response, then check it. The first check is the one that counts."
+          }`}
+        </p>
+        <p>
           {quiz.contentKind === "fixture"
             ? "Software test fixture — not approved lecture content."
-            : "Author preview — importing does not independently validate answers."}
+            : quiz.contentKind === "draft"
+              ? "Author preview — importing does not independently validate answers."
+              : "Published quiz."}
         </p>
-      )}
-      {changed && (
-        <p className="carbon-notice">
-          This saved attempt uses its original question versions. Current
-          content has changed; start a new attempt from quiz selection to use
-          the current bank.
-        </p>
-      )}
-      {a.practiceOf && (
-        <p className="carbon-helper">
-          Previously seen questions measure practice progress. Fresh cumulative
-          questions provide stronger evidence of understanding.
-        </p>
-      )}
+        {changed && (
+          <p>
+            This saved attempt uses its original question versions. Current
+            content has changed; start a new attempt from quiz selection to use
+            the current bank.
+          </p>
+        )}
+        {a.practiceOf && (
+          <p>
+            Previously seen questions measure practice progress. Fresh cumulative
+            questions provide stronger evidence of understanding.
+          </p>
+        )}
+        {finished && (
+          <p>
+            These scores describe this attempt. They do not establish complete
+            lecture understanding.
+          </p>
+        )}
+      </details>
       {error && (
         <p className="carbon-error" role="alert">
           {error}
@@ -280,13 +310,22 @@ function ActiveAttempt({
         <>
           <section className="v3-score-grid" aria-label="Attempt results">
             <div>
-              <span>Score</span>
+              <span>First-check score</span>
+              <strong>
+                {summary.firstScore} / {summary.total}
+              </strong>
+              <small>
+                This is the assessment. The first checked answer is kept.
+              </small>
+            </div>
+            <div>
+              <span>Score after retries</span>
               <strong>
                 {summary.score} / {summary.total}
               </strong>
               <small>
                 {Math.round(((summary.score ?? 0) / summary.total) * 100)}%
-                accuracy · one point per question
+                from the latest answers · one point per question
               </small>
             </div>
             <div>
@@ -294,14 +333,12 @@ function ActiveAttempt({
               <strong>{unanswered}</strong>
               <small>Included in the question total</small>
             </div>
-            <div>
-              <span>First-check performance in this attempt</span>
-              <strong>
-                {summary.firstScore} / {summary.total}
-              </strong>
-              <small>Retries do not replace the first response</small>
-            </div>
           </section>
+          <p>
+            The first-check score is the assessment for this attempt. Score
+            after retries includes later answers and does not replace that
+            first check.
+          </p>
           {original && original.id !== a.id && (
             <p>
               Original assessment:{" "}
@@ -311,48 +348,6 @@ function ActiveAttempt({
               This attempt is recorded separately as practice progress.
             </p>
           )}
-          <section className="v3-revision" aria-label="Revision guidance">
-            <h2>Revision by missed objective</h2>
-            <p>
-              Based on first responses in this attempt. Coverage and mastery are
-              separate; these results cannot establish full lecture coverage.
-            </p>
-            {missedGuidance(a).length ? (
-              <ul>
-                {missedGuidance(a).map((g) => (
-                  <li key={g.id}>
-                    <strong>{g.topic ?? g.id}:</strong>{" "}
-                    {g.supplied
-                      ? g.guidance
-                      : "No approved revision guidance was supplied for this objective. Use the question’s supplied source references; no lecture advice has been inferred."}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>
-                No missed objectives on this attempt. Repeating these items is
-                practice progress.
-              </p>
-            )}
-          </section>
-          <section className="v3-revision" aria-label="Performance by topic">
-            <h2>Performance by topic</h2>
-            <ul>
-              {[...new Set(ordered.map((q) => q.topic))].map((topic) => {
-                const qs = ordered.filter((q) => q.topic === topic);
-                const score = qs.reduce(
-                  (n, q) => n + gradeQuestion(q, a.answers[q.id]).score,
-                  0,
-                );
-                return (
-                  <li key={topic}>
-                    {topic}: {score} / {qs.length} correct (
-                    {Math.round((score / qs.length) * 100)}%)
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
           <div className="v3-actions">
             <button
               className="carbon-button primary"
@@ -380,6 +375,41 @@ function ActiveAttempt({
               Return to quiz selection
             </Link>
           </div>
+          <section className="v3-revision" aria-label="Revision guidance">
+            <h2>Revision by missed objective</h2>
+            <p>
+              Based on first responses in this attempt. Coverage and mastery are
+              separate; these results cannot establish full lecture coverage.
+            </p>
+            {missedGuidance(a).length ? (
+              <ul>
+                {missedGuidance(a).map((g) => (
+                  <li key={g.id}>
+                    <strong>{g.topic ?? g.id}:</strong>{" "}
+                    {g.supplied
+                      ? g.guidance
+                      : "No approved revision guidance was supplied for this objective. Use the question’s supplied source references; no lecture advice has been inferred."}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>
+                No missed objectives on this attempt. Repeating these items is
+                practice progress.
+              </p>
+            )}
+          </section>
+          <section className="v3-revision" aria-label="Performance by topic">
+            <h2>Performance by topic</h2>
+            <ul>
+              {topicScores(a).map(({ topic, score, total }) => (
+                <li key={topic}>
+                  {topic}: {score} / {total} on the first check (
+                  {Math.round((score / total) * 100)}%)
+                </li>
+              ))}
+            </ul>
+          </section>
           <section
             className="v3-review"
             aria-label="Question-by-question review"
@@ -423,19 +453,6 @@ function ActiveAttempt({
         </>
       ) : (
         <>
-          <div className="v3-attempt-toolbar">
-            <p>
-              {summary.answered} answered · {unanswered} unanswered / incomplete
-              · {summary.total} questions
-            </p>
-            <button
-              ref={submitTrigger}
-              className="carbon-button primary"
-              onClick={() => submitDialog.current?.showModal()}
-            >
-              Final submission
-            </button>
-          </div>
           <div
             className={`runner-grid ${navigationOpen ? "" : "navigation-collapsed"}`}
           >
@@ -453,10 +470,31 @@ function ActiveAttempt({
               <h2 id="v3-question-heading" ref={heading} tabIndex={-1}>
                 {readablePrompt(q.prompt)}
               </h2>
+              <div className="v3-nav-launcher">
+                <button
+                  ref={navLauncher}
+                  type="button"
+                  className="carbon-button secondary"
+                  aria-haspopup="dialog"
+                  onClick={openQuestions}
+                >
+                  Questions · {a.index + 1}/{summary.total}
+                </button>
+                <Link
+                  href={lectureFolder.href}
+                  className="carbon-button ghost"
+                >
+                  Save & return
+                </Link>
+                <p className="carbon-helper">
+                  Resume depends on this browser on this device.
+                </p>
+              </div>
               <ResponseEditor
                 question={q}
                 response={r}
                 disabled={reveal}
+                revealed={reveal}
                 onChange={(response) =>
                   act({ type: "answer", questionId: q.id, response })
                 }
@@ -474,27 +512,46 @@ function ActiveAttempt({
               {reveal && a.firstResponses[q.id] && (
                 <p className="carbon-helper">
                   First check: {gradeQuestion(q, a.firstResponses[q.id]).score}{" "}
-                  / 1. This result is preserved if you retry.
+                  / 1. This result is preserved if you try again.
                 </p>
               )}
               <div className="v3-actions">
-                {quiz.feedbackMode === "immediate" && (
+                {practicing && (
                   <button
                     className="carbon-button primary"
-                    disabled={errors.length > 0}
-                    onClick={() =>
-                      act({
-                        type: reveal ? "retry" : "check",
-                        questionId: q.id,
-                      })
-                    }
+                    disabled={!isAnswered(q, r) || errors.length > 0}
+                    onClick={() => act({ type: "check", questionId: q.id })}
                   >
-                    {reveal ? "Retry (first result kept)" : "Check answer"}
+                    Check answer
                   </button>
                 )}
-                {!reveal && (
+                {nextIsPrimary && (
+                  <button
+                    className="carbon-button primary"
+                    onClick={() => goTo(a.index + 1)}
+                  >
+                    Next question
+                    <ArrowRightIcon size={16} aria-hidden="true" />
+                  </button>
+                )}
+                <button
+                  ref={submitTrigger}
+                  className={`carbon-button ${reviewIsPrimary ? "primary" : onLast ? "secondary" : "ghost"}`}
+                  onClick={() => submitDialog.current?.showModal()}
+                >
+                  {onLast ? "Review and submit" : "Finish quiz"}
+                </button>
+                {reveal && immediate && (
                   <button
                     className="carbon-button secondary"
+                    onClick={() => act({ type: "retry", questionId: q.id })}
+                  >
+                    Try again
+                  </button>
+                )}
+                {!reveal && progress !== "empty" && (
+                  <button
+                    className="carbon-button ghost"
                     onClick={() =>
                       act({
                         type: "answer",
@@ -503,7 +560,7 @@ function ActiveAttempt({
                       })
                     }
                   >
-                    I don’t know — leave unanswered
+                    Clear response
                   </button>
                 )}
                 <button
@@ -519,26 +576,30 @@ function ActiveAttempt({
                 <button
                   className="carbon-button ghost"
                   disabled={a.index === 0}
-                  onClick={() => act({ type: "navigate", index: a.index - 1 })}
+                  onClick={() => goTo(a.index - 1)}
                 >
                   <ArrowLeftIcon size={16} aria-hidden="true" />
                   Previous
                 </button>
-                <button
-                  className="carbon-button secondary"
-                  disabled={a.index === ordered.length - 1}
-                  onClick={() => act({ type: "navigate", index: a.index + 1 })}
-                >
-                  Next question
-                  <ArrowRightIcon size={16} aria-hidden="true" />
-                </button>
+                {!nextIsPrimary && (
+                  <button
+                    className="carbon-button ghost"
+                    disabled={onLast}
+                    onClick={() => goTo(a.index + 1)}
+                  >
+                    Next question
+                    <ArrowRightIcon size={16} aria-hidden="true" />
+                  </button>
+                )}
               </div>
               <p role="status" className="carbon-helper">
                 {a.answers[q.id]?.kind === "unanswered"
-                  ? "Marked unanswered. You can still enter a response."
-                  : isAnswered(q, a.answers[q.id])
-                    ? "Response saved on this device."
-                    : "Response incomplete. Changes are saved as you enter them."}
+                  ? "Cleared. You can enter a response. Saved in this browser."
+                  : progress === "complete"
+                    ? "Response saved in this browser."
+                    : progress === "partial"
+                      ? "Response incomplete. Changes are saved in this browser."
+                      : "Answers are saved in this browser on this device."}
               </p>
             </section>
             <aside className="runner-sidebar" aria-label="Question navigation">
@@ -550,39 +611,61 @@ function ActiveAttempt({
                   aria-controls="v3-navigation"
                   onClick={() => setNavigationOpen(!navigationOpen)}
                 >
-                  {navigationOpen ? "Fold" : "Expand"}
+                  {navigationOpen ? "Hide questions" : "Show questions"}
                 </button>
               </div>
               <p>
                 {a.index + 1} / {ordered.length}
               </p>
-              <div id="v3-navigation" hidden={!navigationOpen}>
-                <div className="question-nav-grid">
-                  {ordered.map((item, i) => (
-                    <button
-                      key={item.id}
-                      className={`${a.index === i ? "current" : ""} ${isAnswered(item, a.answers[item.id]) ? "answered" : ""}`}
-                      aria-current={a.index === i ? "step" : undefined}
-                      aria-label={`Question ${i + 1}, ${isAnswered(item, a.answers[item.id]) ? "answered" : "unanswered"}${a.flagged.includes(item.id) ? ", flagged" : ""}`}
-                      onClick={() => act({ type: "navigate", index: i })}
-                    >
-                      {i + 1}
-                      {a.flagged.includes(item.id) && (
-                        <FlagIcon size={12} aria-hidden="true" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-                <p>Flags are reminders, not grades.</p>
-              </div>
+              {navigationOpen && (
+                <QuestionMap
+                  id="v3-navigation"
+                  ordered={ordered}
+                  attempt={a}
+                  onNavigate={goTo}
+                />
+              )}
               <Link
                 href={lectureFolder.href}
                 className="carbon-button secondary"
               >
                 Save & return
               </Link>
+              <p className="carbon-helper">
+                Resume depends on this browser on this device.
+              </p>
             </aside>
           </div>
+          <dialog
+            ref={navDialog}
+            className="carbon-dialog v3-question-drawer"
+            aria-labelledby="v3-drawer-title"
+            onClose={() => navLauncher.current?.focus()}
+          >
+            <h2 id="v3-drawer-title">
+              Questions · {a.index + 1}/{summary.total}
+            </h2>
+            <QuestionMap
+              id="v3-navigation-drawer"
+              ordered={ordered}
+              attempt={a}
+              onNavigate={goTo}
+            />
+            <div>
+              <Link
+                href={lectureFolder.href}
+                className="carbon-button secondary"
+              >
+                Save & return
+              </Link>
+              <button
+                className="carbon-button ghost"
+                onClick={() => navDialog.current?.close()}
+              >
+                Close
+              </button>
+            </div>
+          </dialog>
           <dialog
             ref={submitDialog}
             className="carbon-dialog"
@@ -593,8 +676,8 @@ function ActiveAttempt({
           >
             <h2 id="v3-submit-title">Submit this attempt?</h2>
             <p>
-              {summary.answered} answered · {unanswered} unanswered /
-              incomplete.
+              {summary.answered} answered · {unanswered} unanswered / incomplete
+              · {flaggedCount} flagged.
             </p>
             <p>
               {unanswered
@@ -630,6 +713,69 @@ function ActiveAttempt({
       )}
     </>
   );
+}
+function QuestionMap({
+  id,
+  ordered,
+  attempt,
+  onNavigate,
+}: {
+  id: string;
+  ordered: Attempt["bundle"]["questions"];
+  attempt: Attempt;
+  onNavigate: (index: number) => void;
+}) {
+  return (
+    <div id={id}>
+      <div className="question-nav-grid">
+        {ordered.map((item, i) => {
+          const state = responseProgress(item, attempt.answers[item.id]);
+          const checked = attempt.checked.includes(item.id);
+          const flagged = attempt.flagged.includes(item.id);
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={`${attempt.index === i ? "current" : ""} ${state === "complete" ? "answered" : ""} ${state === "partial" ? "partial" : ""}`}
+              aria-current={attempt.index === i ? "step" : undefined}
+              aria-label={`Question ${i + 1}, ${progressName(state)}${checked ? ", checked" : ""}${flagged ? ", flagged" : ""}`}
+              onClick={() => onNavigate(i)}
+            >
+              {i + 1}
+              {(checked || flagged) && (
+                <span className="v3-nav-marks" aria-hidden="true">
+                  {checked && <CheckIcon size={12} />}
+                  {flagged && <FlagIcon size={12} />}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+      <div className="nav-legend">
+        <span>
+          <i /> Unanswered
+        </span>
+        <span>
+          <i className="partial" /> Partial
+        </span>
+        <span>
+          <i className="answered" /> Answered
+        </span>
+        <span>
+          <i className="current" /> Current
+        </span>
+      </div>
+      <p>Check marks and flags are reminders, not grades.</p>
+    </div>
+  );
+}
+function progressName(state: ResponseProgress) {
+  return state === "complete"
+    ? "answered"
+    : state === "partial"
+      ? "partly answered"
+      : "unanswered";
 }
 function readablePrompt(prompt: string) {
   return prompt.replace(/\{\{([^{}]+)\}\}/g, "[blank $1]");

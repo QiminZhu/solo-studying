@@ -3,17 +3,23 @@
 import { ArrowUpIcon } from "@phosphor-icons/react/dist/csr/ArrowUp";
 import { ArrowDownIcon } from "@phosphor-icons/react/dist/csr/ArrowDown";
 import type { BankQuestionV3 } from "@/lib/quiz-v3/contract";
-import { emptyResponse, type Response } from "@/lib/quiz-v3/grading";
+import {
+  emptyResponse,
+  gradeQuestion,
+  type Response,
+} from "@/lib/quiz-v3/grading";
 
 export function ResponseEditor({
   question: q,
   response,
   disabled,
+  revealed = false,
   onChange,
 }: {
   question: BankQuestionV3;
   response?: Response;
   disabled: boolean;
+  revealed?: boolean;
   onChange: (response: Response) => void;
 }) {
   const r =
@@ -55,51 +61,69 @@ export function ResponseEditor({
         ))}
       </fieldset>
     );
-  if (q.type === "matching" && r.kind === "matching")
+  if (q.type === "matching" && r.kind === "matching") {
+    const matched = Object.keys(r.selected).length;
+    const grade = revealed ? gradeQuestion(q, response) : undefined;
     return (
       <fieldset disabled={disabled} className="v3-responses">
-        <legend>Match each left item to a right option.</legend>
+        <legend>Match each item.</legend>
         <p>
           {q.reuseRight
-            ? "Right options may be reused."
-            : "Use each right option at most once."}{" "}
-          {q.rightItems.length > q.leftItems.length
-            ? "Some right options may be unused."
-            : ""}
+            ? "A right option may be used more than once."
+            : "Each right option can be used once. Chosen options are marked already used."}
         </p>
-        {q.leftItems.map((left, i) => (
-          <label key={i} className="carbon-field v3-match-row">
-            <span>{left}</span>
-            <select
-              aria-label={left}
-              value={r.selected[i] ?? ""}
-              onChange={(e) => {
-                const next = { ...r.selected };
-                if (e.target.value === "") delete next[i];
-                else next[i] = Number(e.target.value);
-                onChange({ kind: "matching", selected: next });
-              }}
-            >
-              <option value="">Choose a match</option>
-              {q.rightItems.map((right, j) => (
-                <option
-                  key={j}
-                  value={j}
-                  disabled={
+        <p role="status">
+          {matched} of {q.leftItems.length} matched.
+        </p>
+        {q.leftItems.map((left, i) => {
+          const matchIndex = q.matches.findIndex(
+            ([leftIndex]) => leftIndex === i,
+          );
+          const note = matchIndex >= 0 ? grade?.parts[matchIndex] : undefined;
+          return (
+            <div key={i} className="carbon-field v3-match-row">
+              <span>{left}</span>
+              <select
+                aria-label={left}
+                value={r.selected[i] ?? ""}
+                onChange={(e) => {
+                  const next = { ...r.selected };
+                  if (e.target.value === "") delete next[i];
+                  else next[i] = Number(e.target.value);
+                  onChange({ kind: "matching", selected: next });
+                }}
+              >
+                <option value="">Choose a match</option>
+                {q.rightItems.map((right, j) => {
+                  const used =
                     !q.reuseRight &&
                     Object.entries(r.selected).some(
                       ([l, v]) => Number(l) !== i && v === j,
-                    )
-                  }
-                >
-                  {right}
-                </option>
-              ))}
-            </select>
-          </label>
-        ))}
+                    );
+                  return (
+                    <option key={j} value={j} disabled={used}>
+                      {used ? `${right} (already used)` : right}
+                    </option>
+                  );
+                })}
+              </select>
+              {note && (
+                <p className={`v3-pair-note ${note.status}`}>
+                  {`${
+                    note.status === "correct"
+                      ? "Correct"
+                      : note.status === "incorrect"
+                        ? "Incorrect"
+                        : "Unanswered"
+                  }. ${note.explanation}`}
+                </p>
+              )}
+            </div>
+          );
+        })}
       </fieldset>
     );
+  }
   if (q.type === "ordering" && r.kind === "ordering") {
     function move(position: number, offset: number) {
       const order = r.kind === "ordering" ? [...r.order] : [];

@@ -144,6 +144,30 @@ export function acceptsNumber(
     t.n * BigInt(10) ** BigInt(scale - t.scale)
   );
 }
+export type ResponseProgress = "empty" | "partial" | "complete";
+
+/** Distinguishes a blank response from a started one without treating either as graded. */
+export function responseProgress(
+  q: BankQuestionV3,
+  r?: Response,
+): ResponseProgress {
+  if (!r || r.kind === "unanswered" || !validResponse(q, r)) return "empty";
+  if (isAnswered(q, r)) return "complete";
+  switch (r.kind) {
+    case "choice":
+      return r.selected.length > 0 ? "partial" : "empty";
+    case "matching":
+      return Object.keys(r.selected).length > 0 ? "partial" : "empty";
+    case "ordering":
+      return q.type === "ordering" && r.order.some((value, index) => value !== index)
+        ? "partial"
+        : "empty";
+    case "blanks":
+      return Object.values(r.values).some((value) => value.trim())
+        ? "partial"
+        : "empty";
+  }
+}
 export function isAnswered(q: BankQuestionV3, r?: Response): boolean {
   if (!r || !validResponse(q, r) || r.kind === "unanswered") return false;
   switch (r.kind) {

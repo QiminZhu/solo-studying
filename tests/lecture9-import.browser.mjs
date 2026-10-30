@@ -61,7 +61,7 @@ try {
    if(!index)for(const width of [320,768,1280]){await page.setViewportSize({width,height:900});await overflow();await page.screenshot({path:`${out}/${bundle.quiz.id}-${width}.png`,fullPage:true});}
    if(index<14)await page.getByRole('button',{name:'Next question',exact:true}).click();
   }
-  await page.getByRole('button',{name:'Final submission',exact:true}).first().click();
+  await page.getByRole('button',{name:'Review and submit',exact:true}).click();
   await page.getByRole('dialog').getByRole('button',{name:'Submit attempt',exact:true}).click();
   await page.getByText('15 / 15',{exact:false}).first().waitFor();
   console.log(bundle.quiz.title+': 15/15, display and feedback verified');

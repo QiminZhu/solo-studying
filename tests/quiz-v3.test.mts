@@ -18,6 +18,7 @@ import {
   gradeQuestion,
   isAnswered,
   normalizeText,
+  responseProgress,
   responseErrors,
   validNumeric,
   validResponse,
@@ -31,6 +32,7 @@ import {
   canReveal,
   contentIdentity,
   missedGuidance,
+  topicScores,
 } from "../lib/quiz-v3/attempt.ts";
 import { lecture9Questions } from "../lib/question-banks/itcs217-lecture9.ts";
 import {
@@ -396,6 +398,61 @@ test("first checked responses survive retries, refresh, and final submission; at
   assert.equal(history[0].submittedAt, 200);
   assert.deepEqual(history[1].answers, {});
   assert.equal(history[2].bundle.quiz.id, "webweaver");
+});
+test("an incomplete check is refused and topic results follow the first check", () => {
+  const bundle = fixtureQuizzes[1];
+  const matching = bundle.questions[0];
+  assert.equal(matching.type, "matching");
+  let a = createAttempt(bundle, "guard", 100);
+  assert.equal(responseProgress(matching, a.answers[matching.id]), "empty");
+  assert.throws(
+    () => updateAttempt(a, { type: "check", questionId: matching.id }),
+    /Complete the response before checking/,
+  );
+  assert.equal(canReveal(a, matching.id), false);
+  assert.deepEqual(a.firstResponses, {});
+  a = updateAttempt(a, {
+    type: "answer",
+    questionId: matching.id,
+    response: { kind: "matching", selected: { 0: 0 } },
+  });
+  assert.equal(responseProgress(matching, a.answers[matching.id]), "partial");
+  assert.throws(
+    () => updateAttempt(a, { type: "check", questionId: matching.id }),
+    /Complete the response before checking/,
+  );
+  assert.equal(canReveal(a, matching.id), false);
+  assert.equal(attemptSummary(a).firstScore, null);
+  const wrong = {
+    kind: "matching" as const,
+    selected: { 0: 0, 1: 2, 2: 1 },
+  };
+  a = updateAttempt(a, {
+    type: "answer",
+    questionId: matching.id,
+    response: wrong,
+  });
+  a = updateAttempt(a, { type: "check", questionId: matching.id });
+  assert.equal(gradeQuestion(matching, a.firstResponses[matching.id]).score, 0);
+  a = updateAttempt(a, { type: "retry", questionId: matching.id });
+  a = updateAttempt(a, {
+    type: "answer",
+    questionId: matching.id,
+    response: answer(matching),
+  });
+  a = updateAttempt(a, { type: "check", questionId: matching.id });
+  assert.equal(gradeQuestion(matching, a.answers[matching.id]).score, 1);
+  const completed = updateAttempt(a, {
+    type: "submit",
+    confirmUnanswered: true,
+    now: 200,
+  });
+  const topic = topicScores(completed).find(
+    (item) => item.topic === "Fixture relationships",
+  );
+  assert.equal(topic?.score, 0);
+  assert.equal(attemptSummary(completed).firstScore, 0);
+  assert.equal(attemptSummary(completed).score, 1);
 });
 test("The Memory Eater permits revision and navigation without any reveal or summary grade before explicit submission", () => {
   const bundle = fixtureQuizzes[3];
