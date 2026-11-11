@@ -4,6 +4,10 @@ import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { fixtureQuizzes } from "../lib/quiz-v3/fixtures.ts";
 import {
+  splitQuestionPrompt,
+  visibleQuestionText,
+} from "../lib/quiz-v3/question-prompt.ts";
+import {
   bankQuestionSchema,
   parseBank,
   importBank,
@@ -452,6 +456,19 @@ test("an incomplete check is refused and topic results follow the first check", 
     (item) => item.topic === "Fixture relationships",
   );
   assert.equal(topic?.score, 0);
+  assert.equal(topic?.total, 1);
+  assert.equal(
+    topicScores(completed).some((item) => item.topic === "Fixture sequence"),
+    false,
+  );
+  assert.equal(
+    missedGuidance(completed).some((item) => item.id === "fixture-ordering"),
+    false,
+  );
+  assert.equal(
+    missedGuidance(completed).some((item) => item.id === "fixture-matching"),
+    true,
+  );
   assert.equal(attemptSummary(completed).firstScore, 0);
   assert.equal(attemptSummary(completed).score, 1);
 });
@@ -681,4 +698,71 @@ test("numeric blanks accept natural no-rounding wording only for none", () => {
   q.prompt = "Size is {{1}} bytes. No rounding is required.";
   if (q.blanks[0].kind === "number") q.blanks[0].rounding = "nearest integer";
   assert.equal(bankQuestionSchema.safeParse(q).success, false);
+});
+
+test("a long fill-in prompt keeps the rounding note out of the question", () => {
+  const prompt =
+    "The sequence number of transmission 19 is {{1}}. The maximum GBN sender window is {{2}} frames. Rounding: none; all answers are integers.";
+  const split = splitQuestionPrompt(prompt);
+  assert.deepEqual(
+    split.segments.map((segment) =>
+      segment.kind === "blank" ? segment.id : segment.text,
+    ),
+    [
+      "The sequence number of transmission 19 is ",
+      "1",
+      ". The maximum GBN sender window is ",
+      "2",
+      " frames.",
+    ],
+  );
+  assert.equal(split.note, "Rounding: none; all answers are integers.");
+  assert.equal(split.formula, "");
+  const calculated =
+    "How many bits are in each codeword? {{1}} bits. Formula: n = k + r. Rounding: none.";
+  const calculatedSplit = splitQuestionPrompt(calculated);
+  assert.equal(calculatedSplit.formula, "n = k + r.");
+  assert.equal(
+    visibleQuestionText(calculated),
+    "How many bits are in each codeword? _____ bits.",
+  );
+  assert.equal(
+    visibleQuestionText(prompt),
+    "The sequence number of transmission 19 is _____. The maximum GBN sender window is _____ frames.",
+  );
+  const choice = "Which pair gives the transmitted body?";
+  assert.equal(visibleQuestionText(choice), choice);
+  assert.equal(splitQuestionPrompt(choice).note, "");
+});
+
+test("fill-in blanks group the helper with its input", () => {
+  const view = readFileSync(
+    new URL("../components/quiz/v3/response-editor.tsx", import.meta.url),
+    "utf8",
+  );
+  const css = readFileSync(
+    new URL("../app/quiz-v3.css", import.meta.url),
+    "utf8",
+  );
+  const blanks = view.slice(view.indexOf('q.type === "fill_blank"'));
+  assert.match(blanks, /className="v3-responses v3-blanks"/);
+  assert.equal(view.match(/v3-blanks/g)?.length, 1);
+  assert.equal(
+    view.match(/className="v3-responses(?: v3-blanks)?"/g)?.length,
+    4,
+  );
+  const rules = css.slice(css.indexOf(".v3-responses.v3-blanks"));
+  assert.match(rules, /\.v3-responses\.v3-blanks > legend \{\s*margin-bottom: 24px;/);
+  assert.match(
+    rules,
+    /\.v3-responses\.v3-blanks > \.carbon-field \{\s*gap: 4px;\s*margin-bottom: 24px;/,
+  );
+  assert.match(
+    rules,
+    /\.v3-responses\.v3-blanks > \.carbon-field:last-child \{\s*margin-bottom: 0;/,
+  );
+  assert.match(
+    rules,
+    /\.v3-responses\.v3-blanks > \.carbon-field > span \{\s*margin-bottom: 4px;/,
+  );
 });

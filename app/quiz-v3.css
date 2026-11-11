@@ -27,6 +27,9 @@
   overflow: hidden;
   background: #000;
 }
+.v3-eye-frame-poster {
+  aspect-ratio: 4 / 5;
+}
 .v3-eye-frame-pending {
   background: #fff;
   border: 1px dashed #8d8d8d;
@@ -132,6 +135,28 @@
   display: grid;
   gap: 16px;
   margin: 24px 0 !important;
+}
+.v3-responses.v3-blanks {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.v3-responses.v3-blanks > legend {
+  margin-bottom: 24px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #525252;
+}
+.v3-responses.v3-blanks > .carbon-field {
+  gap: 4px;
+  margin-bottom: 24px;
+}
+.v3-responses.v3-blanks > .carbon-field:last-child {
+  margin-bottom: 0;
+}
+.v3-responses.v3-blanks > .carbon-field > span {
+  margin-bottom: 4px;
 }
 .v3-page .runner-answer > span:first-of-type {
   flex: 1;
@@ -362,9 +387,41 @@
 }
 .v3-question-first h1 {
   margin: 8px 0 24px;
-  font-size: 32px;
-  line-height: 40px;
+  font-size: 20px;
+  line-height: 28px;
   font-weight: 400;
+}
+.v3-question-first h1:has(+ :is(.v3-prompt-note, .v3-prompt-formula)) {
+  margin-bottom: 12px;
+}
+.v3-prompt-formula {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  background: #f4f4f4;
+  font-size: 16px;
+  line-height: 24px;
+}
+.v3-prompt-formula .carbon-label {
+  display: block;
+  margin-bottom: 4px !important;
+}
+.v3-review .v3-prompt-formula {
+  margin-top: 8px;
+}
+.v3-blank-mark {
+  border-bottom: 1px solid #8d8d8d;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.v3-prompt-note {
+  margin: 0;
+  color: #525252;
+  font-size: 12px;
+  line-height: 16px;
+}
+.v3-review .v3-prompt-note {
+  margin-top: 8px;
 }
 .v3-question-first :is(.runner-answer, .v3-explanation, .v3-explanation p, .carbon-notice, .v3-attempt-success, .carbon-field, .v3-order-list) {
   font-size: 16px;
@@ -428,6 +485,12 @@
   display: flex;
   gap: 2px;
   color: #161616;
+}
+.v3-nav-marks .mark-correct {
+  color: #198038;
+}
+.v3-nav-marks .mark-incorrect {
+  color: #da1e28;
 }
 .v3-page .question-nav-grid > button .v3-nav-marks svg {
   position: static;

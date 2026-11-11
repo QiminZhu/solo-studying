@@ -210,11 +210,14 @@ export function attemptSummary(a: Attempt) {
         : null,
   };
 }
-/** Topic totals follow the preserved first check, the same basis as missed-question practice. */
+function answeredFirstQuestions(a: Attempt) {
+  return a.bundle.quiz.questionIds
+    .map((id) => a.bundle.questions.find((question) => question.id === id)!)
+    .filter((question) => isAnswered(question, a.firstResponses[question.id]));
+}
+/** Topic totals count answered first checks. Skips stay in the unanswered total. */
 export function topicScores(a: Attempt) {
-  const questions = a.bundle.quiz.questionIds.map(
-    (id) => a.bundle.questions.find((question) => question.id === id)!,
-  );
+  const questions = answeredFirstQuestions(a);
   return [...new Set(questions.map((question) => question.topic))].map(
     (topic) => {
       const items = questions.filter((question) => question.topic === topic);
@@ -230,19 +233,46 @@ export function topicScores(a: Attempt) {
     },
   );
 }
-export function missedGuidance(a: Attempt) {
+/** Misses are answered first checks that scored zero. Unanswered questions are not misses. */
+export function missedQuestions(a: Attempt) {
   if (a.submittedAt === null) return [];
-  const ids = new Set(
-    a.bundle.questions
-      .filter((q) => gradeQuestion(q, a.firstResponses[q.id]).score === 0)
-      .flatMap((q) => q.objectiveIds ?? [q.objectiveId]),
+  return a.bundle.questions.filter(
+    (question) =>
+      isAnswered(question, a.firstResponses[question.id]) &&
+      gradeQuestion(question, a.firstResponses[question.id]).score === 0,
   );
-  return [...ids].map((id) => {
-    const guidance = Object.hasOwn(a.bundle.quiz.revisionGuidance, id)
-      ? a.bundle.quiz.revisionGuidance[id]
-      : undefined;
-    return { id, ...guidance, supplied: Boolean(guidance) };
-  });
+}
+export function missedGuidance(a: Attempt) {
+  const lines: {
+    id: string;
+    topic?: string;
+    guidance?: string;
+    supplied: boolean;
+  }[] = [];
+  const seenIds = new Set<string>();
+  const seenTopics = new Set<string>();
+  for (const question of missedQuestions(a)) {
+    const ids = question.objectiveIds ?? [question.objectiveId];
+    const supplied = ids.filter((id) =>
+      Object.hasOwn(a.bundle.quiz.revisionGuidance, id),
+    );
+    if (supplied.length) {
+      for (const id of supplied) {
+        if (seenIds.has(id)) continue;
+        seenIds.add(id);
+        lines.push({
+          id,
+          ...a.bundle.quiz.revisionGuidance[id],
+          supplied: true,
+        });
+      }
+      continue;
+    }
+    if (seenTopics.has(question.topic)) continue;
+    seenTopics.add(question.topic);
+    lines.push({ id: question.topic, topic: question.topic, supplied: false });
+  }
+  return lines;
 }
 export const attemptLibrarySchema = z
   .array(attemptSchema)

@@ -5,7 +5,7 @@ import { PlatformShell } from "@/components/quiz/platform-shell";
 import { QuestionPreview } from "./question-preview";
 import { SubjectExplorer } from "./subject-explorer";
 import { sampleTopicResults } from "@/lib/landing-data";
-import { originalTestQuiz, subjectFolder } from "@/lib/subject-quizzes";
+import { subjectFolder } from "@/lib/subject-quizzes";
 import { LandingPrototype } from "./prototype/landing-variants";
 import { LandingPrototypeSwitcher } from "./prototype/prototype-switcher";
 import type { LandingPrototypeView } from "./prototype/prototype-types";
@@ -27,8 +27,9 @@ export function LandingPage({
               Prepare with confidence.
             </h1>
             <p>
-              Keep quizzes in subject folders, practice original questions, and
-              learn from every answer. Start with ITCS217 as a guest.
+              Keep quizzes in subject folders, practice the curated lecture
+              questions, and learn from every answer. Start with ITCS217 as a
+              guest.
             </p>
             <div className="landing-actions">
               <Link className="carbon-button primary" href={subjectFolder.href}>
@@ -53,14 +54,16 @@ export function LandingPage({
             </Link>
             <Link href={subjectFolder.href}>
               <span>
-                <strong>Create a quiz</strong>
-                <small>Add original questions or import a JSON file.</small>
+                <strong>Lecture quizzes</strong>
+                <small>
+                  Four in Lecture 9, four in Lecture 10, and The Last Quiz
+                  for lectures 11–13.
+                </small>
               </span>
               <ArrowRight size={20} />
             </Link>
             <div>
-              {originalTestQuiz.questions.length} original ITCS217 questions
-              available as a test quiz.
+              Nine curated quizzes across three lectures.
             </div>
           </div>
         </section>
@@ -77,7 +80,7 @@ export function LandingPage({
               </div>
               <div>
                 <strong>Your pace, your settings</strong>
-                <p>Choose a saved quiz and work through it at your own pace.</p>
+                <p>Choose a lecture quiz and work through it at your own pace.</p>
               </div>
               <div>
                 <strong>Learning without barriers</strong>
@@ -97,11 +100,11 @@ export function LandingPage({
                 <article>
                   <h3>Practice Mode</h3>
                   <p>
-                    Open a saved quiz. Check each answer when you’re ready and
+                    Open a lecture quiz. Check each answer when you’re ready and
                     use the explanation to understand the reasoning.
                   </p>
                   <ul>
-                    <li>Saved quizzes inside subject folders</li>
+                    <li>Lecture quizzes inside subject folders</li>
                     <li>Feedback after checking each answer</li>
                     <li>Review correct answers and mistakes</li>
                   </ul>
@@ -113,7 +116,7 @@ export function LandingPage({
                   <h3>Exam Mode · On hold</h3>
                   <p>
                     Custom quiz setup and exam configuration are on hold for
-                    this MVP. The current experience uses saved quizzes with
+                    this MVP. The current experience uses lecture quizzes with
                     Practice feedback.
                   </p>
                   <ul>
@@ -140,7 +143,7 @@ export function LandingPage({
                   <p>Three sample Biology questions. No setup needed.</p>
                 </div>
                 <Link className="carbon-text-link" href={subjectFolder.href}>
-                  Create your own quiz <ArrowRight size={16} />
+                  Browse lecture quizzes <ArrowRight size={16} />
                 </Link>
               </div>
               <QuestionPreview />

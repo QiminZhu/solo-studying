@@ -19,6 +19,7 @@ import { ArrowLeftIcon } from "@phosphor-icons/react/dist/csr/ArrowLeft";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/csr/ArrowRight";
 import { CheckIcon } from "@phosphor-icons/react/dist/csr/Check";
 import { FlagIcon } from "@phosphor-icons/react/dist/csr/Flag";
+import { XIcon } from "@phosphor-icons/react/dist/csr/X";
 import { PlatformShell } from "../platform-shell";
 import { ResponseEditor } from "./response-editor";
 import { QuestionFeedback } from "./question-feedback";
@@ -28,6 +29,7 @@ import {
   attemptSummary,
   contentIdentity,
   missedGuidance,
+  missedQuestions,
   practicePhase,
   topicScores,
   type Attempt,
@@ -43,6 +45,11 @@ import {
   type ResponseProgress,
 } from "@/lib/quiz-v3/grading";
 import { fixtureQuizzes } from "@/lib/quiz-v3/fixtures";
+import {
+  blankMark,
+  splitQuestionPrompt,
+  type PromptSegment,
+} from "@/lib/quiz-v3/question-prompt";
 import {
   actOnAttempt,
   attemptsSnapshot,
@@ -240,11 +247,7 @@ function ActiveAttempt({
   function practice(missedOnly: boolean) {
     try {
       const ids = missedOnly
-        ? ordered
-            .filter(
-              (item) => !gradeQuestion(item, a.firstResponses[item.id]).score,
-            )
-            .map((item) => item.id)
+        ? missedQuestions(a).map((item) => item.id)
         : quiz.questionIds;
       if (!ids.length) return;
       // These are explicitly practice attempts, including when reviewing the deferred quiz's previously seen items.
@@ -285,6 +288,12 @@ function ActiveAttempt({
           <h1 ref={heading} tabIndex={-1}>
             {quiz.title} — Results
           </h1>
+          {quiz.contentKind === "draft" && (
+            <p className="carbon-helper">
+              Author preview. Imported approval is not an independent check of
+              these questions.
+            </p>
+          )}
         </div>
       )}
       <details className="v3-quiz-details">
@@ -297,7 +306,7 @@ function ActiveAttempt({
           }. ${
             quiz.feedbackMode === "deferred"
               ? "Save and revise answers freely. Correctness, keys, explanations, sources, and revision guidance appear after final submission."
-              : "Select or enter a response, then check it. A wrong check does not mark the answer key. The first check is the one that counts."
+              : "Select or enter a response, then check it. A wrong check marks that response incorrect. The first check is the one that counts."
           }`}
         </p>
         <p>
@@ -383,7 +392,7 @@ function ActiveAttempt({
             </button>
             <button
               className="carbon-button secondary"
-              disabled={!missedGuidance(a).length}
+              disabled={!missedQuestions(a).length}
               onClick={() => practice(true)}
             >
               Practice missed questions
@@ -402,9 +411,10 @@ function ActiveAttempt({
             </Link>
           </div>
           <section className="v3-revision" aria-label="Revision guidance">
-            <h2>Revision by missed objective</h2>
+            <h2>Revision</h2>
             <p>
-              Based on first responses in this attempt. Coverage and mastery are
+              Based on answered first checks in this attempt. Unanswered
+              questions are not treated as misses. Coverage and mastery are
               separate; these results cannot establish full lecture coverage.
             </p>
             {missedGuidance(a).length ? (
@@ -414,7 +424,7 @@ function ActiveAttempt({
                     <strong>{g.topic ?? g.id}:</strong>{" "}
                     {g.supplied
                       ? g.guidance
-                      : "No approved revision guidance was supplied for this objective. Use the question’s supplied source references; no lecture advice has been inferred."}
+                      : "No approved revision guidance was supplied. The question review on this page has the explanation."}
                   </li>
                 ))}
               </ul>
@@ -427,14 +437,21 @@ function ActiveAttempt({
           </section>
           <section className="v3-revision" aria-label="Performance by topic">
             <h2>Performance by topic</h2>
-            <ul>
-              {topicScores(a).map(({ topic, score, total }) => (
-                <li key={topic}>
-                  {topic}: {score} / {total} on the first check (
-                  {Math.round((score / total) * 100)}%)
-                </li>
-              ))}
-            </ul>
+            {topicScores(a).length ? (
+              <ul>
+                {topicScores(a).map(({ topic, score, total }) => (
+                  <li key={topic}>
+                    {topic}: {score} / {total} on the first check (
+                    {Math.round((score / total) * 100)}%)
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>
+                No answered questions to score by topic. Unanswered questions
+                are not counted as misses.
+              </p>
+            )}
           </section>
           <section
             className="v3-review"
@@ -449,18 +466,21 @@ function ActiveAttempt({
               .filter(
                 (q) =>
                   !reviewMissed ||
-                  !gradeQuestion(q, a.firstResponses[q.id]).score,
+                  missedQuestions(a).some((item) => item.id === q.id),
               )
               .map((question) => (
                 <article key={question.id}>
                   <ScenarioLabel tags={question.tags} />
                   <h3>
                     {ordered.indexOf(question) + 1}.{" "}
-                    {readablePrompt(question.prompt)}
+                    <QuestionCopy prompt={question.prompt} />
                   </h3>
+                  <PromptFormula prompt={question.prompt} />
+                  <PromptNote prompt={question.prompt} />
                   <QuestionFeedback
                     question={question}
                     response={a.answers[question.id]}
+                    contentKind={quiz.contentKind}
                   />
                   {contentIdentity(a.firstResponses[question.id]) !==
                     contentIdentity(
@@ -471,6 +491,7 @@ function ActiveAttempt({
                       <QuestionFeedback
                         question={question}
                         response={a.firstResponses[question.id]}
+                        contentKind={quiz.contentKind}
                       />
                     </details>
                   )}
@@ -514,13 +535,16 @@ function ActiveAttempt({
               {q.topic} · {formatLabel(q.type)}
             </p>
             <h1 id="v3-question-heading" ref={heading} tabIndex={-1}>
-              {readablePrompt(q.prompt)}
+              <QuestionCopy prompt={q.prompt} />
             </h1>
+            <PromptFormula prompt={q.prompt} />
+            <PromptNote prompt={q.prompt} />
             <ResponseEditor
               question={q}
               response={r}
               disabled={phase !== "answering"}
               markCorrect={phase === "correct"}
+              markIncorrect={phase === "withheld"}
               onChange={(response) =>
                 act({ type: "answer", questionId: q.id, response })
               }
@@ -640,6 +664,7 @@ function ActiveAttempt({
                 resultRef={resultRef}
                 phase={phase}
                 question={q}
+                response={r}
                 firstCorrect={
                   gradeQuestion(q, a.firstResponses[q.id]).score === 1
                 }
@@ -708,25 +733,43 @@ function PracticeCheckResult({
   resultRef,
   phase,
   question,
+  response,
   firstCorrect,
   explanationOpen,
 }: {
   resultRef: RefObject<HTMLElement | null>;
   phase: Exclude<PracticePhase, "answering">;
   question: Attempt["bundle"]["questions"][number];
+  response: ReturnType<typeof emptyResponse>;
   firstCorrect: boolean;
   explanationOpen: boolean;
 }) {
   const choice = ["single", "multiple", "boolean"].includes(question.type);
+  const wrongParts =
+    phase === "withheld"
+      ? gradeQuestion(question, response).parts.filter((part) =>
+          choice
+            ? part.submitted === "Selected" && part.status === "incorrect"
+            : part.status === "incorrect",
+        )
+      : [];
   return (
     <section ref={resultRef} tabIndex={-1} aria-label="Check result">
       {phase === "withheld" && (
         <p className="carbon-notice" role="status">
-          <strong>Not quite yet.</strong> Give it another try.{" "}
-          {choice
-            ? "This first check stays incorrect, and the correct option is not marked."
-            : "This first check stays incorrect, and the answer key stays hidden."}
+          <strong>Not quite yet.</strong> Give it another try. This first check
+          stays incorrect.
         </p>
+      )}
+      {wrongParts.length > 0 && (
+        <ul className="v3-part-list">
+          {wrongParts.map((part) => (
+            <li key={part.id}>
+              <strong>{part.label} · Incorrect</strong>
+              <p>{part.explanation}</p>
+            </li>
+          ))}
+        </ul>
       )}
       {explanationOpen && (
         <section className="v3-explanation" aria-label="Explanation">
@@ -769,6 +812,9 @@ function QuestionMap({
         {ordered.map((item, i) => {
           const state = responseProgress(item, attempt.answers[item.id]);
           const checked = attempt.checked.includes(item.id);
+          const firstCorrect =
+            checked && gradeQuestion(item, attempt.firstResponses[item.id]).score === 1;
+          const firstIncorrect = checked && !firstCorrect;
           const flagged = attempt.flagged.includes(item.id);
           return (
             <button
@@ -776,13 +822,22 @@ function QuestionMap({
               type="button"
               className={`${attempt.index === i ? "current" : ""} ${state === "complete" ? "answered" : ""} ${state === "partial" ? "partial" : ""}`}
               aria-current={attempt.index === i ? "step" : undefined}
-              aria-label={`Question ${i + 1}, ${progressName(state)}${checked ? ", checked" : ""}${flagged ? ", flagged" : ""}`}
+              aria-label={`Question ${i + 1}, ${progressName(state)}${firstCorrect ? ", correct first check" : ""}${firstIncorrect ? ", incorrect first check" : ""}${flagged ? ", flagged" : ""}`}
               onClick={() => onNavigate(i)}
             >
               {i + 1}
-              {(checked || flagged) && (
+              {(firstCorrect || firstIncorrect || flagged) && (
                 <span className="v3-nav-marks" aria-hidden="true">
-                  {checked && <CheckIcon size={12} />}
+                  {firstCorrect && (
+                    <span className="mark-correct">
+                      <CheckIcon size={12} />
+                    </span>
+                  )}
+                  {firstIncorrect && (
+                    <span className="mark-incorrect">
+                      <XIcon size={12} />
+                    </span>
+                  )}
                   {flagged && <FlagIcon size={12} />}
                 </span>
               )}
@@ -804,7 +859,10 @@ function QuestionMap({
           <i className="current" /> Current
         </span>
       </div>
-      <p>Check marks and flags are reminders, not grades.</p>
+      <p>
+        A check marks a correct first check. A cross marks an incorrect first
+        check. A flag is a reminder you set.
+      </p>
     </div>
   );
 }
@@ -824,8 +882,32 @@ function ScenarioLabel({ tags }: { tags?: readonly string[] }) {
     </p>
   );
 }
-function readablePrompt(prompt: string) {
-  return prompt.replace(/\{\{([^{}]+)\}\}/g, "[blank $1]");
+function QuestionCopy({ prompt }: { prompt: string }) {
+  return splitQuestionPrompt(prompt).segments.map((segment, index) => (
+    <PromptSegmentView key={index} segment={segment} />
+  ));
+}
+
+function PromptSegmentView({ segment }: { segment: PromptSegment }) {
+  if (segment.kind === "text") return segment.text;
+  return <span className="v3-blank-mark">{blankMark}</span>;
+}
+
+function PromptFormula({ prompt }: { prompt: string }) {
+  const formula = splitQuestionPrompt(prompt).formula;
+  if (!formula) return null;
+  return (
+    <p className="v3-prompt-formula">
+      <span className="carbon-label">Formula</span>
+      {formula}
+    </p>
+  );
+}
+
+function PromptNote({ prompt }: { prompt: string }) {
+  const note = splitQuestionPrompt(prompt).note;
+  if (!note) return null;
+  return <p className="v3-prompt-note">{note}</p>;
 }
 function formatLabel(type: string) {
   return (

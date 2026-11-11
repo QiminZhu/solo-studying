@@ -7,7 +7,7 @@ export const lectureFolders = [
     href: "/subjects/itcs217/lectures/lecture-9",
     bankId: "itcs217-lecture-09-progressive",
     summary:
-      "Quiz collection, original test questions, and your saved quizzes.",
+      "Four curated quizzes.",
   },
   {
     id: "lecture-10",
@@ -16,6 +16,14 @@ export const lectureFolders = [
     href: "/subjects/itcs217/lectures/lecture-10",
     bankId: "itcs217-lecture-10-dragon",
     summary: "Four curated quizzes on flow control and error control.",
+  },
+  {
+    id: "the-last-quiz",
+    title: "The Last Quiz",
+    subjectHref: "/subjects/itcs217",
+    href: "/subjects/itcs217/lectures/the-last-quiz",
+    bankId: "itcs217-last-quiz",
+    summary: "Lectures 11–13: error detection, media access, and Ethernet.",
   },
 ] as const;
 

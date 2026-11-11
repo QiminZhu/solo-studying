@@ -3,20 +3,23 @@
 import { ArrowUpIcon } from "@phosphor-icons/react/dist/csr/ArrowUp";
 import { ArrowDownIcon } from "@phosphor-icons/react/dist/csr/ArrowDown";
 import { CheckIcon } from "@phosphor-icons/react/dist/csr/Check";
+import { XIcon } from "@phosphor-icons/react/dist/csr/X";
 import type { BankQuestionV3 } from "@/lib/quiz-v3/contract";
-import { emptyResponse, type Response } from "@/lib/quiz-v3/grading";
+import { emptyResponse, gradeQuestion, type Response } from "@/lib/quiz-v3/grading";
 
 export function ResponseEditor({
   question: q,
   response,
   disabled,
   markCorrect = false,
+  markIncorrect = false,
   onChange,
 }: {
   question: BankQuestionV3;
   response?: Response;
   disabled: boolean;
   markCorrect?: boolean;
+  markIncorrect?: boolean;
   onChange: (response: Response) => void;
 }) {
   const r =
@@ -33,17 +36,19 @@ export function ResponseEditor({
             : "Choose one answer."}
         </legend>
         {q.answers.map((answer, i) => {
-          const showCorrect =
-            markCorrect && r.selected.includes(i) && q.correct.includes(i);
+          const selected = r.selected.includes(i);
+          const showCorrect = markCorrect && selected && q.correct.includes(i);
+          const showIncorrect =
+            markIncorrect && selected && !q.correct.includes(i);
           return (
             <label
               key={i}
-              className={`runner-answer${showCorrect ? " correct" : r.selected.includes(i) ? " selected" : ""}`}
+              className={`runner-answer${showCorrect ? " correct" : showIncorrect ? " incorrect" : selected ? " selected" : ""}`}
             >
               <input
                 type={q.type === "multiple" ? "checkbox" : "radio"}
                 name={`answer-${q.id}`}
-                checked={r.selected.includes(i)}
+                checked={selected}
                 onChange={() =>
                   onChange({
                     kind: "choice",
@@ -60,6 +65,11 @@ export function ResponseEditor({
               {showCorrect && (
                 <span className="answer-status">
                   <CheckIcon size={16} aria-hidden="true" /> Correct
+                </span>
+              )}
+              {showIncorrect && (
+                <span className="answer-status">
+                  <XIcon size={16} aria-hidden="true" /> Incorrect
                 </span>
               )}
             </label>
@@ -111,6 +121,11 @@ export function ResponseEditor({
               {markCorrect && r.selected[i] !== undefined && (
                 <p className="v3-pair-note correct">Correct</p>
               )}
+              {markIncorrect &&
+                r.selected[i] !== undefined &&
+                q.matches.find(([left]) => left === i)?.[1] !== r.selected[i] && (
+                  <p className="v3-pair-note incorrect">Incorrect</p>
+                )}
             </div>
           );
         })}
@@ -153,6 +168,9 @@ export function ResponseEditor({
             >
               <span>
                 {position + 1}. {q.items[item]}
+                {markIncorrect && r.order[position] !== q.correctOrder[position] && (
+                  <span className="answer-status"> Incorrect</span>
+                )}
               </span>
               <div>
                 <button
@@ -195,7 +213,7 @@ export function ResponseEditor({
   }
   if (q.type === "fill_blank" && r.kind === "blanks")
     return (
-      <fieldset disabled={disabled} className="v3-responses">
+      <fieldset disabled={disabled} className="v3-responses v3-blanks">
         <legend>Complete each numbered blank.</legend>
         {q.blanks.map((blank) => (
           <label key={blank.id} className="carbon-field">
@@ -218,6 +236,11 @@ export function ResponseEditor({
               }
               aria-describedby={`blank-help-${q.id}-${blank.id}`}
             />
+            {markIncorrect &&
+              gradeQuestion(q, r).parts.some(
+                (part) =>
+                  part.id === `blank:${blank.id}` && part.status === "incorrect",
+              ) && <small className="answer-status">Incorrect</small>}
             <small id={`blank-help-${q.id}-${blank.id}`}>
               {blank.kind === "number"
                 ? `Enter a number only. Unit: ${blank.unit || "dimensionless"}. Rounding: ${blank.rounding}.`

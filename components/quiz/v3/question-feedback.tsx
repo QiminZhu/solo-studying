@@ -5,13 +5,14 @@ import { gradeQuestion, type Response } from "@/lib/quiz-v3/grading";
 export function QuestionFeedback({
   question,
   response,
+  contentKind,
 }: {
   question: BankQuestionV3;
   response?: Response;
+  contentKind?: "fixture" | "draft" | "published";
 }) {
   const grade = gradeQuestion(question, response);
   const isChoice = ["single", "multiple", "boolean"].includes(question.type);
-  const inlineParts = question.type === "matching";
   const selectedParts = grade.parts.filter((part) => part.submitted === "Selected");
   const otherParts = grade.parts.filter((part) => part.submitted !== "Selected");
   return (
@@ -58,29 +59,29 @@ export function QuestionFeedback({
             </details>
           )}
         </>
-      ) : inlineParts ? null : (
+      ) : (
         <>
-      <p className="carbon-helper">
-        Every response part is shown below. Parts are diagnostic; this question
-        is worth one point.
-      </p>
-      <ul className="v3-part-list">
-        {grade.parts.map((part) => (
-          <li key={part.id} className={`v3-part ${part.status}`}>
-            <strong>
-              {part.label} ·{" "}
-              {part.status === "correct"
-                ? "Correct"
-                : part.status === "incorrect"
-                  ? "Incorrect"
-                  : "Unanswered"}
-            </strong>
-            <p>Your response: {part.submitted}</p>
-            <p>Answer key: {part.expected}</p>
-            <p>{part.explanation}</p>
-          </li>
-        ))}
-      </ul>
+          <p className="carbon-helper">
+            Every response part is shown below. Parts are diagnostic; this
+            question is worth one point.
+          </p>
+          <ul className="v3-part-list">
+            {grade.parts.map((part) => (
+              <li key={part.id} className={`v3-part ${part.status}`}>
+                <strong>
+                  {part.label} ·{" "}
+                  {part.status === "correct"
+                    ? "Correct"
+                    : part.status === "incorrect"
+                      ? "Incorrect"
+                      : "Unanswered"}
+                </strong>
+                <p>Your response: {part.submitted}</p>
+                <p>Answer key: {part.expected}</p>
+                <p>{part.explanation}</p>
+              </li>
+            ))}
+          </ul>
         </>
       )}
       <div className="v3-sources">
@@ -110,11 +111,23 @@ export function QuestionFeedback({
         <p className="carbon-helper">
           Objective: {question.objectiveId} · Question version{" "}
           {question.version} ·{" "}
-          {question.status === "approved"
-            ? "Approved version"
-            : "Not approved lecture content"}
+          {publicationLine(question, contentKind)}
         </p>
       </div>
     </section>
   );
+}
+function publicationLine(
+  question: BankQuestionV3,
+  contentKind?: "fixture" | "draft" | "published",
+) {
+  if (question.tags?.includes("software-fixture") || contentKind === "fixture")
+    return question.status === "approved"
+      ? "Approved version"
+      : "Not approved lecture content";
+  if (contentKind === "draft" && question.status === "approved")
+    return "Imported status: approved. This quiz is still an author preview.";
+  return question.status === "approved"
+    ? "Approved version"
+    : "Not approved lecture content";
 }

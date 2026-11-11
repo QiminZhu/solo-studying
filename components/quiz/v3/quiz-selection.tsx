@@ -91,8 +91,9 @@ export function QuizSelection({
           <p className="carbon-label">ITCS217 / Lecture folder</p>
           <h1>{lecture.title}</h1>
           <p>
-            Choose one of four progressive {lecture.title} quizzes with curated
-            questions.
+            {bundles.length === 1
+              ? `Practice the curated ${lecture.title} test.`
+              : `Choose one of ${bundles.length === 4 ? "four" : bundles.length} progressive ${lecture.title} quizzes with curated questions.`}
           </p>
         </div>
         <div className="carbon-notice v3-notice">
@@ -137,9 +138,11 @@ export function QuizSelection({
               <article key={quiz.id} className="subject-quiz-card v3-quiz-card">
                 <div
                   className={
-                    quiz.iconAsset
-                      ? "v3-eye-frame"
-                      : "v3-eye-frame v3-eye-frame-pending"
+                    quiz.iconAsset?.endsWith("/the-last-quiz.png")
+                      ? "v3-eye-frame v3-eye-frame-poster"
+                      : quiz.iconAsset
+                        ? "v3-eye-frame"
+                        : "v3-eye-frame v3-eye-frame-pending"
                   }
                 >
                   {quiz.iconAsset ? (
@@ -148,10 +151,11 @@ export function QuizSelection({
                       alt=""
                       fill
                       sizes="(max-width: 600px) 100vw, 33vw"
-                      style={{
-                        objectFit: "cover",
-                        objectPosition: "center 42%",
-                      }}
+                      style={
+                        quiz.iconAsset.endsWith("/the-last-quiz.png")
+                          ? { objectFit: "contain", objectPosition: "center top" }
+                          : { objectFit: "cover", objectPosition: "center 42%" }
+                      }
                     />
                   ) : (
                     <p className="v3-eye-pending">Artwork pending</p>

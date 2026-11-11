@@ -1,0 +1,2401 @@
+[
+  {
+    "id": "l11-test-q01",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Transmission errors",
+    "objectiveId": "l11-channel-error",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Which situation is NOT considered a transmission error caused by the communication channel?",
+    "explanation": "A channel error changes the signal while it is on the medium. Noise, interference, and hardware faults on the path are channel errors. A mistake made by a person before the bits are sent is not caused by the channel.",
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last-test",
+      "lecture:11",
+      "quiz:last"
+    ],
+    "answers": [
+      "Electrical interference affects a twisted-pair cable during transmission.",
+      "Electromagnetic interference corrupts bits while they travel through a link.",
+      "Lightning produces noise near the communication transmission medium.",
+      "A user enters incorrect information into an application before transmission.",
+      "Hardware malfunction changes some signal values during transmission."
+    ],
+    "optionExplanations": [
+      "Electrical interference couples into the cable while the signal is traveling, so the channel itself changes the bits. That is a transmission error.",
+      "Electromagnetic interference alters bits in transit. The damage happens on the link, so it is a channel error.",
+      "Lightning is an external noise source next to the medium. The noise is added during transmission, so the channel is the cause.",
+      "The incorrect value exists before transmission begins. The channel may then carry those bits faithfully. This is a user or application error, not a transmission error caused by the channel.",
+      "A hardware fault that changes signal values during transmission is a fault on the transmission path. It is treated as a channel error."
+    ],
+    "correct": [
+      3
+    ],
+    "objectiveIds": [
+      "l11-channel-error"
+    ]
+  },
+  {
+    "id": "l11-test-q02",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Redundancy",
+    "objectiveId": "l11-redundancy-purpose",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Why does an error-detection scheme add redundancy bits to the original data?",
+    "explanation": "Redundancy is extra information computed from the dataword. The receiver repeats the check on the received bits and compares the result with the received redundancy. A mismatch means the data may contain errors.",
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last-test",
+      "lecture:11",
+      "quiz:last"
+    ],
+    "answers": [
+      "To allow the switch to assign a new MAC address to the transmitting device.",
+      "To allow the receiver to determine the application using the received data.",
+      "To allow the receiver to check whether transmitted data may contain errors.",
+      "To allow the router to determine the shortest path to the destination.",
+      "To allow the sender to increase the transmission rate of the physical link."
+    ],
+    "optionExplanations": [
+      "A MAC address identifies a network interface. Error-detection bits are computed from the protected data; they do not allocate or replace addresses.",
+      "The application is identified by higher-layer information such as a port number. Redundancy bits do not name the application.",
+      "The sender adds check bits derived from the dataword. The receiver recomputes the check. Agreement supports the assumption that no error was detected; disagreement shows that the received data may be damaged.",
+      "Path selection uses routing information. A parity, checksum, or CRC field does not describe the network topology.",
+      "Adding bits increases the number of bits that must be sent for the same data, so the data throughput does not rise. The physical rate is set by the link, not by the check field."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l11-redundancy-purpose"
+    ]
+  },
+  {
+    "id": "l11-test-q03",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Block coding",
+    "objectiveId": "l11-codeword-length",
+    "type": "fill_blank",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "prompt": "A block-coding scheme uses a 7-bit dataword and adds 3 redundancy bits. How many bits are in each codeword? {{1}} bits. Formula: n = k + r. Rounding: none.",
+    "explanation": "A codeword is the dataword plus its redundancy. Formula: n = k + r. With k = 7 data bits and r = 3 redundancy bits, n = 7 + 3 = 10 bits.",
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last-test",
+      "lecture:11",
+      "quiz:last"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 10,
+        "absoluteTolerance": 0,
+        "unit": "bits",
+        "rounding": "none",
+        "explanation": "Formula: n = k + r. Here k = 7 data bits and r = 3 redundancy bits, so n = 7 + 3 = 10 bits in each codeword."
+      }
+    ],
+    "objectiveIds": [
+      "l11-codeword-length"
+    ]
+  },
+  {
+    "id": "l11-test-q04",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Even parity",
+    "objectiveId": "l11-even-parity-codewords",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A sender uses single even parity. The parity bit is appended to the right side of each 7-bit dataword. The datawords are 1101001, 1001000, and 1110110. Which line shows the three 8-bit codewords in that order? Formula: p = 0 when the number of 1s is even, and p = 1 when it is odd.",
+    "explanation": "Even parity appends one bit on the right so each codeword has an even number of 1s. Formula: p = 0 when the dataword already has an even number of 1s, and p = 1 when that number is odd. 1101001 has four 1s, so it becomes 11010010. 1001000 has two 1s, so it becomes 10010000. 1110110 has five 1s, so it becomes 11101101.",
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last-test",
+      "lecture:11",
+      "quiz:last"
+    ],
+    "answers": [
+      "11010010 10010000 11101101",
+      "11010011 10010001 11101100",
+      "01101001 01001000 11110110",
+      "11010011 10010000 11101101"
+    ],
+    "optionExplanations": [
+      "Formula: for even parity, p = 0 when the dataword has an even number of 1s, and p = 1 when it has an odd number. 1101001 has four 1s, so p = 0 and the codeword is 11010010. 1001000 has two 1s, so p = 0 and the codeword is 10010000. 1110110 has five 1s, so p = 1 and the codeword is 11101101.",
+      "These bits use odd parity: each codeword is forced to an odd number of 1s. 1101001 would become 11010011, 1001000 would become 10010001, and 1110110 would become 11101100. The question asks for even parity.",
+      "The parity bits 0, 0, and 1 are correct for even parity, but they were placed on the left. The question appends the parity bit on the right, so the codewords must end with those bits.",
+      "The second and third codewords are the even-parity results, but the first parity bit was flipped from 0 to 1. 11010011 has five 1s, which is odd, so the first word fails even parity."
+    ],
+    "correct": [
+      0
+    ],
+    "objectiveIds": [
+      "l11-even-parity-codewords"
+    ]
+  },
+  {
+    "id": "l11-test-q05",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Even parity",
+    "objectiveId": "l11-double-error",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "A codeword protected by even parity experiences two bit errors during transmission. Which statement is most appropriate?",
+    "explanation": "Even parity checks only the parity of the number of 1s. Two flips change that count by an even number, so the received word can still look even. The check then fails to report the errors, and it never identifies or repairs the two positions.",
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last-test",
+      "lecture:11",
+      "quiz:last"
+    ],
+    "answers": [
+      "The parity check requests retransmission before checking the codeword.",
+      "The parity check may fail because the total parity can remain even.",
+      "The parity check will always identify both erroneous bit positions.",
+      "The parity check will always correct both errors automatically.",
+      "The parity check converts the two errors into a single-bit error."
+    ],
+    "optionExplanations": [
+      "The receiver evaluates the received parity first. It does not ask for a retransmission before doing that check, and a simple parity scheme has no separate request step.",
+      "Each flipped bit changes the number of 1s by one. Two flips change it by two, an even number, so an even codeword stays even. The syndrome is then zero and both errors can pass undetected.",
+      "A single parity bit has only two outcomes: the count is even or it is not. It cannot point to one position, and it cannot point to two positions.",
+      "Simple parity does not repair bits. Even a detected one-bit error needs a stronger code, such as Hamming, or a retransmission scheme.",
+      "The checker does not rewrite the received word. Two damaged bits remain two damaged bits; the check only accepts or suspects the word."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l11-double-error"
+    ]
+  },
+  {
+    "id": "l11-test-q06",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Two-dimensional parity",
+    "objectiveId": "l11-2d-length",
+    "type": "fill_blank",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Apply",
+    "prompt": "A two-dimensional even-parity scheme operates on three datawords, each containing 4 data bits. A parity bit is added to every row, and an additional parity row is generated. How many bits are transmitted in total? {{1}} bits. Formula: total = (data rows + 1) × (data bits per row + 1). Rounding: none.",
+    "explanation": "Each row gains one parity bit, and one extra parity row is sent. Formula: total = (data rows + 1) × (data bits per row + 1) = (3 + 1) × (4 + 1) = 20 bits. The same count is 12 data bits + 3 row-parity bits + 5 bits in the parity row.",
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last-test",
+      "lecture:11",
+      "quiz:last"
+    ],
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 20,
+        "absoluteTolerance": 0,
+        "unit": "bits",
+        "rounding": "none",
+        "explanation": "Formula: total = (number of data rows + 1) × (data bits per row + 1). Each row grows from 4 data bits to 5 bits, and the parity row adds a fourth row. Total = 4 × 5 = 20 bits. Equivalently, 3 × 4 data bits + 3 row-parity bits + 5 column-parity bits = 12 + 3 + 5 = 20."
+      }
+    ],
+    "objectiveIds": [
+      "l11-2d-length"
+    ]
+  },
+  {
+    "id": "l11-test-q07",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Two-dimensional parity",
+    "objectiveId": "l11-2d-stream",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "Three 7-bit datawords are transmitted using two-dimensional even parity: 1001001, 1101100, and 0001001. Append the row parity bit to the right of each dataword and transmit the column-parity block last. Which bit stream is transmitted? Formula: p = 0 when the number of 1s is even, and p = 1 when it is odd, first for each row and then for each column including the parity column.",
+    "explanation": "Append an even row-parity bit, then an even parity bit for every column, including the parity column. 1001001 has three 1s and becomes 10010011. 1101100 has four 1s and becomes 11011000. 0001001 has two 1s and becomes 00010010. The column checks then produce 01011001. The transmitted stream is 10010011 11011000 00010010 01011001.",
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last-test",
+      "lecture:11",
+      "quiz:last"
+    ],
+    "answers": [
+      "10010010 11011001 00010011 10100111",
+      "10010011 11011000 00010010 00010010",
+      "10010011 11011000 00010010 01011001",
+      "11001001 01101100 00001001 10101100"
+    ],
+    "optionExplanations": [
+      "This is the odd-parity arrangement. 1001001 has three 1s, so odd parity appends 0; 1101100 has four 1s, so it appends 1; 0001001 has two 1s, so it appends 1. The question requires even parity, whose row bits are 1, 0, and 0.",
+      "The first three words are the correct even-parity rows, but the final block repeats the third row. The column checks are 1+1+0, 0+1+0, 0+0+0, 1+1+1, 0+1+0, 0+0+0, 1+0+1, and 1+0+0. Those counts need the parity row 01011001, not another copy of 00010010.",
+      "Row parity: 1001001 has three 1s, so append 1, giving 10010011. 1101100 has four 1s, so append 0, giving 11011000. 0001001 has two 1s, so append 0, giving 00010010. Column parity across those three rows is even, so the parity row is 01011001. The transmitted stream is 10010011 11011000 00010010 01011001.",
+      "These parity bits were inserted on the left and the column check was then taken over that layout. The required row bits stay on the right, so the first row must be 10010011 rather than 11001001."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l11-2d-stream"
+    ]
+  },
+  {
+    "id": "l11-test-q08",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Checksum",
+    "objectiveId": "l11-checksum-value",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "The sender transmits two 8-bit words, 11010011 and 01001000. Using an 8-bit one's-complement checksum, which checksum is generated? Formula: checksum = NOT(one's-complement sum), after any carry is folded back into the 8 bits.",
+    "explanation": "Formula: checksum = NOT(one's-complement sum). 11010011 + 01001000 = 100011011. Fold the carry back: 00011011 + 1 = 00011100. NOT 00011100 = 11100011.",
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last-test",
+      "lecture:11",
+      "quiz:last"
+    ],
+    "answers": [
+      "00011100",
+      "11100011",
+      "11100100",
+      "00011011"
+    ],
+    "optionExplanations": [
+      "00011100 is the one's-complement sum, not the checksum. 11010011 + 01001000 = 100011011. Fold the leading 1 back in: 00011011 + 1 = 00011100. The checksum is the complement of this sum.",
+      "Formula: checksum = NOT(one's-complement sum). 11010011 is 211 and 01001000 is 72, so the integer sum is 283, or 1 00011011 in 9 bits. End-around carry gives 00011011 + 1 = 00011100. NOT 00011100 = 11100011.",
+      "11100100 is the complement of 00011011. That result drops the carry out of the 8-bit sum and never adds it back. One's-complement addition must wrap that carry around before the complement.",
+      "00011011 is only the low 8 bits of 283 after the carry has been discarded. It is neither the wrapped sum nor the checksum."
+    ],
+    "correct": [
+      1
+    ],
+    "objectiveIds": [
+      "l11-checksum-value"
+    ]
+  },
+  {
+    "id": "l11-test-q09",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Checksum",
+    "objectiveId": "l11-checksum-codeword",
+    "type": "single",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "prompt": "A sender wants to transmit the hexadecimal datawords 6, C, and B using a 4-bit one's-complement checksum. Which complete binary codeword, including the checksum, is transmitted? Formula: checksum = NOT(one's-complement sum of the 4-bit words), appended after the data.",
+    "explanation": "Write 6, C, and B as 0110, 1100, and 1011. Formula: checksum = NOT(one's-complement sum), appended after the data. 0110 + 1100 = 1 0010, and wrapping the carry gives 0011. 0011 + 1011 = 1110. NOT 1110 = 0001, so the codeword is 0110110010110001.",
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last-test",
+      "lecture:11",
+      "quiz:last"
+    ],
+    "answers": [
+      "0110110010110001",
+      "0110110010111110",
+      "0110110010110010",
+      "0001011011001011"
+    ],
+    "optionExplanations": [
+      "6, C, and B are 0110, 1100, and 1011. Add 0110 + 1100 = 1 0010, then wrap the carry: 0010 + 1 = 0011. Add 0011 + 1011 = 1110. The 4-bit checksum is NOT 1110 = 0001. The codeword is 0110 1100 1011 0001.",
+      "0110110010111110 appends 1110, which is the one's-complement sum. The transmitted check field is the complement of the sum, 0001, not the sum itself.",
+      "0110110010110010 comes from discarding the carry of 0110 + 1100 instead of wrapping it. The remaining 0010 + 1011 = 1101, and NOT 1101 = 0010. One's-complement addition has to add that carry back, producing sum 1110 and checksum 0001.",
+      "0001011011001011 places the checksum 0001 in front of the data. The question sends the datawords first and the checksum last: 0110 1100 1011 0001."
+    ],
+    "correct": [
+      0
+    ],
+    "objectiveIds": [
+      "l11-checksum-codeword"
+    ]
+  },
+  {
+    "id": "l11-test-q10",
+    "subject": "ITCS217 Computer Data Communications",
+    "topic": "Codeword generator and syndrome",
+    "objectiveId": "l11-syndrome-checker",
+    "type": "single",
+    "difficulty": "Easy",
+    "cognitiveLevel": "Understand",
+    "prompt": "Which statement about the codeword generator and syndrome checker is NOT correct?",
+    "explanation": "The generator works at the sender and creates the redundancy. The syndrome checker works at the receiver and tests the received codeword. A statement that gives the sender's job to the syndrome checker is the incorrect statement.",
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last-test",
+      "lecture:11",
+      "quiz:last"
+    ],
+    "answers": [
+      "The transmitted codeword contains both the original data bits and the added redundancy bits.",
+      "A zero syndrome means that the receiver assumes no error has been detected in the received codeword.",
+      "The syndrome checker generates the original redundancy bits at the sender before the codeword is transmitted.",
+      "The syndrome checker uses the received codeword to determine whether an error is detected.",
+      "The codeword generator adds redundancy bits to the original dataword before transmission."
+    ],
+    "optionExplanations": [
+      "This statement is correct. The codeword sent on the channel is the dataword combined with the redundancy the generator added.",
+      "This statement is correct. A zero syndrome is the receiver's indication that the check found no error. It does not prove that every possible error was impossible, but the receiver accepts that result.",
+      "This statement is not correct. Generating the redundancy at the sender is the codeword generator's job. The syndrome checker is on the receiving side and calculates a syndrome from what arrived.",
+      "This statement is correct. The checker takes the received data and received redundancy, or the whole received codeword, and produces the syndrome used to decide whether an error is detected.",
+      "This statement is correct. Before transmission, the generator derives the redundancy from the dataword and attaches it to form the codeword."
+    ],
+    "correct": [
+      2
+    ],
+    "objectiveIds": [
+      "l11-syndrome-checker"
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:11"
+    ],
+    "objectiveIds": [
+      "l11-crc-length"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l11p2-q01",
+    "topic": "CRC length",
+    "objectiveId": "l11-crc-length",
+    "prompt": "The CRC generator polynomial is G(x) = x^16 + x^5 + x^2 + 1. How many bits are in the binary divisor? {{1}} bits. How many bits are in the CRC? {{2}} bits. How many zeros are appended to the dataword before division? {{3}} bits. Formula: for a generator of degree r, the divisor has r + 1 bits, the CRC has r bits, and r zeros are appended. Rounding: none.",
+    "explanation": "The highest power is 16, so r = 16. Formula: divisor length = r + 1 = 17 bits, CRC length = 16 bits, and 16 zeros are appended.",
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 17,
+        "absoluteTolerance": 0,
+        "unit": "bits",
+        "rounding": "none",
+        "explanation": "Formula: divisor length = r + 1. The degree is 16, so the divisor has 17 bits."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 16,
+        "absoluteTolerance": 0,
+        "unit": "bits",
+        "rounding": "none",
+        "explanation": "Formula: CRC length = r. The degree of G(x) is 16, so the remainder has 16 bits."
+      },
+      {
+        "id": "3",
+        "kind": "number",
+        "value": 16,
+        "absoluteTolerance": 0,
+        "unit": "bits",
+        "rounding": "none",
+        "explanation": "Formula: append r zeros before modulo-2 division. Here r = 16."
+      }
+    ],
+    "type": "fill_blank"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:11"
+    ],
+    "objectiveIds": [
+      "l11-crc4-codeword"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l11p2-q02",
+    "topic": "CRC-4",
+    "objectiveId": "l11-crc4-codeword",
+    "type": "single",
+    "prompt": "Use CRC-4 with G(x) = x^4 + x + 1 and dataword 100100. Which line shows the binary divisor, the remainder, and the transmitted codeword? Formula: append r zeros, divide by the generator in modulo-2 arithmetic, and append the remainder to the dataword.",
+    "explanation": "G(x) = x^4 + x + 1 is the divisor 10011. Dividing 1001000000 by 10011 leaves remainder 0110, so the codeword is 1001000110.",
+    "answers": [
+      "Divisor 10011, remainder 0110, codeword 1001000110",
+      "Divisor 10011, remainder 0000, codeword 1001000000",
+      "Divisor 11001, remainder 0110, codeword 1001000110",
+      "Divisor 10011, remainder 0110, codeword 0110100100",
+      "Divisor 1011, remainder 110, codeword 100100110"
+    ],
+    "optionExplanations": [
+      "The coefficients of x^4 + x + 1 are 10011. Modulo-2 division of 100100 followed by four zeros leaves 0110, and appending that remainder produces 1001000110.",
+      "A zero remainder would mean the dataword followed by four zeros was already divisible by 10011. It is not, so the codeword is not 1001000000.",
+      "11001 is not the coefficient string of x^4 + x + 1. The generator starts with the x^4 term and has no x^3 or x^2 term.",
+      "The remainder is appended after the dataword. Putting 0110 in front produces a different string from the transmitted codeword.",
+      "1011 drops the leading 1 of the degree-4 generator, so both the divisor and the remainder have the wrong width."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:11"
+    ],
+    "objectiveIds": [
+      "l11-crc-zero-remainder"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l11p2-q03",
+    "topic": "CRC remainder",
+    "objectiveId": "l11-crc-zero-remainder",
+    "type": "single",
+    "prompt": "The sender uses divisor 10011 and transmits 1001000110. The receiver divides that codeword by the same divisor and obtains remainder 0000. What should the receiver conclude?",
+    "explanation": "A zero remainder means this codeword is divisible by the generator. The receiver has not detected an error. CRC does not prove which bit, if any, changed.",
+    "answers": [
+      "The receiver assumes that the first data bit is corrupted.",
+      "The receiver must remove four additional redundancy bits.",
+      "The receiver assumes that no error has been detected.",
+      "The receiver must correct the fourth bit of the codeword.",
+      "The receiver must request retransmission regardless of the remainder."
+    ],
+    "optionExplanations": [
+      "A zero remainder does not point at the first data bit. CRC with this check has not identified a bit position.",
+      "The four redundancy bits are already the CRC that was checked. A zero remainder does not ask for four more check bits.",
+      "Remainder 0000 means the received word is a valid codeword for this divisor, so no error has been detected.",
+      "The remainder is not a syndrome that names bit 4. A zero remainder gives no bit to flip.",
+      "Retransmission is requested when the remainder is nonzero. A zero remainder is accepted as no detected error."
+    ],
+    "correct": [
+      2
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:11"
+    ],
+    "objectiveIds": [
+      "l11-hamming-purpose"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l11p2-q04",
+    "topic": "Hamming code",
+    "objectiveId": "l11-hamming-purpose",
+    "type": "single",
+    "prompt": "Which statement best describes the purpose of Hamming code in this lecture?",
+    "explanation": "Hamming code places parity bits so the syndrome both detects a single-bit error and names its position. It is not a CRC, and it does not repair every burst.",
+    "answers": [
+      "It detects transmission errors but cannot identify their location.",
+      "It divides the message using a predefined CRC generator polynomial.",
+      "It replaces retransmission by correcting every possible frame error.",
+      "It corrects any number of errors in a transmitted burst automatically.",
+      "It identifies and corrects a single-bit error using redundancy bits."
+    ],
+    "optionExplanations": [
+      "Simple parity can detect without locating the bit. Hamming's extra parity bits are there so the syndrome identifies the position.",
+      "Division by a generator polynomial is the CRC procedure. Hamming uses parity checks at chosen positions.",
+      "Hamming code in this lecture corrects one bit. Frames with several errors are not all repaired, so retransmission still matters.",
+      "A burst of several bits can produce a syndrome that does not describe every damaged bit. Hamming does not claim to correct every burst.",
+      "The parity bits form a syndrome. For a single-bit error, that syndrome is the position of the bit to flip."
+    ],
+    "correct": [
+      4
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:11"
+    ],
+    "objectiveIds": [
+      "l11-hamming-syndrome"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l11p2-q05",
+    "topic": "Hamming syndrome",
+    "objectiveId": "l11-hamming-syndrome",
+    "type": "single",
+    "prompt": "Using the Hamming-code convention in the lecture, the receiver calculates r8 = 0, r4 = 1, r2 = 1, and r1 = 1. What does the syndrome indicate? Formula: write the syndrome as the binary number r8 r4 r2 r1. That number is the error position.",
+    "explanation": "Formula: position = r8 r4 r2 r1 as a binary integer. 0111 binary is 7, so the error is at position 7.",
+    "answers": [
+      "No error is detected.",
+      "The error is at position 3.",
+      "The error is at position 11.",
+      "The error is at position 7.",
+      "The error is at position 5."
+    ],
+    "optionExplanations": [
+      "A syndrome of all zeros would mean no detected error. Here r4, r2, and r1 are 1.",
+      "Position 3 would be binary 0011, which is r2 = 1 and r1 = 1 with r4 = 0. This syndrome has r4 = 1 as well.",
+      "Position 11 is binary 1011, which would require r8 = 1. The calculated r8 is 0.",
+      "The bits r8 r4 r2 r1 are 0111. Binary 0111 is decimal 7, so the single-bit error is at position 7.",
+      "Position 5 is binary 0101, which would be r4 = 1 and r1 = 1 with r2 = 0. This syndrome has r2 = 1."
+    ],
+    "correct": [
+      3
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:11"
+    ],
+    "objectiveIds": [
+      "l11-hamming-checks"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l11p2-q06",
+    "topic": "Hamming syndrome bits",
+    "objectiveId": "l11-hamming-checks",
+    "prompt": "Using Hamming code (7,4) with even parity, the receiver gets 1000110. Number the positions from the right, with the rightmost bit as position 1. r1 checks positions 1, 3, 5, and 7. r2 checks positions 2, 3, 6, and 7. r4 checks positions 4, 5, 6, and 7. Enter each syndrome bit: r1 = {{1}}, r2 = {{2}}, r4 = {{3}}. Formula: a syndrome bit is 0 when its positions have even parity and 1 when they have odd parity. Rounding: none.",
+    "explanation": "With positions 7 to 1 equal to 1 0 0 0 1 1 0, the checks are r1 = 0, r2 = 1, and r4 = 1. Formula: even parity makes the syndrome bit the parity of the checked positions.",
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 0,
+        "absoluteTolerance": 0,
+        "unit": "",
+        "rounding": "none",
+        "explanation": "Formula: r1 is the parity of positions 1, 3, 5, and 7. Those bits are 0, 1, 0, and 1, an even count, so r1 = 0."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 1,
+        "absoluteTolerance": 0,
+        "unit": "",
+        "rounding": "none",
+        "explanation": "Formula: r2 is the parity of positions 2, 3, 6, and 7. Those bits are 1, 1, 0, and 1, an odd count, so r2 = 1."
+      },
+      {
+        "id": "3",
+        "kind": "number",
+        "value": 1,
+        "absoluteTolerance": 0,
+        "unit": "",
+        "rounding": "none",
+        "explanation": "Formula: r4 is the parity of positions 4, 5, 6, and 7. Those bits are 0, 0, 0, and 1, an odd count, so r4 = 1."
+      }
+    ],
+    "type": "fill_blank"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:11"
+    ],
+    "objectiveIds": [
+      "l11-hamming-correct"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l11p2-q07",
+    "topic": "Hamming correction",
+    "objectiveId": "l11-hamming-correct",
+    "type": "single",
+    "prompt": "The received Hamming (7,4) codeword is 1000110 and the syndrome bits are r4 = 1, r2 = 1, and r1 = 0. Which line gives the error position, the corrected codeword, and the corrected dataword? Number positions from the right. Data bits are positions 7, 6, 5, and 3. Formula: the binary number r4 r2 r1 is the error position; flip that bit, then read the data positions.",
+    "explanation": "Formula: r4 r2 r1 = 110 binary = 6. Flipping position 6 of 1000110 gives 1100110. Positions 7, 6, 5, and 3 are then 1, 1, 0, and 1, so the dataword is 1101.",
+    "answers": [
+      "Position 6, codeword 1100110, dataword 1101",
+      "Position 3, codeword 1001110, dataword 1001",
+      "Position 6, codeword 1000110, dataword 1001",
+      "Position 0, codeword 1000110, dataword 1000",
+      "Position 6, codeword 1100110, dataword 1001"
+    ],
+    "optionExplanations": [
+      "Binary 110 is position 6. The received bits from position 7 to 1 are 1 0 0 0 1 1 0; flipping position 6 makes 1 1 0 0 1 1 0. Data positions 7, 6, 5, and 3 read 1101.",
+      "Position 3 would be syndrome 011, not 110. Flipping position 3 does not correct this word.",
+      "Position 6 is right, but 1000110 is the received word before the bit is flipped. The dataword is also not 1001.",
+      "Syndrome 110 is not zero, so the position is not 0 and the received word is not already correct.",
+      "The codeword 1100110 is the corrected word, but its data positions 7, 6, 5, and 3 are 1101, not 1001."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:11"
+    ],
+    "objectiveIds": [
+      "l11-interleaving"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l11p2-q08",
+    "topic": "Interleaving",
+    "objectiveId": "l11-interleaving",
+    "type": "single",
+    "prompt": "A burst error affects several consecutive transmitted bits. Why can interleaving improve error correction when it is used with Hamming code?",
+    "explanation": "Interleaving spreads neighboring transmitted bits into different Hamming codewords. A burst then looks like separate single-bit errors, which Hamming code can locate.",
+    "answers": [
+      "It converts the burst into several isolated single-bit errors across different codewords.",
+      "It removes all redundant bits before the codewords are sent through the channel.",
+      "It ensures that every corrupted bit remains within the same transmitted codeword.",
+      "It forces the sender to retransmit every codeword whenever a burst occurs.",
+      "It replaces Hamming parity bits with a single CRC remainder for all codewords."
+    ],
+    "optionExplanations": [
+      "Bits that were adjacent on the wire are put back into separate codewords. Hamming code can then correct each of those single-bit errors.",
+      "Interleaving reorders bits. It does not delete the parity bits Hamming code needs.",
+      "Keeping the whole burst inside one codeword is the problem interleaving avoids. One codeword would then contain more errors than Hamming can correct.",
+      "Interleaving does not by itself request retransmission. It changes which codeword each damaged bit belongs to.",
+      "The Hamming parity bits stay in place. Interleaving does not swap them for one CRC."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:11"
+    ],
+    "objectiveIds": [
+      "l11-error-control-comparison"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 11_ Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 4
+      }
+    ],
+    "id": "l11p2-q09",
+    "topic": "Error-control comparison",
+    "objectiveId": "l11-error-control-comparison",
+    "type": "single",
+    "prompt": "Which statement comparing the error-control techniques is NOT correct?",
+    "explanation": "Checksum, two-dimensional parity, simple parity, and CRC are described correctly. Hamming code and CRC do not both automatically correct every burst.",
+    "answers": [
+      "Checksum uses one's-complement arithmetic to produce an error-detection value.",
+      "Hamming code and CRC both automatically correct every detected burst error.",
+      "Two-dimensional parity improves the ability to identify certain error locations.",
+      "Simple parity provides inexpensive detection but may miss some even-numbered errors.",
+      "CRC uses modulo-2 division and is commonly suitable for Data Link Layer detection."
+    ],
+    "optionExplanations": [
+      "A checksum is the one's-complement sum, usually inverted. That description matches the lecture.",
+      "CRC is mainly a detection code. Hamming code corrects a single bit, not every burst. Saying both automatically correct every burst is the false comparison.",
+      "Row and column parity can point at the crossing of a row error and a column error. That is a real advantage over one parity bit.",
+      "Two flipped bits can leave simple even or odd parity unchanged, so some even-numbered errors pass. The statement is correct.",
+      "CRC divides by the generator with modulo-2 arithmetic, and the data-link layer commonly uses that check. The statement is correct."
+    ],
+    "correct": [
+      1
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-mac-purpose"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l12p1-q01",
+    "topic": "Media access control",
+    "objectiveId": "l12-mac-purpose",
+    "type": "single",
+    "prompt": "Which statement best describes the main purpose of Media Access Control (MAC) on a shared medium?",
+    "explanation": "MAC decides which station may send on a medium that more than one station shares, and when it may send.",
+    "answers": [
+      "To select the best route between different IP networks.",
+      "To encrypt every frame before it reaches the Physical Layer.",
+      "To convert every network-layer packet into an IP address.",
+      "To assign transport-layer port numbers to application processes.",
+      "To determine how and when stations may access a shared medium."
+    ],
+    "optionExplanations": [
+      "Choosing an IP route is a network-layer job. MAC does not pick the path across networks.",
+      "Encryption may protect a frame, but it is not the reason MAC exists. MAC is about sharing the medium.",
+      "An IP address is not produced by converting a packet at the MAC layer. MAC uses its own addresses on the local link.",
+      "Port numbers belong to the transport layer. MAC does not assign them.",
+      "On a shared link, stations need a rule for who transmits and when. That coordination is the main purpose of MAC."
+    ],
+    "correct": [
+      4
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-contention"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l12p1-q02",
+    "topic": "Contention",
+    "objectiveId": "l12-contention",
+    "type": "single",
+    "prompt": "Which statement best describes a contention-based access method?",
+    "explanation": "In contention, no station owns the channel in advance. Stations compete, and overlapping attempts can collide.",
+    "answers": [
+      "Each station receives a permanently assigned frequency channel.",
+      "Stations transmit only after receiving a circulating token.",
+      "Each station is assigned a different orthogonal spreading code.",
+      "A central station always selects exactly which station may transmit.",
+      "Stations compete for access to a shared transmission medium."
+    ],
+    "optionExplanations": [
+      "A permanent frequency for each station is channelization, specifically a frequency division, not contention.",
+      "Waiting for a token is controlled access. The station does not compete while another station holds the token.",
+      "Different orthogonal codes are code-division channelization. Stations are separated by the code, not by competition.",
+      "A central station choosing the sender is polling, a controlled-access method.",
+      "Contention means the stations themselves compete for the same medium. That is the definition used in this lecture."
+    ],
+    "correct": [
+      4
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-csma-delay"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l12p1-q03",
+    "topic": "CSMA collisions",
+    "objectiveId": "l12-csma-delay",
+    "type": "single",
+    "prompt": "Why can a collision still occur in CSMA even though a station senses the channel before transmitting?",
+    "explanation": "Carrier sensing uses what the station can hear now. A signal already on the way may not have arrived, so two stations can both decide the channel is idle.",
+    "answers": [
+      "CSMA requires two stations to transmit simultaneously after every idle period.",
+      "A station must transmit whenever it detects that the channel is busy.",
+      "Different stations always transmit using different frequency channels.",
+      "CSMA does not use any form of carrier sensing before transmission.",
+      "Propagation delay may prevent a station from hearing another transmission yet."
+    ],
+    "optionExplanations": [
+      "CSMA does not require two stations to send after every idle period. A collision is a possible accident, not a required step.",
+      "A station that hears a busy channel defers. It does not transmit because the channel is busy.",
+      "Classic CSMA stations share a channel. They are not assigned different frequencies by the sensing rule.",
+      "The name CSMA includes carrier sensing. The method does listen before transmitting.",
+      "The other station's signal takes time to propagate. Until it arrives, this station can sense idle and start, so the two frames overlap."
+    ],
+    "correct": [
+      4
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-nonpersistent"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l12p1-q04",
+    "topic": "Nonpersistent CSMA",
+    "objectiveId": "l12-nonpersistent",
+    "type": "single",
+    "prompt": "A station senses the channel and finds it busy. Which behavior represents the nonpersistent strategy?",
+    "explanation": "Nonpersistent CSMA does not stay on the channel while it is busy. It waits a random time and senses again.",
+    "answers": [
+      "Wait a random period before sensing the channel again.",
+      "Abort the frame permanently without attempting retransmission.",
+      "Transmit immediately with probability p while the channel remains busy.",
+      "Continue sensing continuously and transmit immediately when the channel becomes idle.",
+      "Send an RTS frame immediately without checking the channel again."
+    ],
+    "optionExplanations": [
+      "That is nonpersistent CSMA: after finding the channel busy, the station backs off a random time and then senses again.",
+      "Nonpersistent still intends to send later. It does not discard the frame forever because of one busy sense.",
+      "Sending while the channel is already busy would cause a collision. Nonpersistent waits instead of transmitting into the busy channel.",
+      "Continuous sensing until the channel becomes idle is 1-persistent behavior, not nonpersistent.",
+      "An immediate RTS skips the random wait. Nonpersistent does not transmit, or start a handshake, the moment it finds the channel busy."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-persistence"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l12p1-q05",
+    "topic": "Persistence methods",
+    "objectiveId": "l12-persistence",
+    "type": "multiple",
+    "prompt": "Select all correct statements about persistence methods.",
+    "explanation": "Two statements match the lecture. p-persistent transmits with probability p on an idle eligible slot. Nonpersistent waits a random time when the channel is busy. The other three swap those rules.",
+    "answers": [
+      "p-persistent CSMA: if the channel is idle at an eligible time slot, the station transmits with probability p and defers with probability 1 - p.",
+      "1-persistent CSMA: if the channel is idle, the station transmits with probability p < 1.",
+      "1-persistent CSMA: if the channel is busy, the station waits for a random time before sensing the channel again.",
+      "Nonpersistent CSMA: if the channel is busy, the station waits for a random time before sensing the channel again.",
+      "Nonpersistent CSMA: if the channel is busy, the station continuously senses it and transmits immediately when it becomes idle."
+    ],
+    "optionExplanations": [
+      "This is the p-persistent rule. An idle slot is used with probability p, and the station defers with probability 1 - p.",
+      "1-persistent CSMA transmits with probability 1 when it finds the channel idle. A probability below 1 is the p-persistent rule.",
+      "A random wait after a busy sense is nonpersistent. 1-persistent keeps listening and sends as soon as the channel is idle.",
+      "This is the nonpersistent rule. A busy channel leads to a random delay, then another sense.",
+      "Continuous sensing and an immediate transmission when the channel becomes idle is 1-persistent, not nonpersistent."
+    ],
+    "correct": [
+      0,
+      3
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-csma-cd"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l12p1-q06",
+    "topic": "CSMA/CD",
+    "objectiveId": "l12-csma-cd",
+    "type": "single",
+    "prompt": "Which statement best distinguishes CSMA/CD from basic CSMA?",
+    "explanation": "CSMA listens before sending. CSMA/CD also listens during the transmission, stops when it detects a collision, and tries again.",
+    "answers": [
+      "CSMA/CD is primarily used to prevent hidden-node collisions in Wi-Fi.",
+      "CSMA/CD divides the available bandwidth into multiple frequency bands.",
+      "CSMA/CD assigns a different spreading sequence to every station.",
+      "CSMA/CD waits for an ACK after every successfully transmitted Ethernet frame.",
+      "CSMA/CD detects a collision while transmitting and then performs retransmission."
+    ],
+    "optionExplanations": [
+      "Wi-Fi uses CSMA/CA because a wireless sender cannot reliably hear a collision while it transmits. CSMA/CD is the wired collision-detection method.",
+      "Dividing bandwidth into frequency bands is FDMA, not the difference between CSMA and CSMA/CD.",
+      "Spreading sequences belong to CDMA. CSMA/CD does not give each station a code.",
+      "CSMA/CD does not define itself by waiting for an acknowledgment after every Ethernet frame. Its added behavior is collision detection.",
+      "The CD step detects the overlap while the frame is still going out. The station then aborts and schedules a retransmission."
+    ],
+    "correct": [
+      4
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-backoff-k"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l12p1-q07",
+    "topic": "Binary exponential backoff",
+    "objectiveId": "l12-backoff-k",
+    "prompt": "After the third collision, binary exponential backoff chooses K from the integers 0 through 2^i - 1, with i = 3. What is the largest possible value of K? {{1}}. Formula: Kmax = 2^i - 1. Rounding: none.",
+    "explanation": "Formula: Kmax = 2^i - 1. For the third collision, i = 3, so Kmax = 8 - 1 = 7.",
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 7,
+        "absoluteTolerance": 0,
+        "unit": "",
+        "rounding": "none",
+        "explanation": "Formula: Kmax = 2^i - 1 = 2^3 - 1 = 7. K can be 0, 1, 2, 3, 4, 5, 6, or 7."
+      }
+    ],
+    "type": "fill_blank"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-backoff-time"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l12p1-q08",
+    "topic": "Backoff time",
+    "objectiveId": "l12-backoff-time",
+    "prompt": "After the third collision, a station selects K = 5. The Ethernet slot time is 51.2 μs. What is the backoff time? {{1}} μs. Formula: backoff = K × slot time. Rounding: none.",
+    "explanation": "Formula: backoff = K × slot time = 5 × 51.2 μs = 256 μs.",
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 256,
+        "absoluteTolerance": 0,
+        "unit": "μs",
+        "rounding": "none",
+        "explanation": "Formula: backoff = K × slot time = 5 × 51.2 = 256 μs."
+      }
+    ],
+    "type": "fill_blank"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-contention-window"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l12p1-q09",
+    "topic": "Contention window",
+    "objectiveId": "l12-contention-window",
+    "prompt": "CWmin = 15. After one unsuccessful transmission, CWnew = 2(CWold + 1) - 1. What is CWnew? {{1}}. The new random backoff counter is chosen from {{2}} through {{3}}. Formula: CWnew = 2(CWold + 1) - 1, and the counter runs from 0 through CWnew. Rounding: none.",
+    "explanation": "Formula: CWnew = 2(15 + 1) - 1 = 31. The station then picks a counter from 0 through 31.",
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 31,
+        "absoluteTolerance": 0,
+        "unit": "",
+        "rounding": "none",
+        "explanation": "Formula: CWnew = 2(CWold + 1) - 1 = 2(15 + 1) - 1 = 31."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 0,
+        "absoluteTolerance": 0,
+        "unit": "",
+        "rounding": "none",
+        "explanation": "Formula: the backoff counter starts at 0. The lower end of the range is 0."
+      },
+      {
+        "id": "3",
+        "kind": "number",
+        "value": 31,
+        "absoluteTolerance": 0,
+        "unit": "",
+        "rounding": "none",
+        "explanation": "Formula: the counter runs through CWnew. The upper end is 31."
+      }
+    ],
+    "type": "fill_blank"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-csma-ca-freeze"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l12p1-q10",
+    "topic": "CSMA/CA backoff",
+    "objectiveId": "l12-csma-ca-freeze",
+    "type": "single",
+    "prompt": "During the CSMA/CA backoff countdown, the channel becomes busy. What should the station do?",
+    "explanation": "CSMA/CA freezes the countdown while the channel is busy and continues from the remaining count after the channel is idle again.",
+    "answers": [
+      "Increase the counter by one slot each time another station transmits.",
+      "Continue decrementing the counter while another station transmits.",
+      "Discard the frame and wait until a new application message arrives.",
+      "Reset the counter to zero and transmit the frame immediately.",
+      "Freeze the remaining counter and resume after the channel becomes idle again."
+    ],
+    "optionExplanations": [
+      "Another station's transmission does not add slots to this station's counter. The counter pauses; it does not grow.",
+      "Decrementing during a busy channel would count time the station is not allowed to use. CSMA/CA stops the countdown instead.",
+      "A busy channel during backoff is normal. The station keeps the frame and the remaining count.",
+      "Resetting to zero and sending immediately would jump the queue. The station must keep the remaining backoff.",
+      "The station freezes the counter while the medium is busy, then resumes the countdown when the medium is idle again."
+    ],
+    "correct": [
+      4
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-aloha-vulnerable"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l12p1-q11",
+    "topic": "ALOHA vulnerable time",
+    "objectiveId": "l12-aloha-vulnerable",
+    "type": "single",
+    "prompt": "Which statement about vulnerable time in ALOHA is correct?",
+    "explanation": "Pure ALOHA can collide with a frame that starts any time in the previous or next frame time, so the vulnerable time is 2 Tfr. Slotted ALOHA allows a start only at a slot boundary, so the vulnerable time is Tfr.",
+    "answers": [
+      "Both Pure ALOHA and Slotted ALOHA have a vulnerable time of 2 Tfr.",
+      "Pure ALOHA has a vulnerable time of Tfr, while Slotted ALOHA has 2 Tfr.",
+      "Vulnerable time depends only on propagation delay and not on frame transmission time.",
+      "Both Pure ALOHA and Slotted ALOHA have a vulnerable time of Tfr / 2.",
+      "Pure ALOHA has a vulnerable time of 2 Tfr, while Slotted ALOHA has Tfr."
+    ],
+    "optionExplanations": [
+      "Slotted ALOHA is not vulnerable for two full frame times. Only Pure ALOHA has vulnerable time 2 Tfr.",
+      "This swaps the two methods. The longer vulnerable time belongs to Pure ALOHA.",
+      "The lecture's vulnerable time is measured in frame transmission times. It is not only the propagation delay.",
+      "Neither method uses half a frame time as its vulnerable time.",
+      "Pure ALOHA is vulnerable over 2 Tfr because another frame can overlap from either side. Slotted ALOHA is vulnerable over one slot, Tfr."
+    ],
+    "correct": [
+      4
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-pure-aloha-time"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 1_ Attempt review _ ICT My Courses.pdf",
+        "page": 4
+      }
+    ],
+    "id": "l12p1-q12",
+    "topic": "Pure ALOHA timing",
+    "objectiveId": "l12-pure-aloha-time",
+    "prompt": "A Pure ALOHA network sends 1,000-bit frames on a 500 kbps channel. What is the frame transmission time? {{1}} ms. What is the vulnerable time? {{2}} ms. Formula: Tfr = frame size / transmission rate, and the Pure ALOHA vulnerable time is 2 × Tfr. Rounding: none.",
+    "explanation": "Formula: Tfr = 1000 bits / 500000 bits per second = 0.002 s = 2 ms. The vulnerable time is 2 × 2 ms = 4 ms.",
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 2,
+        "absoluteTolerance": 0,
+        "unit": "ms",
+        "rounding": "none",
+        "explanation": "Formula: Tfr = 1000 / 500 kbps. 500 kbps is 500000 bits per second, so Tfr = 1000 / 500000 s = 2 ms."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 4,
+        "absoluteTolerance": 0,
+        "unit": "ms",
+        "rounding": "none",
+        "explanation": "Formula: Pure ALOHA vulnerable time = 2 × Tfr = 2 × 2 ms = 4 ms."
+      }
+    ],
+    "type": "fill_blank"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-wifi-csma-ca"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l12p2-q01",
+    "topic": "Wi-Fi CSMA/CA",
+    "objectiveId": "l12-wifi-csma-ca",
+    "type": "single",
+    "prompt": "Why does IEEE 802.11 Wi-Fi use CSMA/CA rather than CSMA/CD?",
+    "explanation": "A wireless station cannot reliably hear a collision while its own transmitter is on. Wi-Fi tries to avoid the collision instead of detecting it during transmission.",
+    "answers": [
+      "Wi-Fi uses only token passing and therefore cannot experience collisions.",
+      "Wireless stations do not need to sense the medium before transmitting.",
+      "Wireless stations cannot reliably detect collisions while transmitting.",
+      "Wi-Fi does not permit more than one station on the same WLAN.",
+      "Wi-Fi assigns a permanently dedicated channel to each station."
+    ],
+    "optionExplanations": [
+      "Wi-Fi is a contention method with collision avoidance. It is not a token-passing network.",
+      "CSMA/CA still senses the carrier before transmitting. The difference is what happens during the transmission.",
+      "The station's own signal overwhelms a colliding signal at its receiver. Because it cannot depend on detecting that collision, 802.11 uses collision avoidance.",
+      "A WLAN can have many stations. CSMA/CA exists because they share the medium.",
+      "Stations on a BSS share the channel according to the access rules. Each station does not receive a permanent private channel."
+    ],
+    "correct": [
+      2
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-nav"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l12p2-q02",
+    "topic": "NAV",
+    "objectiveId": "l12-nav",
+    "type": "single",
+    "prompt": "What is the main purpose of the Network Allocation Vector (NAV) in IEEE 802.11?",
+    "explanation": "NAV is a timer. A station that hears a duration value sets NAV and treats the medium as busy until that reserved time ends.",
+    "answers": [
+      "It acts as a virtual carrier-sense timer indicating reserved medium time.",
+      "It determines the physical transmission rate of every Wi-Fi frame.",
+      "It stores the MAC address of the current wireless access point.",
+      "It assigns a new frequency channel after each unsuccessful transmission.",
+      "It calculates the CRC value placed in each wireless frame."
+    ],
+    "optionExplanations": [
+      "NAV is virtual carrier sense. It counts down the time another station has reserved, even when this station cannot hear the data frame.",
+      "The physical rate is chosen by the transmission rules and the link, not stored as the NAV timer.",
+      "The access point's MAC address is not what NAV records. NAV records a duration.",
+      "An unsuccessful transmission does not make NAV pick a new frequency. NAV is a time reservation.",
+      "The frame check sequence is a separate field. NAV does not compute it."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-rts-cts"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l12p2-q03",
+    "topic": "RTS/CTS",
+    "objectiveId": "l12-rts-cts",
+    "type": "single",
+    "prompt": "How can RTS/CTS help reduce the hidden-node problem?",
+    "explanation": "A hidden station may not hear the sender's RTS, but it can hear the access point's CTS. The CTS carries the reservation, so that station defers.",
+    "answers": [
+      "RTS converts contention-based Wi-Fi into a token-passing network.",
+      "CTS allows hidden stations to transmit simultaneously with the source.",
+      "RTS forces all wireless stations to switch to different frequencies.",
+      "CTS informs stations that hear it to defer access for the reserved period.",
+      "RTS prevents propagation delay from occurring in the wireless medium."
+    ],
+    "optionExplanations": [
+      "RTS/CTS is still a contention handshake. It does not replace Wi-Fi with token passing.",
+      "The point of CTS is to stop hidden stations from sending with the source, not to invite them to send.",
+      "RTS does not move every station to another frequency. The exchange reserves time on the current channel.",
+      "Stations that hear the CTS set NAV for the duration and stay quiet, including stations that never heard the original sender.",
+      "RTS cannot remove propagation delay. The handshake works despite that delay by announcing the reservation."
+    ],
+    "correct": [
+      3
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-access-comparison"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l12p2-q04",
+    "topic": "Access-method comparison",
+    "objectiveId": "l12-access-comparison",
+    "type": "single",
+    "prompt": "Which statement comparing contention-based access, controlled access, and channelization is NOT correct?",
+    "explanation": "Contention can have less predictable delay because stations may collide and back off. The claim that contention is more predictable because no permission is required is the false one.",
+    "answers": [
+      "Controlled access coordinates transmission opportunities so stations take turns or obtain permission before using the shared medium.",
+      "Contention-based access allows stations to compete for a shared medium, so collisions may occur when multiple stations transmit at nearly the same time.",
+      "Contention-based access generally provides more predictable access delay than controlled access because stations do not need to wait for permission.",
+      "Controlled access and channelization both reduce direct competition for the medium compared with contention-based access.",
+      "Channelization divides the communication resource among users by frequency, time, code, or orthogonal subcarriers."
+    ],
+    "optionExplanations": [
+      "Polling and token passing are controlled access: a station sends on its turn or with permission. That statement is correct.",
+      "Contention stations may start together and collide. That statement is correct.",
+      "Collisions and backoff make contention delay variable. Not waiting for permission does not make the delay more predictable than controlled access. This is the incorrect statement.",
+      "Turns, permission, or a divided channel all reduce the free-for-all of contention. That comparison is correct.",
+      "FDMA, TDMA, CDMA, and OFDMA are the channelization examples in the lecture. That statement is correct."
+    ],
+    "correct": [
+      2
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-polling-primary"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l12p2-q05",
+    "topic": "Polling",
+    "objectiveId": "l12-polling-primary",
+    "type": "single",
+    "prompt": "In a polling system, what is the main role of the primary station?",
+    "explanation": "The primary station asks, or permits, a secondary station to send. The secondary stations do not choose the channel on their own.",
+    "answers": [
+      "It divides the available bandwidth into equal frequency bands.",
+      "It assigns a spreading code to every secondary station.",
+      "It allows every secondary station to transmit whenever it wishes.",
+      "It controls which secondary station is allowed to use the channel.",
+      "It detects collisions after each secondary begins transmitting."
+    ],
+    "optionExplanations": [
+      "Equal frequency bands are FDMA. The primary in polling is choosing a station, not slicing the spectrum.",
+      "Spreading codes are a CDMA assignment. Polling uses permission, not a code per station.",
+      "Letting every secondary send whenever it wishes is contention. Polling exists so they do not do that.",
+      "The primary decides which secondary may use the channel. That control is the main role of the primary station.",
+      "Polling tries to avoid overlapping transmissions by granting the channel. Its job is not to detect a collision after a secondary starts."
+    ],
+    "correct": [
+      3
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-token"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l12p2-q06",
+    "topic": "Token passing",
+    "objectiveId": "l12-token",
+    "type": "single",
+    "prompt": "When may a station transmit in a token-passing network?",
+    "explanation": "The token is the permission. A station transmits when it holds the token, then passes the token on.",
+    "answers": [
+      "When it receives the special control frame called the token.",
+      "Whenever the primary polling station sends an RTS frame.",
+      "Whenever carrier sensing indicates that the channel is idle.",
+      "When its assigned spreading code produces a positive correlation.",
+      "When its random backoff counter reaches zero."
+    ],
+    "optionExplanations": [
+      "Receiving the token gives the station its turn. That is when token passing allows it to transmit.",
+      "RTS belongs to the Wi-Fi handshake, not to token passing. A polling primary is a different method.",
+      "An idle sense is a CSMA rule. Token passing does not let a station send just because the channel sounds idle.",
+      "A positive correlation is how a CDMA receiver recognizes its code. It is not permission to send in a token network.",
+      "A backoff counter reaching zero is CSMA/CA. Token passing does not use that countdown as the permission."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-channelization-match"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l12p2-q07",
+    "topic": "Channelization",
+    "objectiveId": "l12-channelization-match",
+    "type": "single",
+    "prompt": "Which statement correctly matches a channelization method with the resource used to separate users?",
+    "explanation": "CDMA separates users by different spreading codes. The other lines pair a method with the wrong resource, or name a method that is not channelization.",
+    "answers": [
+      "TDMA — spreading codes",
+      "CSMA/CA — orthogonal subcarriers",
+      "Token passing — frequency bands",
+      "FDMA — time slots",
+      "CDMA — different spreading codes"
+    ],
+    "optionExplanations": [
+      "TDMA separates users by time slots, not by spreading codes.",
+      "CSMA/CA is contention with collision avoidance. Orthogonal subcarriers belong to OFDMA.",
+      "Token passing is controlled access. Frequency bands belong to FDMA.",
+      "FDMA separates users by frequency, not by time slots. Time slots belong to TDMA.",
+      "CDMA gives stations different spreading codes so their transmissions can be separated by correlation."
+    ],
+    "correct": [
+      4
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-ofdma"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l12p2-q08",
+    "topic": "OFDMA",
+    "objectiveId": "l12-ofdma",
+    "type": "single",
+    "prompt": "Which statement best describes OFDMA?",
+    "explanation": "OFDMA assigns subsets of orthogonal subcarriers to different users so they can share the band at the same time.",
+    "answers": [
+      "Every user uses the same Walsh code but a different MAC address.",
+      "Each user permanently occupies the entire frequency band.",
+      "Users compete randomly for one indivisible frequency channel.",
+      "Different users are assigned subsets of orthogonal subcarriers.",
+      "Only one user may transmit during the entire communication session."
+    ],
+    "optionExplanations": [
+      "A shared Walsh code is not OFDMA. Walsh codes are a CDMA idea, and OFDMA separates users by subcarriers.",
+      "A user that permanently holds the whole band is not sharing it by subcarrier subsets.",
+      "Random competition for one channel is contention. OFDMA assigns subcarriers instead.",
+      "Each user receives some of the orthogonal subcarriers, so several users can be scheduled in the same channel.",
+      "OFDMA is useful because more than one user can be given resources in the session."
+    ],
+    "correct": [
+      3
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-cdma-encode"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 4
+      }
+    ],
+    "id": "l12p2-q09",
+    "topic": "CDMA encoding",
+    "objectiveId": "l12-cdma-encode",
+    "type": "single",
+    "prompt": "Walsh codes are A = [+1, +1, +1, +1], B = [+1, -1, +1, -1], C = [+1, +1, -1, -1], and D = [+1, -1, -1, +1]. Bit 1 sends the code, bit 0 sends the negative of the code, and silence sends [0, 0, 0, 0]. A sends bit 0, B sends bit 1, C is silent, and D sends bit 0. Which line shows A, B, C, D, and the composite? Formula: encoded chip = (+1, -1, or 0) times the station's code, and the composite is the chip-by-chip sum.",
+    "explanation": "A is -1,-1,-1,-1. B is +1,-1,+1,-1. C is 0,0,0,0. D is -1,+1,+1,-1. The chip sums are -1, -1, +1, and -3.",
+    "answers": [
+      "A -1,-1,-1,-1; B +1,-1,+1,-1; C 0,0,0,0; D -1,+1,+1,-1; composite -1,-1,+1,-3",
+      "A -1,-1,-1,-1; B +1,+1,+1,+1; C 0,0,0,0; D -1,+1,+1,-1; composite -1,-1,+1,-3",
+      "A +1,+1,+1,+1; B +1,-1,+1,-1; C 0,0,0,0; D -1,+1,+1,-1; composite +1,-1,+1,-3",
+      "A -1,-1,-1,-1; B +1,-1,+1,-1; C 0,0,0,0; D +1,-1,-1,+1; composite -1,-3,-1,+1",
+      "A -1,-1,-1,-1; B +1,-1,+1,-1; C +1,+1,-1,-1; D -1,+1,+1,-1; composite 0,0,0,-3"
+    ],
+    "optionExplanations": [
+      "Bit 0 negates A and D, bit 1 keeps B, and silence zeroes C. Adding the four chips gives -1 + 1 + 0 - 1 = -1, -1 - 1 + 0 + 1 = -1, -1 + 1 + 0 + 1 = +1, and -1 - 1 + 0 - 1 = -3.",
+      "B's code for bit 1 is [+1, -1, +1, -1], not [+1, +1, +1, +1]. Using the all-positive code also would not leave the composite at -1,-1,+1,-3.",
+      "A is sending bit 0, so A must be the negative of [+1, +1, +1, +1]. The positive code would be bit 1.",
+      "D is sending bit 0, so D is the negative of [+1, -1, -1, +1], which is [-1, +1, +1, -1]. The option leaves D unnegated.",
+      "C is silent, so its chips are zeros. Sending C's Walsh code would mean C transmitted bit 1."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-cdma-decode-a"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 5
+      }
+    ],
+    "id": "l12p2-q10a",
+    "topic": "CDMA decoding",
+    "objectiveId": "l12-cdma-decode-a",
+    "type": "single",
+    "prompt": "The received CDMA sequence is S = [-1, -3, -1, +1]. Station A's Walsh code is [+1, +1, +1, +1]. Which line is A's inner product, the value (S · A) / 4, and the bit A sent? Formula: decoded value = (S · code) / 4. +1 means bit 1, -1 means bit 0, and 0 means silent.",
+    "explanation": "Formula: S · A = -1 - 3 - 1 + 1 = -4, and -4 / 4 = -1, which means bit 0.",
+    "answers": [
+      "Inner product -4, divided by 4 is -1, bit 0",
+      "Inner product -4, divided by 4 is -1, bit 1",
+      "Inner product 4, divided by 4 is +1, bit 1",
+      "Inner product 0, divided by 4 is 0, Silent",
+      "Inner product -4, divided by 4 is -4, bit 0"
+    ],
+    "optionExplanations": [
+      "Each chip of S times +1 is S itself, so the sum is -1 - 3 - 1 + 1 = -4. Dividing by 4 gives -1, and -1 is bit 0.",
+      "The divided value -1 is correct, but the interpretation is reversed. -1 means bit 0, not bit 1.",
+      "The inner product is negative, not +4. The signs of S do not all match A's positive code.",
+      "A zero inner product would mean silence. A's correlation is -4, so A was not silent.",
+      "The inner product is -4, but the decoder still divides by the code length 4. The decision uses -1, not -4."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-cdma-decode-b"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 5
+      }
+    ],
+    "id": "l12p2-q10b",
+    "topic": "CDMA decoding",
+    "objectiveId": "l12-cdma-decode-b",
+    "type": "single",
+    "prompt": "The received CDMA sequence is S = [-1, -3, -1, +1]. Station B's Walsh code is [+1, -1, +1, -1]. Which line is B's inner product, the value (S · B) / 4, and what B sent? Formula: decoded value = (S · code) / 4. +1 means bit 1, -1 means bit 0, and 0 means silent.",
+    "explanation": "Formula: S · B = -1 + 3 - 1 - 1 = 0, and 0 / 4 = 0, so B is silent.",
+    "answers": [
+      "Inner product 0, divided by 4 is 0, Silent",
+      "Inner product 0, divided by 4 is 0, bit 0",
+      "Inner product -4, divided by 4 is -1, bit 0",
+      "Inner product 4, divided by 4 is +1, bit 1",
+      "Inner product -6, divided by 4 is -1.5, bit 0"
+    ],
+    "optionExplanations": [
+      "The products are -1, (-3)×(-1) = +3, -1, and (+1)×(-1) = -1. The sum is 0, and 0 means the station was silent.",
+      "A decoded 0 is silence, not bit 0. Bit 0 would be the value -1.",
+      "Inner product -4 belongs to a station whose code matches the sign pattern of A or C, not this calculation for B.",
+      "A result of +1 would mean bit 1. B's chips cancel, so the result is not +1.",
+      "The four products sum to 0, not -6, and the decoder does not produce -1.5 for this code."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-cdma-decode-c"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 5
+      }
+    ],
+    "id": "l12p2-q10c",
+    "topic": "CDMA decoding",
+    "objectiveId": "l12-cdma-decode-c",
+    "type": "single",
+    "prompt": "The received CDMA sequence is S = [-1, -3, -1, +1]. Station C's Walsh code is [+1, +1, -1, -1]. Which line is C's inner product, the value (S · C) / 4, and the bit C sent? Formula: decoded value = (S · code) / 4. +1 means bit 1, -1 means bit 0, and 0 means silent.",
+    "explanation": "Formula: S · C = -1 - 3 + 1 - 1 = -4, and -4 / 4 = -1, which means bit 0.",
+    "answers": [
+      "Inner product -4, divided by 4 is -1, bit 0",
+      "Inner product -4, divided by 4 is -1, bit 1",
+      "Inner product 4, divided by 4 is +1, bit 1",
+      "Inner product 0, divided by 4 is 0, Silent",
+      "Inner product -4, divided by 4 is 0, Silent"
+    ],
+    "optionExplanations": [
+      "The products are -1, -3, (-1)×(-1) = +1, and (+1)×(-1) = -1. The sum is -4, and -4 / 4 = -1, so C sent bit 0.",
+      "The value -1 is bit 0. Mapping it to bit 1 reverses the lecture's rule.",
+      "C's correlation is negative. A positive inner product would be needed for bit 1.",
+      "Silence would require the inner product to be 0. C correlates at -4.",
+      "Dividing -4 by 4 gives -1, not 0. The station was not silent."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-cdma-decode-d"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 5
+      }
+    ],
+    "id": "l12p2-q10d",
+    "topic": "CDMA decoding",
+    "objectiveId": "l12-cdma-decode-d",
+    "type": "single",
+    "prompt": "The received CDMA sequence is S = [-1, -3, -1, +1]. Station D's Walsh code is [+1, -1, -1, +1]. Which line is D's inner product, the value (S · D) / 4, and the bit D sent? Formula: decoded value = (S · code) / 4. +1 means bit 1, -1 means bit 0, and 0 means silent.",
+    "explanation": "Formula: S · D = -1 + 3 + 1 + 1 = 4, and 4 / 4 = +1, which means bit 1.",
+    "answers": [
+      "Inner product 4, divided by 4 is +1, bit 1",
+      "Inner product 4, divided by 4 is +1, bit 0",
+      "Inner product -4, divided by 4 is -1, bit 0",
+      "Inner product 0, divided by 4 is 0, Silent",
+      "Inner product 4, divided by 4 is +4, bit 1"
+    ],
+    "optionExplanations": [
+      "The products are -1, (-3)×(-1) = +3, (-1)×(-1) = +1, and +1. The sum is 4, and 4 / 4 = +1, so D sent bit 1.",
+      "+1 means bit 1. Calling it bit 0 reverses the sign rule.",
+      "D's code agrees with the received signs enough to give +4, not -4.",
+      "A silent station would correlate to 0. D correlates to +4.",
+      "The decision value is the inner product divided by 4. That value is +1, not +4."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:12"
+    ],
+    "objectiveIds": [
+      "l12-ofdma-mimo"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 12 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 6
+      }
+    ],
+    "id": "l12p2-q11",
+    "topic": "OFDMA and MIMO",
+    "objectiveId": "l12-ofdma-mimo",
+    "type": "single",
+    "prompt": "Which statement is NOT correct about OFDMA and MIMO in Wi-Fi?",
+    "explanation": "OFDMA can serve several stations and can be combined with MIMO. MIMO uses spatial streams; it does not separate users by giving each a different frequency band.",
+    "answers": [
+      "OFDMA can support simultaneous transmissions from multiple stations.",
+      "MIMO separates users by assigning each user a different frequency band.",
+      "OFDMA and MIMO can be used together in the same WLAN transmission.",
+      "MIMO can increase throughput by transmitting multiple spatial streams.",
+      "OFDMA allows multiple users to share a channel by using different Resource Units."
+    ],
+    "optionExplanations": [
+      "OFDMA schedules several stations at once on different resource units. That statement is correct.",
+      "Different frequency bands are a frequency-division idea. MIMO separates streams in space, not by giving each user its own band. This statement is not correct.",
+      "A Wi-Fi transmission can use OFDMA and MIMO together. That statement is correct.",
+      "Multiple spatial streams are how MIMO raises throughput. That statement is correct.",
+      "Resource Units are the OFDMA shares of the channel. That statement is correct."
+    ],
+    "correct": [
+      1
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:13"
+    ],
+    "objectiveIds": [
+      "l13-ethernet-csma"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 13 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l13p2-q01",
+    "topic": "Ethernet MAC",
+    "objectiveId": "l13-ethernet-csma",
+    "prompt": "Choose the MAC method for each shared-medium Ethernet type. Right options may be reused. Two listed types are not in this question.",
+    "explanation": "Standard Ethernet, Fast Ethernet with a hub, and Thick Ethernet share a collision domain, so they use CSMA/CD.",
+    "leftItems": [
+      "Standard Ethernet",
+      "Fast Ethernet with a hub",
+      "Thick Ethernet"
+    ],
+    "rightItems": [
+      "CSMA/CD",
+      "Polling",
+      "CDMA",
+      "FDMA",
+      "OFDMA",
+      "CSMA/CA",
+      "ALOHA",
+      "Token passing",
+      "No MAC is used (switched)",
+      "Reservation",
+      "TDMA"
+    ],
+    "reuseRight": true,
+    "matches": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "pairExplanations": [
+      "Standard Ethernet stations share the coaxial or hubbed medium and use CSMA/CD.",
+      "A hub repeats every signal, so Fast Ethernet with a hub is still one collision domain and uses CSMA/CD.",
+      "Thick Ethernet is the shared coaxial form of Ethernet, so its MAC method is CSMA/CD."
+    ],
+    "type": "matching"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:13"
+    ],
+    "objectiveIds": [
+      "l13-ethernet-switched"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 13 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l13p2-q02",
+    "topic": "Switched Ethernet",
+    "objectiveId": "l13-ethernet-switched",
+    "prompt": "Choose the MAC method for each switched Ethernet type. Right options may be reused.",
+    "explanation": "A switch gives each port its own collision domain, so Fast Ethernet with a switch and Gigabit Ethernet do not run a shared-medium MAC.",
+    "leftItems": [
+      "Fast Ethernet with a switch",
+      "Gigabit Ethernet"
+    ],
+    "rightItems": [
+      "CSMA/CD",
+      "Polling",
+      "CDMA",
+      "FDMA",
+      "OFDMA",
+      "CSMA/CA",
+      "ALOHA",
+      "Token passing",
+      "No MAC is used (switched)",
+      "Reservation",
+      "TDMA"
+    ],
+    "reuseRight": true,
+    "matches": [
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        8
+      ]
+    ],
+    "pairExplanations": [
+      "With a switch, each station sends on its own link. The lecture answer is that no shared MAC is used.",
+      "Gigabit Ethernet in this matching item is switched, so no shared MAC is used."
+    ],
+    "type": "matching"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:13"
+    ],
+    "objectiveIds": [
+      "l13-ethernet-speed"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 13 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 1
+      }
+    ],
+    "id": "l13p2-q03",
+    "topic": "Ethernet speed",
+    "objectiveId": "l13-ethernet-speed",
+    "prompt": "Match each Ethernet standard to its speed. Match each left item once. Right options may not be reused; three right options are unused.",
+    "explanation": "Standard Ethernet is 10 Mbps, Fast Ethernet is 100 Mbps, and Gigabit Ethernet is 1000 Mbps.",
+    "leftItems": [
+      "Standard Ethernet",
+      "Fast Ethernet",
+      "Gigabit Ethernet"
+    ],
+    "rightItems": [
+      "10 Mbps",
+      "100 Mbps",
+      "1000 Mbps",
+      "1 Mbps",
+      "10 Gbps",
+      "100 Gbps"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    "pairExplanations": [
+      "Standard Ethernet runs at 10 Mbps.",
+      "Fast Ethernet runs at 100 Mbps.",
+      "Gigabit Ethernet runs at 1000 Mbps, not at 10 Gbps or 100 Gbps."
+    ],
+    "type": "matching"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:13"
+    ],
+    "objectiveIds": [
+      "l13-switch-type"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 13 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l13p2-q04",
+    "topic": "Switch forwarding",
+    "objectiveId": "l13-switch-type",
+    "prompt": "Match each forwarding behavior to the switch type. Match each left item once. Right options may not be reused; two right options are unused.",
+    "explanation": "Cut-through starts forwarding before the whole frame is stored, which is faster and can pass more errors. Store-and-forward waits for the entire frame.",
+    "leftItems": [
+      "Increases the speed of frame forwarding, but may produce more errors in data transfer",
+      "Loads the entire frame in the switch queue before forwarding it to a port"
+    ],
+    "rightItems": [
+      "Cut-through switch",
+      "Store-and-forward switch",
+      "Fast Ethernet switch",
+      "Autosense switch"
+    ],
+    "reuseRight": false,
+    "matches": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "pairExplanations": [
+      "Cut-through forwards as soon as the destination is known, so it is faster and can forward a damaged frame.",
+      "Store-and-forward receives the whole frame, which allows a check before the frame is sent onward."
+    ],
+    "type": "matching"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:13"
+    ],
+    "objectiveIds": [
+      "l13-fast-ethernet-device"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 13 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l13p2-q05",
+    "topic": "Fast Ethernet",
+    "objectiveId": "l13-fast-ethernet-device",
+    "type": "single",
+    "prompt": "True or false: Fast Ethernet uses either a hub or a switch to connect multiple devices.",
+    "explanation": "The lecture states that Fast Ethernet connects devices through either a hub or a switch. The statement is true.",
+    "answers": [
+      "True",
+      "False"
+    ],
+    "optionExplanations": [
+      "Fast Ethernet in this lecture is wired through a hub, which shares the collision domain, or a switch, which separates ports.",
+      "The statement is not false. Both a hub and a switch are the connecting devices named for Fast Ethernet."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:13"
+    ],
+    "objectiveIds": [
+      "l13-10base-t"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 13 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l13p2-q06",
+    "topic": "10Base-T",
+    "objectiveId": "l13-10base-t",
+    "type": "single",
+    "prompt": "True or false: the T in 10Base-T means twisted pair.",
+    "explanation": "In 10Base-T, 10 is the speed in Mbps, Base means baseband, and T means twisted pair. The statement is true.",
+    "answers": [
+      "True",
+      "False"
+    ],
+    "optionExplanations": [
+      "The T names the cable: twisted pair. That is the lecture's meaning of the letter in 10Base-T.",
+      "The letter is not a terminator type or a telephone label here. T stands for twisted pair, so the statement is not false."
+    ],
+    "correct": [
+      0
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Apply",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:13"
+    ],
+    "objectiveIds": [
+      "l13-ethernet-throughput"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 13 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 2
+      }
+    ],
+    "id": "l13p2-q07",
+    "topic": "Ethernet throughput",
+    "objectiveId": "l13-ethernet-throughput",
+    "prompt": "A Standard Ethernet link is 10 Mbps. How much throughput does one station get in each case? A hub with 2 stations: {{1}} Mbps. A bridge with 2 stations: {{2}} Mbps. A switch with 4 stations: {{3}} Mbps. Formula: stations on a hub share one collision domain, so each gets the link rate divided by the number of stations; a bridge or a switch gives each station its own collision domain, so each gets the full link rate. Rounding: none.",
+    "explanation": "Formula: hub throughput = 10 Mbps / 2 = 5 Mbps. A bridge separates the two stations, and a switch separates all four, so each of those stations gets 10 Mbps.",
+    "blanks": [
+      {
+        "id": "1",
+        "kind": "number",
+        "value": 5,
+        "absoluteTolerance": 0,
+        "unit": "Mbps",
+        "rounding": "none",
+        "explanation": "Formula: shared hub throughput = 10 Mbps / 2 stations = 5 Mbps."
+      },
+      {
+        "id": "2",
+        "kind": "number",
+        "value": 10,
+        "absoluteTolerance": 0,
+        "unit": "Mbps",
+        "rounding": "none",
+        "explanation": "Formula: a bridge puts the two stations in separate collision domains, so each gets the full 10 Mbps."
+      },
+      {
+        "id": "3",
+        "kind": "number",
+        "value": 10,
+        "absoluteTolerance": 0,
+        "unit": "Mbps",
+        "rounding": "none",
+        "explanation": "Formula: a switch gives each station its own collision domain, so each of the 4 stations gets 10 Mbps rather than 10 / 4."
+      }
+    ],
+    "type": "fill_blank"
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:13"
+    ],
+    "objectiveIds": [
+      "l13-bridge"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 13 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l13p2-q08",
+    "topic": "Bridges",
+    "objectiveId": "l13-bridge",
+    "type": "single",
+    "prompt": "What is the responsibility of a bridge?",
+    "explanation": "A bridge splits a large LAN into separate collision domains. It does not raise the link speed by making the network larger, and it is not the Internet connection.",
+    "answers": [
+      "Increase the speed of the network by increasing the size of the network.",
+      "Separate the collision domain of a large local area network.",
+      "Allow the network to be connected to the Internet.",
+      "Join two local area networks and increase the collision domain."
+    ],
+    "optionExplanations": [
+      "Making a LAN larger does not by itself make it faster. A bridge's job in this question is separating collision domains.",
+      "The bridge filters traffic between segments, so a collision on one side is not a collision on the other. That separation is its responsibility.",
+      "Connecting a LAN to the Internet is a router or gateway role, not the bridge responsibility asked here.",
+      "Joining two LANs into one larger collision domain is what a bridge avoids. It keeps the collision domains separate."
+    ],
+    "correct": [
+      1
+    ]
+  },
+  {
+    "subject": "ITCS217 Computer Data Communications",
+    "difficulty": "Medium",
+    "cognitiveLevel": "Understand",
+    "status": "approved",
+    "version": 1,
+    "tags": [
+      "quiz:last",
+      "lecture:13"
+    ],
+    "objectiveIds": [
+      "l13-switch-unknown"
+    ],
+    "sourceRefs": [
+      {
+        "file": "Lecture 13 Part 2_ Attempt review _ ICT My Courses.pdf",
+        "page": 3
+      }
+    ],
+    "id": "l13p2-q09",
+    "topic": "Switch learning",
+    "objectiveId": "l13-switch-unknown",
+    "type": "multiple",
+    "prompt": "A switch receives a frame whose source address is not in its MAC table and whose destination address is also not in its MAC table. Select the two actions the switch takes.",
+    "explanation": "The switch learns the source address on the arrival port, and it floods the unknown destination out of the other alive ports.",
+    "answers": [
+      "The switch returns the frame to the original source to verify the information.",
+      "The switch drops the frame.",
+      "The switch records the source address and the port it arrived on in the MAC table.",
+      "None of these.",
+      "The switch forwards the frame out of every other alive port."
+    ],
+    "optionExplanations": [
+      "The switch does not send the frame back to the source for verification. It learns from the source address instead.",
+      "An unknown destination is not a reason to drop the frame. The switch still has to deliver it.",
+      "The source address was missing, so the switch adds that address together with the port where the frame arrived.",
+      "Two of the listed actions do happen. None of these is not a correct selection.",
+      "The destination is unknown, so the switch floods the frame to all other ports that are up."
+    ],
+    "correct": [
+      2,
+      4
+    ]
+  }
+]
